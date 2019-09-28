@@ -1,0 +1,190 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+/* @var $this yii\web\View */
+?>
+<div class="layui-card">
+    <div class="layui-header notselect">
+        <div class="pull-left"><span><?= Html::encode($title ? $title : (isset($this->title) ? $this->title : null)) ?></span></div>
+    </div>
+</div>
+
+<div class="layui-card-body">
+    <div class="layui-card">
+        <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
+            <input type="hidden" name="id" value="<?=isset($info['id']) ? $info['id']:"";?>" class="layui-input">
+            <div class="layui-form-item layui-upload">
+                <label class="layui-form-label">banner封面图</label>
+                <div class="layui-upload layui-input-block">
+                    <input type="hidden" name="picture_url" value="<?=isset($info['picture_url']) ? $info['picture_url']:"";?>" required lay-verify="required" />
+                    <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button>
+                    <button type="button" class="layui-btn layui-btn-warm" id="uploadBtn">开始上传</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">banner名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="<?=isset($info['name']) ? $info['name']:"";?>" lay-verify="name" autocomplete="off" placeholder="请输入banner名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="sort" value="<?=isset($info['sort']) ? $info['sort']:"";?>" lay-verify="required|number" autocomplete="off" placeholder="请输入排序值" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">过期时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="overdue_time" id="date" value="<?=isset($info['overdue_time']) ? date('Y-m-d', strtotime($info['overdue_time'])):"";?>" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">跳转链接</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url" lay-verify="httpurl" class="layui-input" value="<?=isset($info['url']) ? $info['url']:"";?>">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">产品id</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="project_id" lay-verify="project_id" class="layui-input" value="<?=isset($info['project_id']) ? $info['project_id']:"";?>" placeholder="请输入产品id">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否上线</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="1" title="是" <?=(isset($info['status']) && $info['status']==1) ? "checked" : "";?>>
+                    <input type="radio" name="status" value="0" title="否" <?=(isset($info['status']) && $info['status']==0) ? "checked" : "";?>>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="commit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="application/javascript">
+layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
+    var form = layui.form
+        ,element = layui.element;
+    var storage=window.localStorage;
+    var table = layui.table;
+    var $ = layui.jquery
+        ,upload = layui.upload;
+    var laydate = layui.laydate;
+    //常规用法
+    laydate.render({
+        elem: '#date'
+    });
+    var userData = storage.getItem("userData");
+    var headerParams = JSON.parse(userData);
+    //监听提交
+    var params = {};
+    var selfUrl = window.location.href;
+    var id = "<?=isset($id) ? $id : 0;?>";
+    if(id>0) {
+        params.id=id;
+    }
+    //自定义验证规则
+    form.verify({
+        project_id: function(value){
+            var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
+            r.test(value);
+            if(value.length > 0 && !r.test(value)){
+                return '产品id输入有误';
+            }
+        },
+        httpurl: function(value){
+            var prg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)$/;
+            if(value.length > 0 &&  !r.test(value)){
+                return '请输入正确的url';
+            }
+        }
+    });
+                //图片上传
+    layui.use('upload',function(){
+        upload.render({
+            elem: '#fileBtn'
+            ,url: '/common/upload/ali-file'
+            ,accept: 'image'
+            ,acceptMime: 'image/*'
+            ,exts: 'jpg|png|gif|bmp|jpeg'
+            ,size: 1024 * 10
+            ,auto: false
+            ,bindAction: '#uploadBtn'
+            ,done: function(res){
+                $("[name=picture_url]").val(res.data.src);
+            }
+        });
+    });
+    form.on('submit(commit)', function(data){
+        if(data.field.project_id<=0 && data.field.url==="") {
+            layer.msg("链接跳转地址和产品id至少一个不能为空", {
+                icon: 2,
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            });
+            return false;
+        }
+        $.ajax({
+            type: "post",
+            url:"<?= Url::to(['common/banner/edit']); ?>",
+            contentType: "application/json;charset=utf-8",
+            data :JSON.stringify(data.field),
+            dataType: "json",
+            beforeSend: function (XMLHttpRequest) {
+                for(var i in headerParams) {
+                    XMLHttpRequest.setRequestHeader(i, headerParams[i]);
+                }
+            },
+            success:function(result){
+                if(result.code == 0) {
+                    layer.msg(result.msg, {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        window.history.back();
+                    });
+                } else if(result.code == 5001) {
+                    layer.msg(result.msg, {
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        top.location.href="../user/login"
+                    });
+                }else {
+                    layer.msg("网络异常！", {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        window.history.back();
+                    });
+                }
+            },
+            error: function () {
+                table.render({
+                    elem: '#dataList',
+                    id: "dataList",
+                    limit: 0,
+                    height: tableHeight,
+                    size: 'sm',
+                    data:[]
+                })
+            }
+        });
+    });
+    form.render(); //更新全部，防止input多选和单选框不显示问题
+});
+</script>
