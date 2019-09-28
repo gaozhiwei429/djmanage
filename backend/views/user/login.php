@@ -18,7 +18,7 @@ use yii\helpers\Url;
         <div class="topbar-head pull-left">
             <?= Html::img('@web/static/theme/img/login/logo.jpg', [
                 'alt'=>'管理系统',
-                'style' => 'width:340px;height:80px; margin-left:120px;',
+                'style' => 'width:420px;height:80px; margin-left:120px;',
                 'id' => 'array',
                 'class' => 'resize',
             ]);?>
@@ -54,7 +54,7 @@ use yii\helpers\Url;
                     <input required pattern="^\S{4,}$" name="password" value="" type="password" autocomplete="off" title="请输入4位及以上的字符" placeholder="请输入密码">
                 </li>
                 <li class="text-center">
-                    <button type="button" id="login" class="layui-btn layui-disabled" data-form-loaded="立 即 登 入">正 在 载 入</button>
+                    <button type="button" id="login" class="layui-btn layui-disabled" data-form-loaded="立 即 登 入" style="background-color: #f47920">正 在 载 入</button>
                 </li>
             </ul>
         </form>

@@ -15,7 +15,7 @@ use source\manager\BaseService;
 use Yii;
 
 class UserController extends BaseController {
-    public $title = '北京星驰恒动科技发展有限公司';
+    public $title = '北京往全保科技有限公司';
     public $layout = 'content';
     public function beforeAction($action) {
         return parent::beforeAction($action);
