@@ -35,4 +35,11 @@ class SiteController extends BaseController {
             ]
         );
     }
+    /**
+     * 异常路由的请求
+     */
+    public function actionError() {
+        $url = Yii::$app->request->hostInfo."/404.html";
+        header("Location: $url");
+    }
 }

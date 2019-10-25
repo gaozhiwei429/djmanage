@@ -21,7 +21,7 @@ class BaseController extends Controller
 {
     public $layout = "public";//设置使用的布局文件
     public $userInfo;
-    public $title = '北京星驰恒动科技发展有限公司 3D打印管理后台';
+    public $title = '北京往全保科技有限公司 智慧党建管理后台';
     public $content = '内容';
     public function beforeAction($action) {
         try{

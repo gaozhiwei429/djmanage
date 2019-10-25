@@ -4,7 +4,7 @@ use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
-$this->title = '北京星驰恒动科技发展有限公司';
+$this->title = '北京往全保科技有限公司';
 ?>
 
 <!-- 顶部菜单区域 开始 -->

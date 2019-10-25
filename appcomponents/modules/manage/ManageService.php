@@ -184,7 +184,7 @@ class ManageService extends BaseService
         if(!empty($userData)) {
             return BaseService::returnOkData($userData);
         }
-        return BaseService::returnErrData($userData, '5002', "该用户没有注册账号");
+        return BaseService::returnErrData($userData, '5002', "该用户没有开通管理账号");
     }
     /**
      * 检查用户名是否存在
@@ -198,7 +198,7 @@ class ManageService extends BaseService
         if(!empty($userData)) {
             return BaseService::returnOkData([]);
         }
-        return BaseService::returnErrData($userData, '5002', "该用户没有注册账号");
+        return BaseService::returnErrData($userData, '5002', "该用户没有开通管理账号");
     }
     /**
      * 注册用户
@@ -209,7 +209,7 @@ class ManageService extends BaseService
     public function register($username, $password) {
         $ret = $this->getAdminUserInfoByUserName($username);
         if(BaseService::checkRetIsOk($ret)) {
-            return BaseService::returnErrData([], 500, '当前账号已被注册');
+            return BaseService::returnErrData([], 500, '当前账号已被占用');
         }
         $salt = Common::getRandChar(6);
         $userData = [
@@ -382,7 +382,7 @@ class ManageService extends BaseService
         if(!empty($userData)) {
             return BaseService::returnOkData($userData);
         }
-        return BaseService::returnErrData($userData, '5002', "该用户没有注册账号");
+        return BaseService::returnErrData($userData, '5002', "该用户没有开通管理账号");
     }
     /**
      * 用户退出登陆

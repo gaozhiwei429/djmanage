@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-$this->title = "北京星驰恒动科技发展有限公司";
+$this->title = "北京往全保科技有限公司";
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

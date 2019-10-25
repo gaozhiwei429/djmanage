@@ -25,10 +25,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="login.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/views/user/login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.2924693" vertical-offset="2705" max-vertical-offset="3300">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2705" max-vertical-offset="3300">
               <caret line="33" column="119" selection-start-line="33" selection-start-column="119" selection-end-line="33" selection-end-column="119" />
               <folding>
                 <marker date="1572008374311" expanded="true" signature="2168:2193" placeholder="..." />
@@ -36,6 +36,16 @@
                 <marker date="1572008374311" expanded="true" signature="5880:5978" placeholder="..." />
                 <marker date="1572008374311" expanded="true" signature="5898:5967" placeholder="{...}" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SmsService.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/appcomponents/modules/common/SmsService.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1325">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -926,7 +936,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/views/user/login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2924693" vertical-offset="2705" max-vertical-offset="3300">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2705" max-vertical-offset="3300">
           <caret line="33" column="119" selection-start-line="33" selection-start-column="119" selection-end-line="33" selection-end-column="119" />
           <folding>
             <marker date="1572008374311" expanded="true" signature="2168:2193" placeholder="..." />
@@ -934,6 +944,14 @@
             <marker date="1572008374311" expanded="true" signature="5880:5978" placeholder="..." />
             <marker date="1572008374311" expanded="true" signature="5898:5967" placeholder="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/common/SmsService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1325">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

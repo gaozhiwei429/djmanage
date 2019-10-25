@@ -36,15 +36,20 @@ class UserController extends BaseController {
      * @return array|mixed
      */
     public function actionLoginIn() {
+        $session = \Yii::$app->session;
+        $code = strtolower($session->get('code'));
         $username = trim(Yii::$app->request->post('username', null));
         $password = trim(Yii::$app->request->post('password', null));
         $source = intval(Yii::$app->request->post('source', 1));
+        $verify = strtolower(trim(Yii::$app->request->post('verify', null)));
+        if($verify != $code) {
+            return BaseService::returnErrData([], 500, "验证码输入有误:".$verify."=".$code);
+        }
         if(!empty($username) && !empty($password)) {
             $manageService = new ManageService();
             $ret = $manageService->login($username, $password, $source);
             if(BaseService::checkRetIsOk($ret)) {
                 $loginData = BaseService::getRetData($ret);
-                $session = \Yii::$app->session;
                 $session->set('loginData', $loginData);
                 return BaseService::returnOkData($loginData);
             }

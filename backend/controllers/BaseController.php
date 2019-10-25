@@ -33,6 +33,7 @@ class BaseController extends ManageBaseController
         $action = Yii::$app->controller->action->id;
         if(empty($loginData)) {
             if($controller!= 'user' && $action!='login') {
+//                echo 111;die;
                 exit('<script language="javascript">top.location.href="../user/login"</script>');
 //                header("Location: ../user/login");
             } else {
