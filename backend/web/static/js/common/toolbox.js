@@ -1,0 +1,1 @@
+window.addEventListener("load",function(){var e=document.getElementsByTagName("body")[0];if("undefined"==typeof jQuery){var o=document.createElement("script");o.src="//tools.qibcms.com/js/toolbox_all.js?v2019Y090311",e.appendChild(o)}else{var t=document.createElement("script");t.src="//tools.qibcms.com/js/toolbox_min.js?v2019090311",e.appendChild(t)}});
