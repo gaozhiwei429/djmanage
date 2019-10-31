@@ -10,80 +10,93 @@ use yii\helpers\Url;
 </div>
 
 <div class="layui-card-body">
-    <div class="layui-card">
-        <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
-            <input type="hidden" name="id" value="<?=isset($info['id']) ? $info['id']:"";?>" class="layui-input">
-            <div class="layui-form-item layui-upload">
-                <label class="layui-form-label">banner封面图</label>
-                <div class="layui-upload layui-input-block">
-                    <input type="hidden" name="picture_url" value="<?=isset($info['picture_url']) ? $info['picture_url']:"";?>" required lay-verify="required" />
-                    <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button>
-                    <button type="button" class="layui-btn layui-btn-warm" id="uploadBtn">开始上传</button>
-                </div>
+    <form class="layui-form" action="">
+        <input type="hidden" name="id" value="<?=isset($info['id']) ? $info['id']:"";?>" class="layui-input">
+        <div class="layui-form-item layui-upload">
+            <label class="layui-form-label">banner封面图</label>
+            <div class="layui-upload layui-input-block">
+                <input type="hidden" name="pic_url" value="<?=isset($info['pic_url']) ? $info['pic_url']:"";?>" required lay-verify="required" />
+                <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button>
+                <button type="button" class="layui-btn layui-btn-warm" id="uploadBtn">开始上传</button>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">banner名称</label>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">banner名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" value="<?=isset($info['title']) ? $info['title']:"";?>" lay-verify="title" autocomplete="off" placeholder="请输入banner名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">排序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="name" value="<?=isset($info['name']) ? $info['name']:"";?>" lay-verify="name" autocomplete="off" placeholder="请输入banner名称" class="layui-input">
+                    <input type="text" name="sort" value="<?=isset($info['sort']) ? $info['sort']:"";?>" lay-verify="required|number" autocomplete="off" placeholder="请输入排序值" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">排序</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="sort" value="<?=isset($info['sort']) ? $info['sort']:"";?>" lay-verify="required|number" autocomplete="off" placeholder="请输入排序值" class="layui-input">
-                    </div>
-                </div>
-            </div>
+        </div>
 
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">过期时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="overdue_time" id="date" value="<?=isset($info['overdue_time']) ? date('Y-m-d', strtotime($info['overdue_time'])):"";?>" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">跳转链接</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="url" lay-verify="httpurl" class="layui-input" value="<?=isset($info['url']) ? $info['url']:"";?>">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">产品id</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="project_id" lay-verify="project_id" class="layui-input" value="<?=isset($info['project_id']) ? $info['project_id']:"";?>" placeholder="请输入产品id">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">是否上线</label>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">过期时间</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="status" value="1" title="是" <?=(isset($info['status']) && $info['status']==1) ? "checked" : "";?>>
-                    <input type="radio" name="status" value="0" title="否" <?=(isset($info['status']) && $info['status']==0) ? "checked" : "";?>>
+                    <input type="text" name="overdue_time" id="date" value="<?=isset($info['overdue_time']) ? date('Y-m-d', strtotime($info['overdue_time'])):"";?>" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="commit">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">跳转链接</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url" class="layui-input" value="<?=isset($info['url']) ? $info['url']:"";?>">
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">新闻id</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="news_id" class="layui-input" value="<?=(isset($info['news_id']) && $info['news_id']) ? $info['news_id']:"";?>" placeholder="请输入新闻id">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否上线</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="status" value="1" title="是" <?=(isset($info['status']) && $info['status']==1) ? "checked" : "";?>>
+                <input type="radio" name="status" value="0" title="否" <?=(isset($info['status']) && $info['status']==0) ? "checked" : "";?>>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择模块</label>
+            <div class="layui-input-inline">
+                <div class="layui-unselect layui-form-select downpanel">
+                    <div class="layui-select-title">
+                        <select name="type">
+                    <option value="0" <?=(isset($info['type']) && $info['type']==0) ? "selected" : "";?>>请选择</option>
+                    <option value="1" <?=(isset($info['type']) && $info['type']==1) ? "selected" : "";?>>首页</option>
+                    <option value="2" <?=(isset($info['type']) && $info['type']==2) ? "selected" : "";?>>学习</option>
+                    <option value="3" <?=(isset($info['type']) && $info['type']==3) ? "selected" : "";?>>组织</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
 </div>
-<script type="application/javascript">
-layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
-    var form = layui.form
-        ,element = layui.element;
+
+<script>
+    layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
+    var form = layui.form;
     var storage=window.localStorage;
-    var table = layui.table;
     var $ = layui.jquery
-        ,upload = layui.upload;
+        ,upload = layui.upload
+        ,layer = layui.layer;
     var laydate = layui.laydate;
     //常规用法
     laydate.render({
@@ -98,23 +111,7 @@ layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
     if(id>0) {
         params.id=id;
     }
-    //自定义验证规则
-    form.verify({
-        project_id: function(value){
-            var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
-            r.test(value);
-            if(value.length > 0 && !r.test(value)){
-                return '产品id输入有误';
-            }
-        },
-        httpurl: function(value){
-            var prg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)$/;
-            if(value.length > 0 &&  !r.test(value)){
-                return '请输入正确的url';
-            }
-        }
-    });
-                //图片上传
+    //图片上传
     layui.use('upload',function(){
         upload.render({
             elem: '#fileBtn'
@@ -126,13 +123,23 @@ layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
             ,auto: false
             ,bindAction: '#uploadBtn'
             ,done: function(res){
-                $("[name=picture_url]").val(res.data.src);
+                $("[name=pic_url]").val(res.data.src);
             }
         });
     });
-    form.on('submit(commit)', function(data){
-        if(data.field.project_id<=0 && data.field.url==="") {
-            layer.msg("链接跳转地址和产品id至少一个不能为空", {
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        var r = /^\+?[1-9][0-9]*$/;　　//判断是否为正整数
+        if(data.field.news_id.length > 0 && !r.test(data.field.news_id)){
+            layer.msg("请输入正确的新闻id", {
+                icon: 2,
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            });
+            return false;
+        }
+        var prg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+$/;
+        if(data.field.url.length > 0 &&  !prg.test(data.field.url)){
+            layer.msg("请输入正确的url", {
                 icon: 2,
                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
             });
@@ -165,25 +172,22 @@ layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
                         top.location.href="../user/login"
                     });
                 }else {
-                    layer.msg("网络异常！", {
-                        icon: 1,
+                    layer.msg(result.msg, {
+                        icon: 2,
                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                    }, function(){
-                        window.history.back();
                     });
+                    return false;
                 }
             },
             error: function () {
-                table.render({
-                    elem: '#dataList',
-                    id: "dataList",
-                    limit: 0,
-                    height: tableHeight,
-                    size: 'sm',
-                    data:[]
-                })
+                layer.msg("网络异常！", {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                return false;
             }
         });
+        return false;
     });
     form.render(); //更新全部，防止input多选和单选框不显示问题
 });

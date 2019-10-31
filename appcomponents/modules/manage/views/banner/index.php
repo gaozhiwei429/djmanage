@@ -80,14 +80,14 @@ use yii\helpers\Url;
                         ,cols: [[
                             {checkbox: true, fixed: true}
                             ,{field:'id', title: 'ID', width: 60}
-                            ,{field:'name', title: '名称', minWidth: 120}
-                            ,{field:'picture_url', title: '封面图片', minWidth: 100, height: 100,toolbar:"#Jimg"}
-                            ,{field:'project_id', title: '产品id', width: 80}
+                            ,{field:'title', title: '名称', minWidth: 120}
+                            ,{field:'pic_url', title: '封面图片', minWidth: 100, height: 100,toolbar:"#Jimg"}
+                            ,{field:'news_id', title: '文章id', width: 80}
                             ,{field:'sort', title: '排序', width: 40}
                             ,{field:'url', title: '第三方链接',toolbar:"#Jurl", minWidth: 180}
                             ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 60}
                             ,{field:'create_time', title: '创建时间', minWidth: 120}
-                            ,{field:'update_time', title: '更新时间', minWidth: 120}
+                            ,{field:'type', title: '所属模块', minWidth: 120,toolbar:"#Jtype"}
                             ,{field:'overdue_time', title: '过期时间', minWidth: 120}
                             ,{field:'right', title: '操作', minWidth: 180,toolbar:"#barDemo"}
                         ]]
@@ -151,11 +151,20 @@ use yii\helpers\Url;
     未知
     {{#  } }}
 </script>
+<script type="text/html" id="Jtype">
+    {{#  if(d.type ==1){ }}
+    首页
+    {{# }else if(d.type ==2) { }}
+    学习
+    {{# }else if(d.type ==3) { }}
+    组织
+    {{#  }else{ }}
+    未知
+    {{#  } }}
+</script>
 <script type="text/html" id="Jimg">
-    {{#  if(d.picture_url!=""){ }}
-    <div class="layui-inline">
-        <img src="{{d.picture_url}}" class="layui-circle">
-    </div>
+    {{#  if(d.pic_url!=""){ }}
+    <img src="{{d.pic_url}}">
     {{# }else{ }}
     暂无
     {{#  } }}
@@ -176,7 +185,7 @@ use yii\helpers\Url;
     }
     ?>
     <?php
-    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/banner/edit']),"/"), $menuUrl)) {
+    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/banner/add']),"/"), $menuUrl)) {
         ?>
         <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/banner/edit']);?>?id={{d.id}}">编辑</a>
     <?php

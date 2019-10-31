@@ -11,7 +11,7 @@
  */
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\BannerService;
-use appcomponents\modules\project\ProjectService;
+use appcomponents\modules\common\NewsService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
@@ -67,50 +67,49 @@ class BannerController extends ManageBaseController
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
         $id = intval(Yii::$app->request->post('id', 0));
-        $name = trim(Yii::$app->request->post('name', ""));
+        $title = trim(Yii::$app->request->post('title', ""));
         $sort = intval(Yii::$app->request->post('sort', 0));
-        $picture_url = trim(Yii::$app->request->post('picture_url', ""));
-        $project_id = intval(Yii::$app->request->post('project_id', 0));
-//        $type_id = intval(Yii::$app->request->post('type_id', 0));
+        $pic_url = trim(Yii::$app->request->post('pic_url', ""));
+        $news_id = intval(Yii::$app->request->post('news_id', 0));
         $url = trim(Yii::$app->request->post('url',  ""));
         $overdue_time = trim(Yii::$app->request->post('overdue_time',  date("Y-m-d H:i:s",strtotime("+1years",time()))));
         $status = intval(Yii::$app->request->post('status',  0));
+        $type = intval(Yii::$app->request->post('type',  1));
         $bannerService = new BannerService();
-//        var_dump($name,$picture_url,$project_id,$url);die;
-        if(empty($name) || empty($picture_url) || ( empty($project_id) && empty($url)) ) {
+        if(empty($title) || empty($pic_url) || ( empty($news_id) && empty($url)) ) {
             return BaseService::returnErrData([], 55900, "请求参数异常，请填写完整");
         }
-        if($project_id) {
-            $projectService = new ProjectService();
-            $params[] = ['=', 'id', $project_id];
-            $projectInfoRet = $projectService->getInfo($params);
-            if(BaseService::checkRetIsOk($projectInfoRet)) {
-                $projectInfo = BaseService::getRetData($projectInfoRet);
-                $type_id = isset($projectInfo['type_id']) ? $projectInfo['type_id'] : 0;
-            }else {
+        if($news_id) {
+            $newsService = new NewsService();
+            $params[] = ['=', 'id', $news_id];
+            $newsInfoRet = $newsService->getInfo($params);
+            if(!BaseService::checkRetIsOk($newsInfoRet)) {
                 return BaseService::returnErrData([], 58100, "提交的产品id数据不存在");
             }
         }
         $dataInfo = [];
-        if(!empty($name)) {
-            $dataInfo['name'] = $name;
+        if(!empty($title)) {
+            $dataInfo['title'] = $title;
         } else {
-            $dataInfo['name'] = "";
+            $dataInfo['title'] = "";
         }
         if(!empty($sort)) {
             $dataInfo['sort'] = $sort;
         } else {
             $dataInfo['sort'] = 0;
         }
-        if(!empty($picture_url)) {
-            $dataInfo['picture_url'] = $picture_url;
+        if(!empty($pic_url)) {
+            $dataInfo['pic_url'] = $pic_url;
         } else {
-            $dataInfo['picture_url'] = "";
+            $dataInfo['pic_url'] = "";
         }
-        if(!empty($project_id)) {
-            $dataInfo['project_id'] = $project_id;
+        if(!empty($news_id)) {
+            $dataInfo['news_id'] = $news_id;
         } else {
-            $dataInfo['project_id'] = 0;
+            $dataInfo['news_id'] = 0;
+        }
+        if(!empty($type)) {
+            $dataInfo['type'] = $type;
         }
         if(!empty($url)) {
             $dataInfo['url'] = $url;
@@ -126,11 +125,6 @@ class BannerController extends ManageBaseController
             $dataInfo['id'] = $id;
         } else {
             $dataInfo['id'] = 0;
-        }
-        if(!empty($type_id)) {
-            $dataInfo['type_id'] = $type_id;
-        } else {
-            $dataInfo['type_id'] = 0;
         }
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 58000, "提交数据有误");

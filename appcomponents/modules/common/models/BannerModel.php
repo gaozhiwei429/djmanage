@@ -133,12 +133,12 @@ class BannerModel extends BaseModel
         try {
             $thisModel = new self();
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
-            $thisModel->name = isset($addData['name']) ? trim($addData['name']) : "";//banner名称
+            $thisModel->title = isset($addData['title']) ? trim($addData['title']) : "";//banner名称
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
-            $thisModel->project_id = isset($addData['project_id']) ? intval($addData['project_id']) : 0;
-            $thisModel->type_id = isset($addData['type_id']) ? intval($addData['type_id']) : 0;
+            $thisModel->news_id = isset($addData['news_id']) ? intval($addData['news_id']) : 0;
+            $thisModel->type = isset($addData['type']) ? intval($addData['type']) : 1;
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
-            $thisModel->picture_url = isset($addData['picture_url']) ? trim($addData['picture_url']) : ""; //图片链接
+            $thisModel->pic_url = isset($addData['pic_url']) ? trim($addData['pic_url']) : ""; //图片链接
             $thisModel->url = isset($addData['url']) ? trim($addData['url']) : ""; //图片链接
             $thisModel->overdue_time = isset($addData['overdue_time']) ? trim($addData['overdue_time']) : date("Y-m-d H:i:s",strtotime("+1years",time())); //失效时间
             $thisModel->save();
