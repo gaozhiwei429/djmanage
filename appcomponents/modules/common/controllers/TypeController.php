@@ -17,7 +17,6 @@ use Yii;
 class TypeController extends ManageBaseController
 {
     public function beforeAction($action){
-        $this->noLogin = true;
         return parent::beforeAction($action);
     }
     /**
@@ -29,9 +28,8 @@ class TypeController extends ManageBaseController
         $size = intval(Yii::$app->request->post('size', -1));
         $typeService = new TypeService();
         $params = [];
-//        $params[] = ['>=', 'create_time', date('Y-m-d H:i:s')];
-//        $params[] = ['>=', 'overdue_time', date('Y-m-d H:i:s')];
-        return $typeService->getTree($params, ['sort'=>SORT_ASC], $page, $size, $fied=['*'], true);
+        $params[] = ['!=', 'status', 1];
+        return $typeService->getTree($params, ['id'=>SORT_DESC, 'sort'=>SORT_DESC], $page, $size, $fied=['*'], true);
     }
 
     /**
@@ -58,7 +56,7 @@ class TypeController extends ManageBaseController
         $name = trim(Yii::$app->request->post('name', ""));
         $sort = intval(Yii::$app->request->post('sort', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $describe = trim(Yii::$app->request->post('describe', ""));
+        $use_id = trim(Yii::$app->request->post('use_id', ""));
         $icon = trim(Yii::$app->request->post('icon', ""));
         $parent_id = intval(Yii::$app->request->post('parent_id',  0));
         $typeService = new TypeService();
@@ -75,8 +73,8 @@ class TypeController extends ManageBaseController
         if(!empty($name)) {
             $dataInfo['name'] = $name;
         }
-        if(!empty($describe)) {
-            $dataInfo['describe'] = $describe;
+        if(!empty($use_id)) {
+            $dataInfo['use_id'] = $use_id;
         }
         if(!empty($icon)) {
             $dataInfo['icon'] = $icon;
