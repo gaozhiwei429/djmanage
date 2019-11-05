@@ -33,173 +33,149 @@ use yii\helpers\Url;
     <div class="layui-card-body gray-bg searchPage">
         <div class="wrapper wrapper-content animated fadeInUp">
         <table style="clear:both;">
-			<tbody><tr>
-				<td style="vertical-align: top; width: 30%;" class="treeParent">
-					<div id="tree" class="searchPage left-tree jstree jstree-1 jstree-default" style="width: 417.9px;" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="00000000000000000000000000000000" aria-busy="false">
-                        <ul class="jstree-container-ul jstree-children" role="group">
-                            <li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="00000000000000000000000000000000_anchor" aria-disabled="true" aria-expanded="true" id="00000000000000000000000000000000" class="jstree-node  jstree-open jstree-last">
-                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                <a class="jstree-anchor  jstree-disabled" href="#" tabindex="-1" id="00000000000000000000000000000000_anchor">
-                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>基层单位
-                                </a><ul role="group" class="jstree-children">
-                                    <li role="treeitem" aria-selected="true" aria-level="2" aria-labelledby="04c0a2dbe7de4b2da4428685eba7a90d_anchor" aria-expanded="true" id="04c0a2dbe7de4b2da4428685eba7a90d" class="jstree-node  jstree-open jstree-last">
+			<tbody>
+            <tr>
+                <?php
+                if(isset($treeData)) {
+                    foreach($treeData as $k=>$v) {
+                        ?>
+                        <td style="vertical-align: top; width: 30%;" class="treeParent">
+                            <div id="tree" class="searchPage left-tree jstree jstree-1 jstree-default" style="width: 417.9px;" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="<?=isset($v['uuid']) ? $v['uuid'] : ""?>" aria-busy="false">
+
+                                <ul class="jstree-container-ul jstree-children" role="group">
+                                    <li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="<?=isset($v['uuid']) ? $v['uuid'] : ""?>_anchor" aria-disabled="true" aria-expanded="true" id="<?=isset($v['uuid']) ? $v['uuid'] : ""?>" class="jstree-node  jstree-open jstree-last">
                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                        <a class="jstree-anchor jstree-clicked" href="#" tabindex="-1" id="04c0a2dbe7de4b2da4428685eba7a90d_anchor">
-                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>上级党委
+                                        <a class="jstree-anchor  jstree-disabled" href="#" tabindex="-1" id="<?=isset($v['uuid']) ? $v['uuid'] : ""?>_anchor">
+                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i><?=isset($v['title']) ? $v['title'] : ""?>
                                         </a>
-                                        <ul role="group" class="jstree-children">
-                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="c4d89315b054446cb00cb22a0c973209_anchor" id="c4d89315b054446cb00cb22a0c973209" class="jstree-node  jstree-leaf">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor" href="#" tabindex="-1" id="c4d89315b054446cb00cb22a0c973209_anchor">
-                                                    <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>
-                                                    <span class="partylose"><i class="fa fa-trash"></i>&nbsp;基层党委</span>
-                                                </a>
-                                            </li>
-                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="5b15570367b14396a9b5b58ada891488_anchor" aria-expanded="true" id="5b15570367b14396a9b5b58ada891488" class="jstree-node  jstree-open">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor" href="#" tabindex="-1" id="5b15570367b14396a9b5b58ada891488_anchor">
-                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>社区党委
-                                                </a>
-                                                <ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="cc18ec83b97e44abaf8c3b4d2326db33_anchor" aria-expanded="true" id="cc18ec83b97e44abaf8c3b4d2326db33" class="jstree-node  jstree-open jstree-last">
+                                        <?php
+                                        if(isset($v['son'])) {
+                                            foreach($v['son'] as $sonk=>$sonv) {
+                                                ?>
+                                                <ul role="group" class="jstree-children">
+                                                    <li role="treeitem" aria-selected="true" aria-level="2" aria-labelledby="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>_anchor" aria-expanded="true" id="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonv['son'])|| empty($sonv['son'])) ? "jstree-leaf" : " jstree-open"?> jstree-last">
                                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="cc18ec83b97e44abaf8c3b4d2326db33_anchor">
-                                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>社区党总支
+                                                        <a class="jstree-anchor jstree-clicked" href="#" tabindex="-1" id="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>_anchor">
+                                                            <i class="jstree-icon jstree-themeicon <?=(!isset($sonv['son']) || empty($sonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?> <?=(!isset($sonv['son'])|| empty($sonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonv['title']) ? $sonv['title'] : ""?>
                                                         </a>
-                                                        <ul role="group" class="jstree-children">
-                                                            <li role="treeitem" aria-selected="false" aria-level="5" aria-labelledby="eb97fe55cb7348dea8b5c284014dd9f8_anchor" aria-expanded="true" id="eb97fe55cb7348dea8b5c284014dd9f8" class="jstree-node  jstree-open jstree-last">
-                                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="eb97fe55cb7348dea8b5c284014dd9f8_anchor">
-                                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>社区党支部
-                                                                </a>
+                                                        <?php
+                                                        if(isset($sonv['son'])) {
+                                                            foreach($sonv['son'] as $sonToSonk=>$sonToSonv) {
+                                                                ?>
                                                                 <ul role="group" class="jstree-children">
-                                                                    <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="761d090f5f4047b2b32e3462ce2da63d_anchor" id="761d090f5f4047b2b32e3462ce2da63d" class="jstree-node  jstree-leaf">
+                                                                    <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>_anchor" id="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonToSonv['son'])|| empty($sonToSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="761d090f5f4047b2b32e3462ce2da63d_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>党小组一部
+                                                                        <a class="jstree-anchor <?=(isset($sonToSonv['son']) && empty($sonToSonv['son'])) ? "jstree-file jstree-themeicon-custom " : ""?>" href="#" tabindex="-1" id="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>_anchor">
+                                                                            <i class="jstree-icon jstree-themeicon <?=(isset($sonToSonv['son']) && empty($sonToSonv['son'])) ? "jstree-clicked" : ""?> <?=(!isset($sonToSonv['son'])|| empty($sonToSonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i>
+                                                                            &nbsp;<?=isset($sonToSonv['title']) ? $sonToSonv['title'] : ""?>
                                                                         </a>
-                                                                    </li>
-                                                                    <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="e46e79056bd94c8c919024512ebead75_anchor" aria-expanded="true" id="e46e79056bd94c8c919024512ebead75" class="jstree-node  jstree-open">
-                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="e46e79056bd94c8c919024512ebead75_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>党小组二部
-                                                                        </a>
+                                                                        <?php
+                                                                        if(isset($sonToSonv['son'])) {
+                                                                            foreach ($sonToSonv['son'] as $sonChildSonk => $sonChildSonv) {
+                                                                                ?>
                                                                         <ul role="group" class="jstree-children">
-                                                                            <li role="treeitem" aria-selected="false" aria-level="7" aria-labelledby="34d229a5a91641fcbfd264de84cfbf2d_anchor" id="34d229a5a91641fcbfd264de84cfbf2d" class="jstree-node  jstree-leaf jstree-last">
+                                                                            <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>_anchor" aria-expanded="true" id="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>" class="jstree-node  <?=(!isset($sonChildSonv['son'])|| empty($sonChildSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                                 <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="34d229a5a91641fcbfd264de84cfbf2d_anchor">
-                                                                                    <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>XX党小组
+                                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>_anchor">
+                                                                                    <i class="jstree-icon jstree-themeicon <?=(!isset($sonChildSonv['son'])|| empty($sonChildSonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonChildSonv['title']) ? $sonChildSonv['title'] : ""?>
                                                                                 </a>
+                                                                                <?php
+                                                                                if(isset($sonChildSonv['son'])) {
+                                                                                foreach ($sonChildSonv['son'] as $sonChilderSonk => $sonChilderSonv) {
+                                                                                ?>
+                                                                                <ul role="group" class="jstree-children">
+                                                                                    <li role="treeitem" aria-selected="false" aria-level="5" aria-labelledby="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor" aria-expanded="true" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv['son'])|| empty($sonChilderSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
+                                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor">
+                                                                                            <i class="jstree-icon jstree-themeicon <?=(!isset($sonChilderSonv['son'])|| empty($sonChilderSonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonChilderSonv['title']) ? $sonChilderSonv['title'] : ""?>
+                                                                                        </a>
+
+                                                                                        <?php
+                                                                                        if(isset($sonChilderSonv['son'])) {
+                                                                                                ?>
+                                                                                            <ul role="group" class="jstree-children">
+                                                                                                <?php
+                                                                                                foreach ($sonChilderSonv['son'] as $sonChilderSonk1 => $sonChilderSonv1) {
+                                                                                                    ?>
+                                                                                                <li role="treeitem" aria-selected="false" aria-level="7" aria-labelledby="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>_anchor" id="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv1['son'])|| empty($sonChilderSonv1['son'])) ? "jstree-leaf" : " jstree-open"?>">
+                                                                                                    <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                                                    <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>_anchor">
+                                                                                                        <i class="jstree-icon jstree-themeicon <?=(!isset($sonChilderSonv1['son'])|| empty($sonChilderSonv1['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonChilderSonv1['title']) ? $sonChilderSonv1['title'] : ""?>
+                                                                                                    </a>
+                                                                                                    <?php
+                                                                                                    if(isset($sonChilderSonv1['son'])) {
+                                                                                                        ?>
+                                                                                                        <ul role="group" class="jstree-children">
+                                                                                                            <?php
+                                                                                                            foreach ($sonChilderSonv1['son'] as $sonChilderSonk2 => $sonChilderSonv2) {
+                                                                                                                ?>
+                                                                                                                <li role="treeitem" aria-selected="false" aria-level="7" aria-labelledby="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>_anchor" id="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv2['son'])|| empty($sonChilderSonv2['son'])) ? "jstree-leaf" : " jstree-open"?>">
+                                                                                                                    <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                                                                    <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>_anchor">
+                                                                                                                        <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i><?=isset($sonChilderSonv2['title']) ? $sonChilderSonv2['title'] : ""?>
+                                                                                                                    </a>
+                                                                                                                </li>
+                                                                                                            <?php
+                                                                                                            }
+                                                                                                            ?>
+                                                                                                        </ul>
+                                                                                                    <?php
+                                                                                                    }
+                                                                                                    else {
+                                                                                                    ?>
+                                                                                            <?php
+                                                                                            }
+                                                                                            ?>
+                                                                                                <?php
+                                                                                                }
+                                                                                                ?>
+                                                                                </ul>
+                                                                                        <?php
+                                                                                        } else {
+                                                                                        ?>
+                                                                                        <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv['son'])|| empty($sonChilderSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
+                                                                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                                            <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor">
+                                                                                                <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i><?=isset($sonChilderSonv['title']) ? $sonChilderSonv['title'] : ""?>
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <?php
+                                                                                }
+                                                                                    ?>
                                                                             </li>
+                                                                                </ul>
+                                                                            </li>
+                                                                                <?php
+                                                                                }
+                                                                                }
+                                                                                ?>
                                                                         </ul>
+                                                                            <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
                                                                     </li>
-                                                                    <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="3074dff52aff420fa15cd48e478d6b36_anchor" id="3074dff52aff420fa15cd48e478d6b36" class="jstree-node  jstree-leaf jstree-last">
-                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="3074dff52aff420fa15cd48e478d6b36_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>党小组三部
-                                                                        </a>
-                                                                    </li>
+
                                                                 </ul>
-                                                            </li>
-                                                        </ul>
+                                                            <?php
+                                                            }
+                                                        }
+                                                        ?>
                                                     </li>
                                                 </ul>
-                                            </li>
-                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="5d04db9b4438402f89a28bfa1bfe640c_anchor" aria-expanded="true" id="5d04db9b4438402f89a28bfa1bfe640c" class="jstree-node  jstree-open">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor" href="#" tabindex="-1" id="5d04db9b4438402f89a28bfa1bfe640c_anchor">
-                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>企业党委
-                                                </a>
-                                                <ul role="group" class="jstree-children">
-                                                    <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="397c78d95b2e4626b7904ef4e002ba38_anchor" aria-expanded="true" id="397c78d95b2e4626b7904ef4e002ba38" class="jstree-node  jstree-open jstree-last">
-                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="397c78d95b2e4626b7904ef4e002ba38_anchor">
-                                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>车间党总支
-                                                        </a>
-                                                        <ul role="group" class="jstree-children">
-                                                            <li role="treeitem" aria-selected="false" aria-level="5" aria-labelledby="7ac7acf314b4433f8a533e6e3f4cb197_anchor" aria-expanded="true" id="7ac7acf314b4433f8a533e6e3f4cb197" class="jstree-node  jstree-open">
-                                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="7ac7acf314b4433f8a533e6e3f4cb197_anchor">
-                                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>日班党支部
-                                                                </a>
-                                                                <ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="0856138af3674a5a9bf96f9b402b0b5d_anchor" id="0856138af3674a5a9bf96f9b402b0b5d" class="jstree-node  jstree-leaf">
-                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="0856138af3674a5a9bf96f9b402b0b5d_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>第一党小组
-                                                                        </a>
-                                                                    </li>
-                                                                    <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="99e2cedfb8ec410f95a85538d5c731a4_anchor" id="99e2cedfb8ec410f95a85538d5c731a4" class="jstree-node  jstree-leaf jstree-last">
-                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="99e2cedfb8ec410f95a85538d5c731a4_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>第二党小组
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                            <li role="treeitem" aria-selected="false" aria-level="5" aria-labelledby="2c7a2a067e124caab418a2d47c262ae7_anchor" aria-expanded="true" id="2c7a2a067e124caab418a2d47c262ae7" class="jstree-node  jstree-open jstree-last">
-                                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="2c7a2a067e124caab418a2d47c262ae7_anchor">
-                                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>车间甲班党支部
-                                                                </a>
-                                                                <ul role="group" class="jstree-children">
-                                                                    <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="7a8ea0fc57a648cf9c3bf8a3992687cb_anchor" id="7a8ea0fc57a648cf9c3bf8a3992687cb" class="jstree-node  jstree-leaf">
-                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="7a8ea0fc57a648cf9c3bf8a3992687cb_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>第一党小组
-                                                                        </a>
-                                                                    </li>
-                                                                    <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="4217ad81b52d47838ec6d54af143bd11_anchor" id="4217ad81b52d47838ec6d54af143bd11" class="jstree-node  jstree-leaf jstree-last">
-                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="4217ad81b52d47838ec6d54af143bd11_anchor">
-                                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>第二党小组
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="35a479fba0d3482eb95a30d4d7998e8a_anchor" aria-expanded="true" id="35a479fba0d3482eb95a30d4d7998e8a" class="jstree-node  jstree-open">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor" href="#" tabindex="-1" id="35a479fba0d3482eb95a30d4d7998e8a_anchor">
-                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>学校党委
-                                                </a>
-                                                <ul role="group" class="jstree-children">
-                                                    <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="eea5b6e8fb2940729d4b28f792ef0d28_anchor" id="eea5b6e8fb2940729d4b28f792ef0d28" class="jstree-node  jstree-leaf jstree-last">
-                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="eea5b6e8fb2940729d4b28f792ef0d28_anchor">
-                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>学部党支部
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="c1439e7a6df449b9815a179bb5e4f4e0_anchor" aria-expanded="true" id="c1439e7a6df449b9815a179bb5e4f4e0" class="jstree-node  jstree-open">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor" href="#" tabindex="-1" id="c1439e7a6df449b9815a179bb5e4f4e0_anchor">
-                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>集团党委
-                                                </a>
-                                                <ul role="group" class="jstree-children">
-                                                    <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="1b66650e01be403ea43a701cfc7ed85f_anchor" id="1b66650e01be403ea43a701cfc7ed85f" class="jstree-node  jstree-leaf jstree-last">
-                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="1b66650e01be403ea43a701cfc7ed85f_anchor">
-                                                            <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>第一党支部
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="f428511c259e431081b929b22716a5f8_anchor" id="f428511c259e431081b929b22716a5f8" class="jstree-node  jstree-leaf jstree-last">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor" href="#" tabindex="-1" id="f428511c259e431081b929b22716a5f8_anchor">
-                                                    <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i>党组织2
-                                                </a>
-                                            </li>
-                                        </ul>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
                                     </li>
                                 </ul>
-                            </li>
-                        </ul>
-                    </div>
-				</td>		
+                            </div>
+                        </td>
+                    <?php
+                    }
+                }
+                ?>
+
 				<td>
 			        <div class="ibox float-e-margins margin-bottom-0">
 			            <div class="ibox-content">
@@ -338,7 +314,7 @@ use yii\helpers\Url;
                        	</ul>
                    	</div>
 				
-             </td>	
+             </td>
 		</tr>
      	
         <tr>

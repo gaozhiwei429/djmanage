@@ -9,7 +9,7 @@
  * 注意：本内容仅限于北京往全包科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\manage\controllers;
-use appcomponents\modules\common\NewsService;
+use appcomponents\modules\common\OrganizationService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use \Yii;
@@ -29,9 +29,19 @@ class OrganizationController extends ManageBaseController
      * @return string
      */
     public function actionManage() {
+
+        $page = intval(Yii::$app->request->post('p', 1));
+        $size = intval(Yii::$app->request->post('size', -1));
+        $organizationService = new OrganizationService();
+        $params = [];
+        $params[] = ['!=', 'status', 0];
+        $ret = $organizationService->getTree($params, ['sort'=>SORT_DESC], $page, $size, $fied=['*'], true);
+        $treeData = BaseService::getRetData($ret);
+//        print_r($treeData);die;
         return $this->renderPartial('manage',
             [
                 'title' => "党组织管理",
+                'treeData' => $treeData,
                 'menuUrl' => $this->menuUrl,
             ]
         );
