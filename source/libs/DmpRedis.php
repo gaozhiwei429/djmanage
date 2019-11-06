@@ -18,11 +18,8 @@ class DmpRedis {
     protected $hash_prefix = 'dangjian_data'; //前缀名称
 
     public function __construct($hash_prefix='',$db=0) {
-//        $redisParams = isset(Yii::$app->params['redis']) ? Yii::$app->params['redis'] : [];
-//        $host = isset($redisParams['hostname']) ? $redisParams['hostname'] : '127.0.0.1';
-//        $port = isset($redisParams['port']) ? $redisParams['port'] : '6379';
-//        $password = isset($redisParams['password']) ? $redisParams['password'] : '';
-        //实例化
+        $redisParams = isset(Yii::$app->params['redis']) ? Yii::$app->params['redis'] : [];
+        $password = isset($redisParams['password']) ? $redisParams['password'] : '';
         $this->redis = Yii::$app->redis;
         //连接服务器
 //        $this->redis->connect($host, $port);
