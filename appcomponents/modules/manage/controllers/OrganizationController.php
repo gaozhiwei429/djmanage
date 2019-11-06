@@ -46,4 +46,19 @@ class OrganizationController extends ManageBaseController
             ]
         );
     }
+    /**
+     * 党组织管理
+     * @return string
+     */
+    public function actionIndex() {
+        $this->layout=false;
+        $uuid = trim(Yii::$app->request->get('uuid', null));
+        return $this->renderPartial('index',
+            [
+                'title' => "党组织管理",
+                'uuid' => $uuid,
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
 }

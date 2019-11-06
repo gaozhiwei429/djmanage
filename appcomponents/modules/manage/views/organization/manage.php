@@ -45,7 +45,7 @@ use yii\helpers\Url;
                                 <ul class="jstree-container-ul jstree-children" role="group">
                                     <li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="<?=isset($v['uuid']) ? $v['uuid'] : ""?>_anchor" aria-disabled="true" aria-expanded="true" id="<?=isset($v['uuid']) ? $v['uuid'] : ""?>" class="jstree-node  jstree-open jstree-last">
                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                        <a class="jstree-anchor  jstree-disabled" href="#" tabindex="-1" id="<?=isset($v['uuid']) ? $v['uuid'] : ""?>_anchor">
+                                        <a class="jstree-anchor  jstree-disabled" href="javascript:void(0)" tabindex="-1" id="<?=isset($v['uuid']) ? $v['uuid'] : ""?>_anchor">
                                             <i class="jstree-icon jstree-themeicon" role="presentation"></i><?=isset($v['title']) ? $v['title'] : ""?>
                                         </a>
                                         <?php
@@ -55,7 +55,7 @@ use yii\helpers\Url;
                                                 <ul role="group" class="jstree-children">
                                                     <li role="treeitem" aria-selected="true" aria-level="2" aria-labelledby="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>_anchor" aria-expanded="true" id="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonv['son'])|| empty($sonv['son'])) ? "jstree-leaf" : " jstree-open"?> jstree-last">
                                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                        <a class="jstree-anchor jstree-clicked" href="#" tabindex="-1" id="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>_anchor">
+                                                        <a class="jstree-anchor jstree-clicked" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonv['uuid']) ? $sonv['uuid'] : ""?>_anchor">
                                                             <i class="jstree-icon jstree-themeicon <?=(!isset($sonv['son']) || empty($sonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?> <?=(!isset($sonv['son'])|| empty($sonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonv['title']) ? $sonv['title'] : ""?>
                                                         </a>
                                                         <?php
@@ -65,7 +65,7 @@ use yii\helpers\Url;
                                                                 <ul role="group" class="jstree-children">
                                                                     <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>_anchor" id="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonToSonv['son'])|| empty($sonToSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                        <a class="jstree-anchor <?=(isset($sonToSonv['son']) && empty($sonToSonv['son'])) ? "jstree-file jstree-themeicon-custom " : ""?>" href="#" tabindex="-1" id="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>_anchor">
+                                                                        <a class="jstree-anchor <?=(isset($sonToSonv['son']) && empty($sonToSonv['son'])) ? "jstree-file jstree-themeicon-custom " : ""?>" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonToSonv['uuid']) ? $sonToSonv['uuid'] : ""?>_anchor">
                                                                             <i class="jstree-icon jstree-themeicon <?=(isset($sonToSonv['son']) && empty($sonToSonv['son'])) ? "jstree-clicked" : ""?> <?=(!isset($sonToSonv['son'])|| empty($sonToSonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i>
                                                                             &nbsp;<?=isset($sonToSonv['title']) ? $sonToSonv['title'] : ""?>
                                                                         </a>
@@ -76,7 +76,7 @@ use yii\helpers\Url;
                                                                         <ul role="group" class="jstree-children">
                                                                             <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>_anchor" aria-expanded="true" id="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>" class="jstree-node  <?=(!isset($sonChildSonv['son'])|| empty($sonChildSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                                 <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>_anchor">
+                                                                                <a class="jstree-anchor" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonChildSonv['uuid']) ? $sonChildSonv['uuid'] : ""?>_anchor">
                                                                                     <i class="jstree-icon jstree-themeicon <?=(!isset($sonChildSonv['son'])|| empty($sonChildSonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonChildSonv['title']) ? $sonChildSonv['title'] : ""?>
                                                                                 </a>
                                                                                 <?php
@@ -86,7 +86,7 @@ use yii\helpers\Url;
                                                                                 <ul role="group" class="jstree-children">
                                                                                     <li role="treeitem" aria-selected="false" aria-level="5" aria-labelledby="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor" aria-expanded="true" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv['son'])|| empty($sonChilderSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                                         <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                        <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor">
+                                                                                        <a class="jstree-anchor" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor">
                                                                                             <i class="jstree-icon jstree-themeicon <?=(!isset($sonChilderSonv['son'])|| empty($sonChilderSonv['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonChilderSonv['title']) ? $sonChilderSonv['title'] : ""?>
                                                                                         </a>
 
@@ -99,7 +99,7 @@ use yii\helpers\Url;
                                                                                                     ?>
                                                                                                 <li role="treeitem" aria-selected="false" aria-level="7" aria-labelledby="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>_anchor" id="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv1['son'])|| empty($sonChilderSonv1['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                                                     <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                                    <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>_anchor">
+                                                                                                    <a class="jstree-anchor" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonChilderSonv1['uuid']) ? $sonChilderSonv1['uuid'] : ""?>_anchor">
                                                                                                         <i class="jstree-icon jstree-themeicon <?=(!isset($sonChilderSonv1['son'])|| empty($sonChilderSonv1['son'])) ? "jstree-file jstree-themeicon-custom jstree-ocl" : ""?>" role="presentation"></i><?=isset($sonChilderSonv1['title']) ? $sonChilderSonv1['title'] : ""?>
                                                                                                     </a>
                                                                                                     <?php
@@ -111,7 +111,7 @@ use yii\helpers\Url;
                                                                                                                 ?>
                                                                                                                 <li role="treeitem" aria-selected="false" aria-level="7" aria-labelledby="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>_anchor" id="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv2['son'])|| empty($sonChilderSonv2['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                                                                     <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                                                    <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>_anchor">
+                                                                                                                    <a class="jstree-anchor" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonChilderSonv2['uuid']) ? $sonChilderSonv2['uuid'] : ""?>_anchor">
                                                                                                                         <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i><?=isset($sonChilderSonv2['title']) ? $sonChilderSonv2['title'] : ""?>
                                                                                                                     </a>
                                                                                                                 </li>
@@ -135,7 +135,7 @@ use yii\helpers\Url;
                                                                                         ?>
                                                                                         <li role="treeitem" aria-selected="false" aria-level="6" aria-labelledby="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>" class="jstree-node <?=(!isset($sonChilderSonv['son'])|| empty($sonChilderSonv['son'])) ? "jstree-leaf" : " jstree-open"?>">
                                                                                             <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                            <a class="jstree-anchor" href="#" tabindex="-1" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor">
+                                                                                            <a class="jstree-anchor" href="javascript:void(0)" tabindex="-1" id="<?=isset($sonChilderSonv['uuid']) ? $sonChilderSonv['uuid'] : ""?>_anchor">
                                                                                                 <i class="jstree-icon jstree-themeicon jstree-file jstree-themeicon-custom" role="presentation"></i><?=isset($sonChilderSonv['title']) ? $sonChilderSonv['title'] : ""?>
                                                                                             </a>
                                                                                         </li>
@@ -176,7 +176,11 @@ use yii\helpers\Url;
                 }
                 ?>
 
-				<td>11111111
+				<td class="main_right_content" style="padding: 0px; margin-top: 0px;">
+                    <div class="ibox float-e-margins margin-bottom-0" style="padding: 0px; margin-top: 0px;">
+<!--                        <iframe frameborder="0" scrolling="yes" style="width: 100%; padding: 0px; margin-top: 0px;" src="" id="aa">-->
+<!--                        </iframe>-->
+                    </div>
                 </td>
 
 			</tr>
@@ -187,96 +191,26 @@ use yii\helpers\Url;
 
 
 <script type="text/javascript">
-var menuId = "300bd2907b1a4e55b00e665aa7cd628d";
-var jsonButtonList = [{"code":"addBtn","name":"追加"},{"code":"editBtn","name":"修改"},{"code":"viewBtn","name":"查看"}];
-var mid = 0;//左侧menu的ID
-var searchUrl = "base/postAssignPartyAction!searchResultListPage.action";
-var insertUrl ="base/postAssignPartyAction!gotoInsert.action";
-var updateUrl ="base/postAssignPartyAction!gotoUpdate.action";
-var deleteUrl = "base/postAssignPartyAction!deleteBatch.action";
-var ztreeUrl = "/dj_web/partyaffairs/partyAdministrativeSearchAction!partyAdministrativeTree.action";
-//判断第1次加载树
-var firstTree = 1;
-var state = 1;
-$(function () {
-	$(".left-tree").width($(".wrapper-content").width()*0.3)
-	$(".treeParent").width("30%")
-	top.openLoad();
-	showTreeMenu();//加载左侧树
-	$(".addBtn").click(function (){
-		top.openWindow({
-			title: '追加页面',
-			area: [openWidth, '280px'],
-			maxmin:true,
-			content: content.getUrl(insertUrl+'?postAssignParty.strDeptGuid='+mid)
-		});
-	});
-});
-function showTreeMenu(){
- 	$('#tree').jstree('destroy');
-  		$.get(ztreeUrl+"?partyAdministrative.boolPublicValue=true&strIsDiff=2",function(data){	
-    	$("#tree").jstree({
-            "core": {
-                "data": eval(data)
-            }
-        }).on('changed.jstree',function(e,data){
-        	setTimeout(function(){
-        		mid= data.instance.get_node(data.selected[0]).id;
-                parentName= data.instance.get_node(data.selected[0]).text;
-                state= data.instance.get_node(data.selected[0]).data;
-               	firstTree = 2;
-               	if(state == 2){
-       				$("#addBtn").hide();
-       			}
-               	home.showPagenumListFunction(1);
-        	},100);
-        	
+layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
+    var form = layui.form;
+    var storage=window.localStorage;
+    var $ = layui.jquery;
+
+    //获取src值
+    $(".jstree-anchor").on("click",function(){
+        var id =$(this).parent().attr("id");
+        layui.use(['layer', 'form'], function(){
+            loading = layer.load(5000, {
+                shade: false,
+                time: 2*1000
+            });
+            $(".main_right_content .float-e-margins").load("<?= Url::to(['manage/organization/index?uuid=']); ?>"+id);
+            layer.close(loading);
         });
-	});
-}
-function editInfo(strGuid){
-	if(strGuid != null && strGuid.length > 0){
-		top.openWindow({
-			title: '修改页面',
-			area: [openWidth, '280px'],
-			maxmin:true,
-			content: content.getUrl(updateUrl,"postAssignParty.strGuid="+strGuid+"&postAssignParty.strDeptGuid="+mid)
-		});
-	}
-}
-function deleteInfo(ids){
-	top.openConfirm(function(){
-		var dataParemeter = {"ids":ids};
-		content.ajaxPost(content.getUrl(deleteUrl),dataParemeter,function(result){
-			if($.trim(result) == "ok"){
-				top.successMsg("操作成功！");
-				var currentPage = $("#currentpage").html();
-				home.showPagenumListFunction(currentPage);
-			}else if($.trim(result) == "error"){
-				top.failMsg("操作失败！");
-			}
-			top.closeConfirm();
-			return;
-		});
-	});
-}
-home.showPagenumListFunction = {};
-home.showPagenumListFunction = function (currentPage) {
-	if (firstTree == 1){
-    	return;
-    }
-    parameter = {
-	    "postAssignParty.strDeptGuid":mid,
-    }
-	if(null == home.tempParameter){
-		home.tempParameter = parameter;
-	}
-	home.tempParameter["pageInfo.currentPage"] = currentPage;
-	content.ajaxLoad("#contentsContainerList",content.getUrl(searchUrl),home.tempParameter,function(){
-		localInitPage();
-		if(state == 2){
-			$("#addBtn").hide();
-		}
-	});
-};
+//        alert("<?//= Url::to(['manage/organization/index?id=']); ?>//"+id);
+//        $(".main_right_content iframe").attr("src","<?//= Url::to(['manage/organization/index?id=']); ?>//"+id);
+//        (".main_right_content iframe").content(id);
+    });
+    form.render(); //更新全部，防止input多选和单选框不显示问题
+});
 </script>
