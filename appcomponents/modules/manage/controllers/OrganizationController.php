@@ -51,13 +51,24 @@ class OrganizationController extends ManageBaseController
      * @return string
      */
     public function actionIndex() {
-        $this->layout=false;
+//        $this->layout=false;
         $uuid = trim(Yii::$app->request->get('uuid', null));
+        $page = intval(Yii::$app->request->post('p', 1));
+        $size = intval(Yii::$app->request->post('size', 20));
+        $organizationService = new OrganizationService();
+        $params[] = ['=', 'parent_uuid', $uuid];
+        $organizationListRet = $organizationService->getList($params, ['id'=>SORT_DESC,'sort'=>SORT_DESC], $page, $size);
+        $organizationList = BaseService::getRetData($organizationListRet);
+        $branchTypeArr = Yii::$app->params['branch_type'];
+        $organizationTypeArr = Yii::$app->params['organization_type'];
         return $this->renderPartial('index',
             [
                 'title' => "党组织管理",
                 'uuid' => $uuid,
                 'menuUrl' => $this->menuUrl,
+                'organizationList' => $organizationList,
+                'branchTypeArr' => $branchTypeArr,
+                'organizationTypeArr' => $organizationTypeArr,
             ]
         );
     }

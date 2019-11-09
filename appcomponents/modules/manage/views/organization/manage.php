@@ -195,9 +195,13 @@ layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
     var form = layui.form;
     var storage=window.localStorage;
     var $ = layui.jquery;
-
+//    var html = $("#tree").children(".jstree-container-ul").children(".jstree-node").children("a").click();
+//    alert(html);
+//    $("#tree").children(".jstree-container-ul").get(0).children("li").get(0).children(".jstree-anchor").get(0).click();
     //获取src值
     $(".jstree-anchor").on("click",function(){
+        $("a").removeClass("jstree-clicked");
+        $(this).addClass("jstree-clicked");
         var id =$(this).parent().attr("id");
         layui.use(['layer', 'form'], function(){
             loading = layer.load(5000, {
@@ -211,6 +215,7 @@ layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
 //        $(".main_right_content iframe").attr("src","<?//= Url::to(['manage/organization/index?id=']); ?>//"+id);
 //        (".main_right_content iframe").content(id);
     });
+    $("#tree").children(".jstree-container-ul").children(".jstree-node").children("a").click();
     form.render(); //更新全部，防止input多选和单选框不显示问题
 });
 </script>

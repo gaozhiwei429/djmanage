@@ -11,7 +11,7 @@ use yii\helpers\Url;
 <title>登录微分销</title>
 <?=Html::cssFile('@web/static/css/common/component-min.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/css/common/jbox-min.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/css/common/common_login_reg?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/css/common/common_login_reg.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <div class="plp-bg " id="plp-bg">
     <div class="login">
         <a href="javascript:;" class="logo"></a>
