@@ -85,10 +85,11 @@ class OrganizationModel extends BaseModel
         try {
             $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
             if($index) {
+                $dataArr = [];
                 foreach($dataList as $k=>$v) {
-                    $dataList[$v['uuid']] = $v;
-                    unset($dataList[$k]);
+                    $dataArr[$v['id']] = $v;
                 }
+                $dataList = $dataArr;
             }
             $data = [
                 'dataList' => $dataList,
