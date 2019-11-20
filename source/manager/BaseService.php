@@ -34,6 +34,10 @@ class BaseService extends \yii\base\Module
             'code' => 0,
             'msg' => $msg ? $msg : 'success',
             'data' => $data,
+            'status' => [
+                "code"=>0,
+                "msg"=>$msg ? $msg : 'success'
+            ],
         ];
         $return = json_encode($return);
         return $return;
@@ -52,6 +56,10 @@ class BaseService extends \yii\base\Module
             'code' => (int)$errno,
             'msg' => $errmsg,
             'data' => $data,
+            'status' => [
+                "code"=>(int)$errno,
+                "msg"=>$errmsg
+            ]
         ];
         $return = json_encode($return, JSON_UNESCAPED_UNICODE);
         return $return;

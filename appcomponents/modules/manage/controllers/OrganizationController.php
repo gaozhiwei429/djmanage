@@ -11,6 +11,7 @@
 namespace appcomponents\modules\manage\controllers;
 use appcomponents\modules\common\OrganizationService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use \Yii;
 class OrganizationController extends ManageBaseController
@@ -35,13 +36,14 @@ class OrganizationController extends ManageBaseController
         $organizationService = new OrganizationService();
         $params = [];
         $params[] = ['!=', 'status', 0];
-        $ret = $organizationService->getTree($params, ['sort'=>SORT_DESC], $page, $size, $fied=['*'], true);
+        $ret = $organizationService->getTree($params, ['id'=>SORT_ASC], $page, $size, $fied=['*'], true);
         $treeData = BaseService::getRetData($ret);
-//        print_r($treeData);die;
+        $arr = [];
+        $arr = Common::treeToArr($treeData, $arr);
         return $this->renderPartial('manage',
             [
                 'title' => "党组织管理",
-                'treeData' => $treeData,
+                'treeData' => $arr,
                 'menuUrl' => $this->menuUrl,
             ]
         );

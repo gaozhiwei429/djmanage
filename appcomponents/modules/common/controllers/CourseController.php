@@ -88,24 +88,25 @@ class CourseController extends ManageBaseController
         $content = trim(Yii::$app->request->post('content', ""));
         $sort = intval(Yii::$app->request->post('sort', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $type_id = intval(Yii::$app->request->post('type_id',  0));
-        $newsService = new NewsService();
+        $course_type_id = intval(Yii::$app->request->post('course_type_id',  0));
+        $pic_url = trim(Yii::$app->request->post('pic_url', ""));
+        $newsService = new CourseService();
         $postData = Yii::$app->request->post();
-        $pic_urlArr = [];
-        foreach($postData as $k=>$pic_url) {
-            if(strstr($k,"pic_url")) {
-                $pic_urlArr[] = $pic_url;
+        $sections_uuidsArr = [];
+        foreach($postData as $k=>$v) {
+            if(strstr($k,"sections_uuids")) {
+                $sections_uuidsArr[] = $v;
             }
         }
         if(empty($title)) {
             return BaseService::returnErrData([], 55900, "请求参数异常，请填写完整");
         }
         $dataInfo = [];
-        if(!empty($pic_urlArr)) {
-            $dataInfo['pic_url'] = $pic_urlArr ? json_encode($pic_urlArr) : "[]";
+        if(!empty($pic_url)) {
+            $dataInfo['pic_url'] = $pic_url;
         }
-        if(!empty($user_id)) {
-            $dataInfo['user_id'] = $user_id;
+        if(!empty($course_type_id)) {
+            $dataInfo['course_type_id'] = $course_type_id;
         }
         if(!empty($title)) {
             $dataInfo['title'] = $title;
@@ -122,8 +123,8 @@ class CourseController extends ManageBaseController
         } else {
             $dataInfo['sort'] = 0;
         }
-        if(!empty($news_type_id)) {
-            $dataInfo['type_id'] = $type_id;
+        if(!empty($sections_uuidsArr)) {
+            $dataInfo['sections_uuids'] = implode(',', $sections_uuidsArr);
         }
         if(!empty($id)) {
             $dataInfo['id'] = $id;

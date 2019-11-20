@@ -304,15 +304,69 @@ class Common
     public static function generateTree($items ,$indexkey="id", $parentkey='parent_id'){
         $tree = array();
         foreach($items as $item){
+            $items[$item[$indexkey]]['flag'] = "";
             if(isset($item[$parentkey]) && isset($items[$item[$parentkey]])){
                 $items[$item[$parentkey]]['son'][] = &$items[$item[$indexkey]];
+                foreach($items[$item[$parentkey]]['son'] as $k=>&$v) {
+                        if( isset($v['son']) && !empty($v['son'])) {
+                            $v['flag']=$items[$item[$parentkey]]['flag']."&nbsp;&nbsp;&nbsp;├─";
+                        } else {
+                            $v['flag']=$items[$item[$parentkey]]['flag']."&nbsp;&nbsp;&nbsp;├─";
+                        }
+                }
             }else{
                 $tree[$item[$indexkey]] = &$items[$item[$indexkey]];
             }
         }
         return $tree;
     }
+    /**
+     * php压栈的方式遍历无限级别数组的代码
+     * @param $treeArray
+     */
+    public static function treeToArr( $treeArray, &$array) {
+        if(!empty($treeArray) && is_array($treeArray)) {
+            //用压栈的方式遍历数组，非递归方法
+            foreach($treeArray as $k=>$v) {
+                $array[] = [
+                    'title' => isset($v['title']) ? $v['title'] : "",
+                    'uuid' => isset($v['uuid']) ? $v['uuid'] : "",
+                    'sort' => isset($v['sort']) ? $v['sort'] : "",
+                    'flag' => isset($v['flag']) ? $v['flag'] : "",
+                    'id' => isset($v['id']) ? $v['id'] : "",
+                ];
+                if(isset($v['son']) && !empty($v['son'])) {
+                    self::treeToArr($v['son'], $array);
+                }
+            }
+        }
+        return $array;
+    }
+        /**
+     * 树形数据转换为结构树
+     * @param $treeData
+     * @param array $resultArr
+     * @return array
+     */
+    public static function treeToArray($treeData, &$resultArr = []) {
+        if(is_array($treeData) && !empty($treeData)) {
+            foreach($treeData as $k=>$v) {
+                $sonData = isset($v['son']) ? $v['son'] : [];
+                $resultArr[] = $v;
+                if(isset($v['son']) && !empty($v['son'])) {
+                    foreach($v['son'] as $sonk=>$sonv) {
 
+                        unset($sonv['son']);
+                        return self::treeToArray($sonData, $resultArr);
+                    }
+                    unset($v['son']);
+                }
+
+                return self::treeToArray($sonData, $resultArr);
+            }
+        }
+        return $resultArr;
+    }
     /**
      * 隐藏字符串的数据
      * @param $string
@@ -409,7 +463,79 @@ class Common
         }
         return array_values($treeArr);
     }
-
+    /**
+     * 递归实现无限极分类
+     * @param $array 分类数据
+     * @param $pid 父ID
+     * @param $level 分类级别
+     * @return $list 分好类的数组 直接遍历即可 $level可以用来遍历缩进
+     */
+    public static function getDTree($array){
+        //第一步 构造数据
+        $items = array();
+        foreach($array as &$value){
+            $value['parent_id'] = 0;
+            $items[$value['uuid']] = $value;
+            $items[$value['uuid']]['checkArr'] = [
+                "type" => 0,
+                "isChecked"=> 0
+            ];
+            $items[$value['uuid']]['isLast'] = false;
+        }
+        //第二部 遍历数据 生成树状结构
+        $tree = array();
+        foreach($items as $key => $value){
+            if(isset($value['parent_uuid']) && isset($items[$value['parent_uuid']])){
+                $items[$key]['parent_id'] = $value['id'];
+                $items[$value['parent_uuid']]['children'][] = &$items[$key];
+            }else{
+                $tree[] = &$items[$key];
+            }
+        }
+        return $tree;
+    }
+    /**
+     * 实现无限极分类,$items数据结构都一id值为索引
+     * @param $items
+     * @return array
+     */
+    public static function tolayDTree($items ,$indexkey="id", $parentkey='parent_id'){
+        $tree = array();
+        $flagItem = 1;
+        $treeData = [];
+        foreach($items as $itemkey=>&$item){
+            $item['isLast'] = false;
+            if(!count($item) == $flagItem) {
+                $item['isLast'] = true;
+            }
+            $item['id'] = isset($item['uuid']) ? $item['uuid'] : "";
+            $item['parent_id'] = isset($item['parent_uuid']) ? $item['parent_uuid'] : "";
+            $item['checkArr'] = [
+                'type' => 0,
+                'isChecked' => 0,
+            ];
+            if(isset($item[$parentkey]) && isset($items[$item[$parentkey]])){
+                $flag = 1;
+                $count = count($items[$item[$indexkey]]);
+                $items[$item[$parentkey]]['children'][] = &$items[$item[$indexkey]];
+                foreach($items[$item[$parentkey]]['children'] as $k=>&$v) {
+                    $v['checkArr'] = [
+                        'type' => 0,
+                        'isChecked' => 0,
+                    ];
+                    $v['isLast'] = false;
+                    if($flag == $count) {
+                        $v['isLast'] = true;
+                    }
+                    $flag++;
+                }
+            }else{
+                $tree[$item[$indexkey]] = &$items[$item[$indexkey]];
+            }
+            $flagItem++;
+        }
+        return $tree;
+    }
     /**
      * 获取所有PHP文件
      * @param string $dirPath 目录

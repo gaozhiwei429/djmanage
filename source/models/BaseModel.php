@@ -292,18 +292,17 @@ class BaseModel extends ActiveRecord {
      * @return int
      * @throws \yii\db\Exception
      */
-//    public function addAll($datas) {
-//        $data = [];
-//        $clumns = (isset($datas[0]) && !empty($datas[0])) ? array_keys($datas[0]) : [];
-//        if(empty($clumns)) {
-//            return false;
-//        }
-//        foreach ($datas as $k => $v) {
-//            $data[] = $v;
-//        }
-//        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), $clumns, $data)->execute();
-//    }
-
+    public function addAll($datas) {
+        $data = [];
+        $clumns = (isset($datas[0]) && !empty($datas[0])) ? array_keys($datas[0]) : [];
+        if(empty($clumns)) {
+            return false;
+        }
+        foreach ($datas as $k => $v) {
+            $data[] = $v;
+        }
+        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), $clumns, $data)->execute();
+    }
     /**
      * 更新信息数据
      * @param array $params whereArray

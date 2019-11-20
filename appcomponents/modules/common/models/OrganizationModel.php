@@ -81,13 +81,50 @@ class OrganizationModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
+    public function getList($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*'], $index=false) {
+        try {
+            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
+            if($index) {
+                $dataArr = [];
+                foreach($dataList as $k=>$v) {
+                    if(isset($v['id'])) {
+                        $dataArr[$v['id']] = $v;
+                    }
+                }
+                $dataList = $dataArr;
+            }
+            $data = [
+                'dataList' => $dataList,
+                'count' => 0,
+            ];
+            if(!empty($dataList)) {
+                $count = self::getCount($params);
+                $data['count'] = $count;
+            }
+            return $data;
+//            $query->createCommand()->getRawSql();
+        } catch (BaseException $e) {
+            return [];
+        }
+    }
+    /**
+     * 获取分页数据列表
+     * @param array $params
+     * @param array $orderBy
+     * @param int $offset
+     * @param int $limit
+     * @param array $fied
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*'], $index=false) {
         try {
             $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
             if($index) {
                 $dataArr = [];
                 foreach($dataList as $k=>$v) {
-                    $dataArr[$v['id']] = $v;
+                    if(isset($v['uuid'])) {
+                        $dataArr[$v['uuid']] = $v;
+                    }
                 }
                 $dataList = $dataArr;
             }

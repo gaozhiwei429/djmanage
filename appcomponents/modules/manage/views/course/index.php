@@ -10,7 +10,7 @@ use yii\helpers\Url;
             <?php
             if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/add']),"/"), $menuUrl)) {
                 ?>
-                <button data-open='<?=Url::to(['manage/course/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
+                <button data-open='<?=Url::to(['manage/course/add']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加课程</button>
             <?php
             }
             ?>
@@ -159,14 +159,14 @@ use yii\helpers\Url;
     <?php
     if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/info']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" data-modal="<?=Url::to(['manage/course/info']);?>?id={{d.id}}">查看</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/course/info']);?>?id={{d.id}}">查看</a>
     <?php
     }
     ?>
     <?php
     if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/add']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" data-modal="<?=Url::to(['manage/course/edit']);?>?id={{d.id}}">编辑</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/course/edit']);?>?id={{d.id}}">编辑</a>
     <?php
     }
     ?>

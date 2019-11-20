@@ -22,6 +22,7 @@ class IndexController extends BaseController {
         return parent::beforeAction($action);
     }
     public function actionIndex() {
+//        $this->layout=false;
         return $this->renderPartial('main',
             [
                 'title' => "用户管理",

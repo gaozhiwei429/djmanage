@@ -67,12 +67,21 @@ class OrganizationController extends ManageBaseController
         }
         $uuid = trim(Yii::$app->request->post('uuid', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $bannerService = new BannerService();
+        $organizationService = new OrganizationService();
         if(empty($uuid)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }
         $dataInfo['uuid'] = $uuid;
         $dataInfo['status'] = $status;
-        return $bannerService->editInfo($dataInfo);
+        return $organizationService->editInfo($dataInfo);
+    }
+    /**
+     * 获取组织架构树
+     * @return array
+     */
+    public function actionGetTree() {
+        $organizationService = new OrganizationService();
+        $params[] = ['!=', 'status', 0];
+        return $organizationService->getDTree($params, ['id'=>SORT_ASC], 1, -1, $fied=['*'], true);
     }
 }

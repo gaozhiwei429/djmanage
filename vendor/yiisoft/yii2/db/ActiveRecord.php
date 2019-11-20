@@ -256,7 +256,6 @@ class ActiveRecord extends BaseActiveRecord
     {
         $command = static::getDb()->createCommand();
         $command->update(static::tableName(), $attributes, $condition, $params);
-
         return $command->execute();
     }
 

@@ -29,15 +29,30 @@ class OrganizationService extends BaseService
     }
 
     /**
-     * C端资讯数据获取
+     * 组织数据获取
      * @param $addData
      * @return array
      */
-    public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*']) {
+    public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=false) {
         $Common = new Common();
         $offset = $Common->getOffset($limit, $p);
         $organizationModel = new OrganizationModel();
-        $cityList = $organizationModel->getListData($params, $orderBy, $offset, $limit, $fied);
+        $cityList = $organizationModel->getList($params, $orderBy, $offset, $limit, $fied, $index);
+        if(!empty($cityList)) {
+            return BaseService::returnOkData($cityList);
+        }
+        return BaseService::returnErrData([], 500, "暂无数据");
+    }
+    /**
+     * 组织数据获取
+     * @param $addData
+     * @return array
+     */
+    public function getListData($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=false) {
+        $Common = new Common();
+        $offset = $Common->getOffset($limit, $p);
+        $organizationModel = new OrganizationModel();
+        $cityList = $organizationModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
         if(!empty($cityList)) {
             return BaseService::returnOkData($cityList);
         }
@@ -84,8 +99,7 @@ class OrganizationService extends BaseService
         }
         return BaseService::returnErrData([], 500, "操作异常");
     }
-	
-    /**
+	/**
      * 获取分类结构树
      * @param array $params
      * @param array $orderBy
@@ -100,13 +114,39 @@ class OrganizationService extends BaseService
         $offset = $Common->getOffset($limit, $p);
         $organizationModel = new OrganizationModel();
         $typeList = $organizationModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
-//        var_dump($typeList);die;
         if(!empty($typeList)) {
             if(!$index) {
                 return BaseService::returnOkData($typeList);
             }
             if(isset($typeList['dataList']) && !empty($typeList['dataList'])) {
                 $dataList = Common::generateTree($typeList['dataList'],'uuid', 'parent_uuid');
+                return BaseService::returnOkData($dataList);
+            }
+            return BaseService::returnOkData($typeList);
+        }
+        return BaseService::returnErrData([], 53700, "获取树状结构数据不存在");
+    }
+    /**
+     * 获取分类结构树
+     * @param array $params
+     * @param array $orderBy
+     * @param int $p
+     * @param int $limit
+     * @param array $fied
+     * @param bool $index
+     * @return array
+     */
+    public function getDTree($params = [], $orderBy = [], $p = 1, $limit = -1, $fied=['*'], $index=false) {
+        $Common = new Common();
+        $offset = $Common->getOffset($limit, $p);
+        $organizationModel = new OrganizationModel();
+        $typeList = $organizationModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
+        if(!empty($typeList)) {
+            if(!$index) {
+                return BaseService::returnOkData($typeList);
+            }
+            if(isset($typeList['dataList']) && !empty($typeList['dataList'])) {
+                $dataList = Common::getDTree($typeList['dataList'],0, 0);
                 return BaseService::returnOkData($dataList);
             }
             return BaseService::returnOkData($typeList);

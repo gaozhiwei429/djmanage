@@ -137,6 +137,7 @@ class CourseModel extends BaseModel
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
             $thisModel->pic_url = isset($addData['pic_url']) ? trim($addData['pic_url']) : ""; //文章图片
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
+            $thisModel->sections_uuids = isset($addData['sections_uuids']) ? trim($addData['sections_uuids']) : "";//章节uuid集合
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;

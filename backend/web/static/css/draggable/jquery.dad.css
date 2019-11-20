@@ -1,0 +1,49 @@
+.dad-noSelect,.dad-noSelect *{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: -webkit-grabbing !important;
+    cursor: -moz-grabbing !important;
+    font-size: 14px;
+}
+
+.dad-container{
+    position: relative;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 14px;
+}
+.dad-container::after{
+    content: '';
+    clear: both !important;
+    display: block;
+    font-size: 14px;
+}
+.dad-active .dad-draggable-area{
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    font-size: 14px;
+}
+.dads-children-clone{
+    opacity: 0.8;
+    z-index: 9999;
+    pointer-events: none;
+    font-size: 14px;
+}
+.dads-children-placeholder{
+    overflow: hidden;
+    position: absolute !important;
+    box-sizing: border-box;
+    border:4px dashed #f68162;
+    margin:1px;
+    text-align: center;
+    color: #f68162;
+    /*font-weight: bold;*/
+}

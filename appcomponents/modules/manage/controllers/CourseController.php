@@ -9,7 +9,8 @@
  * 注意：本内容仅限于北京往全包科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\manage\controllers;
-use appcomponents\modules\common\BannerService;
+use appcomponents\modules\common\CourseService;
+use appcomponents\modules\common\SectionsService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use \Yii;
@@ -36,31 +37,81 @@ class CourseController extends ManageBaseController
 
     public function actionInfo() {
         $id = intval(Yii::$app->request->get('id', 0));
-        $bannerService = new BannerService();
+        $courseService = new CourseService();
         $params = [];
         $params[] = ['=', 'id', $id];
-        $bannerInfoRet = $bannerService->getInfo($params);
+        $courseInfoRet = $courseService->getInfo($params);
         return $this->renderPartial('info', [
-                'title' => 'Banner详情',
+                'title' => '课程详情',
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
-                'info' => BaseService::getRetData($bannerInfoRet),
+                'info' => BaseService::getRetData($courseInfoRet),
             ]
         );
     }
 
+    /**
+     * 新增课程
+     * @return string
+     */
+    public function actionAdd() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        $info = [];
+        if($id) {
+            $courseService = new CourseService();
+            $params = [];
+            $params[] = ['=', 'id', $id];
+            $courseInfoRet = $courseService->getInfo($params);
+            $info = BaseService::getRetData($courseInfoRet);
+        }
+        return $this->renderPartial('add',
+            [
+                'title' => "课程编辑与新增",
+                'info' => $info,
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
+    /**
+     * 课程编辑
+     * @return string
+     */
     public function actionEdit() {
         $id = intval(Yii::$app->request->get('id', 0));
-        $bannerService = new BannerService();
+        $courseService = new CourseService();
         $params = [];
         $params[] = ['=', 'id', $id];
-        $bannerInfoRet = $bannerService->getInfo($params);
+        $courseInfoRet = $courseService->getInfo($params);
+        $info = BaseService::getRetData($courseInfoRet);
+        $sections_uuids = isset($info['sections_uuids']) ? explode(",",$info['sections_uuids']) : [];
+        $sectionsList = [];
+        if(!empty($sections_uuids)) {
+            $sectionsParams[] = ['in', 'uuid', $sections_uuids];
+            $sectionsService = new SectionsService();
+            $sectionsListRet = $sectionsService->getList($sectionsParams,['sort'=>SORT_DESC,'id'=>SORT_ASC], 1, -1, ['*']);
+            $sectionsListData = BaseService::getRetData($sectionsListRet);
+            $sectionsList = isset($sectionsListData['dataList']) ? $sectionsListData['dataList'] : [];
+        }
+
         return $this->renderPartial('edit',
             [
-                'title' => "Banner编辑",
+                'title' => "课程编辑",
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
-                'info' => BaseService::getRetData($bannerInfoRet),
+                'info' => BaseService::getRetData($courseInfoRet),
+                'sectionsList' => $sectionsList,
+            ]
+        );
+    }
+    /**
+     * 课件管理
+     * @return string
+     */
+    public function actionSessionList() {
+        return $this->renderPartial('session-list',
+            [
+                'title' => "课件管理",
+                'menuUrl' => $this->menuUrl,
             ]
         );
     }
