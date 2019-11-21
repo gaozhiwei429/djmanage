@@ -77,7 +77,7 @@ use yii\helpers\Url;
                     姓名
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" name="nickname" lay-verify="" placeholder="" class="layui-input">
+                    <input type="text" name="full_name" lay-verify="" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -445,16 +445,6 @@ layui.use(['form', 'layedit', 'laydate', 'jquery', 'upload'], function () {
             }
         });
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-    });
-    //表单初始赋值
-    form.val('example', {
-        "username": "贤心" // "name": "value"
-        , "password": "123456"
-        , "interest": 1
-        , "like[write]": true //复选框选中状态
-        , "close": true //开关状态
-        , "sex": "女"
-        , "desc": "我爱 layui"
     });
     //多图片上传
     upload.render({

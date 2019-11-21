@@ -374,4 +374,20 @@ class UserController extends UserBaseController
         }
         return BaseService::returnErrData([], 534500, "请求参数异常");
     }
+
+    /**
+     * 获取入党纪念
+     */
+    public function actionJoinList() {
+        $p = intval(Yii::$app->request->post('p', 1));
+        $size = trim(Yii::$app->request->post('size', 10));
+        $passportService = new PassportService();
+//        $passportParams[] = ['=', 'create_time_year', date("Y")];
+        var_dump(date("d"),date("m"));die;
+        $passportParams[] = ['=', 'create_time_month', date("m")];
+        $passportParams[] = ['=', 'create_time_day', date("d")];
+        return $passportService->getUserInfoList($passportParams, ['id'=>SORT_ASC], $p, $size,
+            ['nickname','user_id','avatar_img','user_status','create_time_year','create_time_month','create_time_day','full_name'],
+            false);
+    }
 }

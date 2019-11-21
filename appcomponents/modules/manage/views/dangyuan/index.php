@@ -128,17 +128,17 @@ use yii\helpers\Url;
                     "align": "center",
                     "sort": false
                 }, {
-                    "title": "用户名",
-                    "field": "nickname",
+                    "title": "用户姓名",
+                    "field": "full_name",
                     "type": "text",
                     "width": 80,
                 }, {
                     "title": "职务",
-                    "field": "level_name",
+                    "field": "level_title",
                     "type": "select",
                 }, {
                     "title": "手机号",
-                    "field": "mobile",
+                    "field": "username",
                     "type": "text",
                     "width": 120,
                 }, {

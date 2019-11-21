@@ -521,6 +521,15 @@ class PassportService extends BaseService
             $userData['is_auth_email'] = 0;
             $userData['is_auth_qq'] = 0;
             $userData['is_auth_wchat'] = 0;
+            $userData['full_name'] = "";
+            $userData['apply_organization_date'] = date('Y-m-d');
+            $userData['join_organization_date'] = date('Y-m-d');
+            $userData['native_place'] = "";
+            $userData['education'] = 0;
+            $userData['organization_status'] = 0;
+            $userData['user_status'] = 0;
+            $userData['nation'] = "未知";
+            $userData['work_status'] = 0;
             $userInfoModel = new UserInfoModel();
             $userInfoParams[] = ['=', 'user_id', $id];
             $userInfoData = $userInfoModel->getInfoByParams($userInfoParams);
@@ -554,6 +563,33 @@ class PassportService extends BaseService
                 }
                 if(isset($userInfoData['is_auth_wchat']) && !empty($userInfoData['is_auth_wchat'])) {
                     $userData['is_auth_wchat'] = $userInfoData['is_auth_wchat'];
+                }
+                if(isset($userInfoData['full_name']) && !empty($userInfoData['full_name'])) {
+                    $userData['full_name'] = $userInfoData['full_name'];
+                }
+                if(isset($userInfoData['apply_organization_date']) && !empty($userInfoData['apply_organization_date'])) {
+                    $userData['apply_organization_date'] = $userInfoData['apply_organization_date'];
+                }
+                if(isset($userInfoData['join_organization_date']) && !empty($userInfoData['join_organization_date'])) {
+                    $userData['join_organization_date'] = $userInfoData['join_organization_date'];
+                }
+                if(isset($userInfoData['native_place']) && !empty($userInfoData['native_place'])) {
+                    $userData['native_place'] = $userInfoData['native_place'];
+                }
+                if(isset($userInfoData['education']) && !empty($userInfoData['education'])) {
+                    $userData['education'] = $userInfoData['education'];
+                }
+                if(isset($userInfoData['organization_status']) && !empty($userInfoData['organization_status'])) {
+                    $userData['organization_status'] = $userInfoData['organization_status'];
+                }
+                if(isset($userInfoData['user_status']) && !empty($userInfoData['user_status'])) {
+                    $userData['user_status'] = $userInfoData['user_status'];
+                }
+                if(isset($userInfoData['nation']) && !empty($userInfoData['nation'])) {
+                    $userData['nation'] = $userInfoData['nation'];
+                }
+                if(isset($userInfoData['work_status']) && !empty($userInfoData['work_status'])) {
+                    $userData['work_status'] = $userInfoData['work_status'];
                 }
                 return BaseService::returnOkData($userData);
             }

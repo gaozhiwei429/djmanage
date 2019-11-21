@@ -51,7 +51,7 @@ class DangyuanController extends ManageBaseController
         $join_organization_date = trim(Yii::$app->request->post('join_organization_date', ""));//入党时间
         $nation = trim(Yii::$app->request->post('nation', ""));//民族
         $native_place = trim(Yii::$app->request->post('native_place', ""));//归属地
-        $nickname = trim(Yii::$app->request->post('nickname', ""));//姓名
+        $full_name = trim(Yii::$app->request->post('full_name', ""));//姓名
         $sex = intval(Yii::$app->request->post('sex', 0));
         $status = intval(Yii::$app->request->post('status', 0));
         $user_status = intval(Yii::$app->request->post('user_status', 0));
@@ -76,8 +76,8 @@ class DangyuanController extends ManageBaseController
         if($native_place) {
             $userInfoData['native_place'] = $native_place;
         }
-        if($nickname) {
-            $userInfoData['nickname'] = $nickname;
+        if($full_name) {
+            $userInfoData['full_name'] = $full_name;
         }
         if(empty($userInfoData)) {
             return BaseService::returnErrData([], 58300, "提交数据有误！");
