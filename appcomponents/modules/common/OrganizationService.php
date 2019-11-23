@@ -84,13 +84,13 @@ class OrganizationService extends BaseService
             return BaseService::returnErrData([], 56900, "请求参数异常");
         }
         $organizationModel = new OrganizationModel();
-        $id = isset($dataInfo['id']) ? $dataInfo['id'] : 0;
+        $uuid = isset($dataInfo['uuid']) ? $dataInfo['uuid'] : 0;
         $editRest = 0;
-        if($id) {
-            if(isset($dataInfo['id'])) {
-                unset($dataInfo['id']);
+        if($uuid) {
+            if(isset($dataInfo['uuid'])) {
+                unset($dataInfo['uuid']);
             }
-            $editRest = $organizationModel->updateInfo($id, $dataInfo);
+            $editRest = $organizationModel->updateInfoByUuid($uuid, $dataInfo);
         } else {
             $editRest = $organizationModel->addInfo($dataInfo);
         }

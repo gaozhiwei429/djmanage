@@ -1616,7 +1616,7 @@ hr {
 }
 .layui-btn-primary {
     border:1px solid #C9C9C9;
-    background-color:#fff;
+    /*background-color:#fff;*/
     color:#555
 }
 .layui-btn-primary:hover {

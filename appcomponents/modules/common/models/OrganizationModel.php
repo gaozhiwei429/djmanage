@@ -193,7 +193,6 @@ class OrganizationModel extends BaseModel
             return false;
         }
     }
-
     /**
      * 更新信息数据
      * @param int $id ID
@@ -203,6 +202,26 @@ class OrganizationModel extends BaseModel
     public static function updateInfo($id, $updateInfo) {
         try {
             $datainfo = self::findOne(['id' => $id]);
+            if(!empty($updateInfo)) {
+                foreach($updateInfo as $k=>$v) {
+                    $datainfo->$k = trim($v);
+                }
+                return $datainfo->save();
+            }
+            return false;
+        } catch (BaseException $e) {
+            return false;
+        }
+    }
+    /**
+     * 更新信息数据
+     * @param int $id ID
+     * @param array $updateInfo 需要更新的数据集合
+     * @return bool
+     */
+    public static function updateInfoByUuid($uuid, $updateInfo) {
+        try {
+            $datainfo = self::findOne(['uuid' => $uuid]);
             if(!empty($updateInfo)) {
                 foreach($updateInfo as $k=>$v) {
                     $datainfo->$k = trim($v);

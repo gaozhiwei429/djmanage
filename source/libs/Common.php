@@ -331,7 +331,9 @@ class Common
                 $array[] = [
                     'title' => isset($v['title']) ? $v['title'] : "",
                     'uuid' => isset($v['uuid']) ? $v['uuid'] : "",
+                    'parent_uuid' => isset($v['parent_uuid']) ? $v['parent_uuid'] : "",
                     'sort' => isset($v['sort']) ? $v['sort'] : "",
+                    'status' => isset($v['status']) ? $v['status'] : 0,
                     'flag' => isset($v['flag']) ? $v['flag'] : "",
                     'id' => isset($v['id']) ? $v['id'] : "",
                 ];
