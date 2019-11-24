@@ -53,7 +53,7 @@ class LevelService extends BaseService
             return BaseService::returnErrData([], 55000, "请求参数异常");
         }
         $carModel = new LevelModel();
-        $bannerInfo = $bannerModel->getInfoByValue($params);
+        $bannerInfo = $carModel->getInfoByValue($params);
         if(!empty($bannerInfo)) {
             return BaseService::returnOkData($bannerInfo);
         }
@@ -75,9 +75,9 @@ class LevelService extends BaseService
             if(isset($dataInfo['id'])) {
                 unset($dataInfo['id']);
             }
-            $editRest = $bannerModel->updateInfo($id, $dataInfo);
+            $editRest = $carModel->updateInfo($id, $dataInfo);
         } else {
-            $editRest = $bannerModel->addInfo($dataInfo);
+            $editRest = $carModel->addInfo($dataInfo);
         }
         if(!empty($editRest)) {
             return BaseService::returnOkData($editRest);

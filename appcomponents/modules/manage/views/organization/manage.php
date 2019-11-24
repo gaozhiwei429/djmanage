@@ -27,20 +27,7 @@ use yii\helpers\Url;
 </span>
 </div>
         <div class="pull-right margin-right-15 nowrap">
-            <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/add']),"/"), $menuUrl)) {
-                ?>
-                <button data-open='<?=Url::to(['manage/news/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
-            <?php
-            }
-            ?>
-            <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/del']),"/"), $menuUrl)) {
-                ?>
-                <button data-update data-field='delete' data-action='<?=Url::to(['manage/news/del']);?>'  class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
-            <?php
-            }
-            ?>
+
         </div>
     </div>
     <div class="layui-card-body gray-bg searchPage">

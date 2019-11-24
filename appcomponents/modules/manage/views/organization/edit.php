@@ -33,9 +33,9 @@ use \yii\helpers\Html;
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="require-text">*</span>部门名称</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" value="<?=isset($dataInfo['title']) ? $dataInfo['title']:"";?>">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入党组织名称至少4个字符" class="layui-input" value="<?=isset($dataInfo['title']) ? $dataInfo['title']:"";?>">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">在组织架构上显示的名字</div>
+                        <div class="layui-form-mid layui-word-aux">在组织架构上显示的党组织名称</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
@@ -123,9 +123,9 @@ use \yii\helpers\Html;
 layui.use(['form', 'table', 'laypage', 'upload','layedit', 'tree'], function(){
     var layedit = layui.layedit;
     var table = layui.table
+        ,form = layui.form
         ,jq = layui.jquery
         ,$ = layui.jquery;
-    var tree = layui.tree;
     var storage=window.localStorage;
     var userData = storage.getItem("userData");
     var headerParams = JSON.parse(userData);

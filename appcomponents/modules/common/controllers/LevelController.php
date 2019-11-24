@@ -35,7 +35,7 @@ class LevelController extends ManageBaseController
         $size = intval(Yii::$app->request->post('size', 10));
         $bannerService = new LevelService();
         $params = [];
-        return $bannerService->getList($params, ['sort'=>SORT_DESC], $page, $size);
+        return $bannerService->getList($params, ['id'=>SORT_ASC, 'sort'=>SORT_DESC], $page, $size);
     }
 
     /**
@@ -65,9 +65,11 @@ class LevelController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $title = trim(Yii::$app->request->post('title', ""));
+        $status = intval(Yii::$app->request->post('status', 0));
+        $sort = intval(Yii::$app->request->post('sort', 0));
         $bannerService = new LevelService();
         if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "请求参数异常，请填写职务名称");
+            return BaseService::returnErrData([], 55900, "职务名称不能为空");
         }
         $dataInfo = [];
         if(!empty($title)) {
@@ -84,6 +86,7 @@ class LevelController extends ManageBaseController
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
         $dataInfo['status'] = $status;
+        $dataInfo['sort'] = $sort;
         return $bannerService->editInfo($dataInfo);
     }
     /**
@@ -102,6 +105,24 @@ class LevelController extends ManageBaseController
         }
         $dataInfo['id'] = $id;
         $dataInfo['status'] = $status;
+        return $bannerService->editInfo($dataInfo);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetSort() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = trim(Yii::$app->request->post('id', 0));
+        $sort = intval(Yii::$app->request->post('sort',  0));
+        $bannerService = new LevelService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['sort'] = $sort;
         return $bannerService->editInfo($dataInfo);
     }
 }
