@@ -1,7 +1,7 @@
 <?php
 /**
- * 职务相关的接口
- * @文件名称: LevelController.php
+ * 党史人物相关的接口
+ * @文件名称: LeadersController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,11 +10,11 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common\controllers;
-use appcomponents\modules\common\LevelService;
+use appcomponents\modules\common\LeadersService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
-class LevelController extends ManageBaseController
+class LeadersController extends ManageBaseController
 {
     public function beforeAction($action){
         $userToken = parent::userToken();
@@ -33,7 +33,7 @@ class LevelController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
-        $bannerService = new LevelService();
+        $bannerService = new LeadersService();
         $params = [];
         return $bannerService->getList($params, ['sort'=>SORT_DESC,'id'=>SORT_ASC], $page, $size);
     }
@@ -50,7 +50,7 @@ class LevelController extends ManageBaseController
         if(empty($id)) {
             return BaseService::returnErrData([], 54000, "请求参数异常");
         }
-        $bannerService = new LevelService();
+        $bannerService = new LeadersService();
         $params = [];
         $params[] = ['=', 'id', $id];
         return $bannerService->getInfo($params);
@@ -64,18 +64,60 @@ class LevelController extends ManageBaseController
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
         $id = intval(Yii::$app->request->post('id', 0));
-        $title = trim(Yii::$app->request->post('title', ""));
+        $full_name = trim(Yii::$app->request->post('full_name', ""));
+        $avatar_img = trim(Yii::$app->request->post('avatar_img', ""));
         $status = intval(Yii::$app->request->post('status', 0));
         $sort = intval(Yii::$app->request->post('sort', 0));
-        $bannerService = new LevelService();
-        if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "职务名称不能为空");
-        }
+        $lifedate = trim(Yii::$app->request->post('lifedate', ""));
+        $content = trim(Yii::$app->request->post('content', ""));
+        $introduction = trim(Yii::$app->request->post('introduction', ""));
+        $bannerService = new LeadersService();
         $dataInfo = [];
-        if(!empty($title)) {
-            $dataInfo['title'] = $title;
+        if(empty($full_name)) {
+            return BaseService::returnErrData([], 55900, "姓名不能为空");
+        }
+        if(empty($avatar_img)) {
+            return BaseService::returnErrData([], 55900, "请上传人物头像");
+        }
+        if(empty($content)) {
+            return BaseService::returnErrData([], 55900, "描述内容不能为空");
+        }
+        if(empty($introduction)) {
+            return BaseService::returnErrData([], 55900, "简介内容不能为空");
+        }
+        if(empty($lifedate)) {
+            return BaseService::returnErrData([], 55900, "生世周期不能为空");
         } else {
-            $dataInfo['title'] = "";
+            $lifedateArr = explode(' - ', $lifedate);
+            if(isset($lifedateArr[0]) && !empty($lifedateArr[0])) {
+                $dataInfo['life_start_date'] = date("Y-m-d", strtotime(trim($lifedateArr[0])));
+            }
+            if(isset($lifedateArr[1]) && !empty($lifedateArr[1])) {
+                $dataInfo['life_end_date'] = date("Y-m-d", strtotime(trim($lifedateArr[1])));
+            }
+        }
+        if(empty($dataInfo['life_start_date']) || empty($dataInfo['life_end_date'])) {
+            return BaseService::returnErrData([], 55900, "生世周期数据不完善");
+        }
+        if(!empty($full_name)) {
+            $dataInfo['full_name'] = $full_name;
+        } else {
+            $dataInfo['full_name'] = "";
+        }
+        if(!empty($avatar_img)) {
+            $dataInfo['avatar_img'] = $avatar_img;
+        } else {
+            $dataInfo['avatar_img'] = "";
+        }
+        if(!empty($content)) {
+            $dataInfo['content'] = $content;
+        } else {
+            $dataInfo['content'] = "";
+        }
+        if(!empty($introduction)) {
+            $dataInfo['introduction'] = $introduction;
+        } else {
+            $dataInfo['introduction'] = "";
         }
         if(!empty($id)) {
             $dataInfo['id'] = $id;
@@ -87,6 +129,7 @@ class LevelController extends ManageBaseController
         }
         $dataInfo['status'] = $status;
         $dataInfo['sort'] = $sort;
+//        var_dump($dataInfo);die;
         return $bannerService->editInfo($dataInfo);
     }
     /**
@@ -99,7 +142,7 @@ class LevelController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $bannerService = new LevelService();
+        $bannerService = new LeadersService();
         if(empty($id)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }
@@ -117,7 +160,7 @@ class LevelController extends ManageBaseController
         }
         $id = trim(Yii::$app->request->post('id', 0));
         $sort = intval(Yii::$app->request->post('sort',  0));
-        $bannerService = new LevelService();
+        $bannerService = new LeadersService();
         if(empty($id)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }

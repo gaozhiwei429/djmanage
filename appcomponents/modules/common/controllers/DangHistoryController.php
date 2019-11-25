@@ -1,7 +1,7 @@
 <?php
 /**
- * 职务相关的接口
- * @文件名称: LevelController.php
+ * 党史上的今天相关的接口
+ * @文件名称: DangHistoryController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,11 +10,11 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common\controllers;
-use appcomponents\modules\common\LevelService;
+use appcomponents\modules\common\DangHistoryService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
-class LevelController extends ManageBaseController
+class DangHistoryController extends ManageBaseController
 {
     public function beforeAction($action){
         $userToken = parent::userToken();
@@ -33,7 +33,7 @@ class LevelController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
-        $bannerService = new LevelService();
+        $bannerService = new DangHistoryService();
         $params = [];
         return $bannerService->getList($params, ['sort'=>SORT_DESC,'id'=>SORT_ASC], $page, $size);
     }
@@ -50,7 +50,7 @@ class LevelController extends ManageBaseController
         if(empty($id)) {
             return BaseService::returnErrData([], 54000, "请求参数异常");
         }
-        $bannerService = new LevelService();
+        $bannerService = new DangHistoryService();
         $params = [];
         $params[] = ['=', 'id', $id];
         return $bannerService->getInfo($params);
@@ -65,17 +65,44 @@ class LevelController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $title = trim(Yii::$app->request->post('title', ""));
+        $month = intval(Yii::$app->request->post('month', ""));
+        $day = intval(Yii::$app->request->post('day', ""));
         $status = intval(Yii::$app->request->post('status', 0));
         $sort = intval(Yii::$app->request->post('sort', 0));
-        $bannerService = new LevelService();
-        if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "职务名称不能为空");
-        }
+        $content = trim(Yii::$app->request->post('content', ""));
+        $bannerService = new DangHistoryService();
         $dataInfo = [];
+        if(empty($title)) {
+            return BaseService::returnErrData([], 55900, "标题不能为空");
+        }
+        if(empty($month)) {
+            return BaseService::returnErrData([], 55900, "所属月份不能为空");
+        }
+        if(empty($day)) {
+            return BaseService::returnErrData([], 55900, "所属天不能为空");
+        }
+        if(empty($content)) {
+            return BaseService::returnErrData([], 55900, "描述内容不能为空");
+        }
         if(!empty($title)) {
             $dataInfo['title'] = $title;
         } else {
             $dataInfo['title'] = "";
+        }
+        if(!empty($month)) {
+            $dataInfo['month'] = $month;
+        } else {
+            $dataInfo['month'] = "";
+        }
+        if(!empty($day)) {
+            $dataInfo['day'] = $day;
+        } else {
+            $dataInfo['day'] = "";
+        }
+        if(!empty($content)) {
+            $dataInfo['content'] = $content;
+        } else {
+            $dataInfo['content'] = "";
         }
         if(!empty($id)) {
             $dataInfo['id'] = $id;
@@ -99,7 +126,7 @@ class LevelController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $bannerService = new LevelService();
+        $bannerService = new DangHistoryService();
         if(empty($id)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }
@@ -117,7 +144,7 @@ class LevelController extends ManageBaseController
         }
         $id = trim(Yii::$app->request->post('id', 0));
         $sort = intval(Yii::$app->request->post('sort',  0));
-        $bannerService = new LevelService();
+        $bannerService = new DangHistoryService();
         if(empty($id)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }

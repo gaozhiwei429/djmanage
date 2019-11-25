@@ -52,7 +52,6 @@ use yii\helpers\Url;
                                 <input type="hidden" value="resort" name="action">
                                 <table class="layui-hide" id="dataList" lay-filter="text"></table>
                             </form>
-                            <div id="page"></div>
                         </div>
                     </div>
                 </div>
@@ -101,16 +100,16 @@ use yii\helpers\Url;
         //监听提交
         var selfUrl = window.location.href;
         form.on('submit(commit)', function(data){
-            getLevelList(data.field,page,size,"dataList");
+            getLevelList(data.field,1,-1,"dataList");
         });
-        let tableData = getLevelList(params,page,size,"dataList");
+        let tableData = getLevelList(params, 1,-1,"dataList");
 
         //设备参数
         function getLevelList(params,p,size,objectId="dataList") {
 //    var params = {};
             params.p=p;
             params.size = size;
-            params.count = 0;
+            params.count = 1000;
             $.ajax({
                 type: "post",
                 url:"<?= Url::to(['/common/level/get-list']); ?>",
@@ -128,12 +127,11 @@ use yii\helpers\Url;
                             icon: 1,
                             time: 2000 //2秒关闭（如果不配置，默认是3秒）
                         }, function(){
-                            params.count =result.data.count;
                             table.render({
                                 elem: '#'+objectId
                                 ,id:objectId
                                 ,data:result.data.dataList
-                                , limit: params.count//显示的数量
+                                , limit: result.data.count//显示的数量
                                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 //                    ,cellMinHeight: 80
                                 ,cols: [[
@@ -145,22 +143,8 @@ use yii\helpers\Url;
                                     ,{field:'right', title: '操作', minWidth: 120,toolbar:"#barDemo"}
                                 ]]
                                 ,done: function(res, curr, count){
-                                    //自定义样式
-                                    laypage.render({
-                                        elem: 'page'
-                                        ,count: params.count
-                                        ,theme: '#1E9FFF'
-                                        ,curr: parseInt(page) || 1 //当前页
-                                        ,jump : function(obj, first){
-                                            if(!first){ //一定要加此判断，否则初始时会无限刷新
-                                                selfUrl = changeURLArg(selfUrl,'p',obj.curr);
-                                                selfUrl = changeURLArg(selfUrl,'size',size);
-                                                self.location = selfUrl;
-                                            }
-                                        }
-                                    });
-                            }
-                            });
+                                }
+                            })
                         });
                     } else if(result.code == 5001) {
                         layer.msg(result.msg, {
