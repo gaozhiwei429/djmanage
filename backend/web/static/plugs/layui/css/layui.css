@@ -1416,7 +1416,7 @@ a cite {
 .layui-card {
     margin-bottom:15px;
     border-radius:2px;
-    background-color:#fff;
+    /*background-color:#fff;*/
     box-shadow:0 1px 2px 0 rgba(0,0,0,.05)
 }
 .layui-card:last-child {
