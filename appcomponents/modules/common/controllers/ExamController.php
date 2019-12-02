@@ -68,9 +68,31 @@ class ExamController extends ManageBaseController
         $organization_uuid = trim(Yii::$app->request->post('organization_uuid', ""));
         $status = intval(Yii::$app->request->post('status', 0));
         $startandoverduedate = trim(Yii::$app->request->post('startandoverduedate', null));
+        $passscore = intval(Yii::$app->request->post('passscore', 0));//及格分数
+        $decide = intval(Yii::$app->request->post('decide', 0));//评分方式
+        $score = intval(Yii::$app->request->post('score', 0));//总分
+        $examtime = intval(Yii::$app->request->post('examtime', 0));//考试时间
+        $types = [];//考试时间
+        for($i=1; $i<=4; $i++) {
+            $score = floatval(Yii::$app->request->post("types[$i][score]", ""));
+            $describe = trim(Yii::$app->request->post("types[$i][describe]", ""));
+            $number = intval(Yii::$app->request->post("types[$i][number]", ""));
+            $questions = trim(Yii::$app->request->post("types[$i][questions]", ""));
+            if($number && $score) {
+                $types[$i] = [
+                    'score' => $score,
+                    'describe' => $describe,
+                    'number' => $number,
+                    'questions' => $questions,
+                ];
+            }
+        }
         $bannerService = new ExamService();
         if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "职务名称不能为空");
+            return BaseService::returnErrData([], 55900, "考题名称不能为空");
+        }
+        if(empty($types)) {
+            return BaseService::returnErrData([], 55900, "考题不能为空，请选择考题");
         }
         $dataInfo = [];
         if(!empty($organization_uuid)) {
@@ -82,6 +104,26 @@ class ExamController extends ManageBaseController
             $dataInfo['title'] = $title;
         } else {
             $dataInfo['title'] = "";
+        }
+        if(!empty($decide)) {
+            $dataInfo['decide'] = 1;
+        } else {
+            $dataInfo['decide'] = 0;
+        }
+        if(!empty($examtime)) {
+            $dataInfo['examtime'] = $examtime;
+        } else {
+            $dataInfo['examtime'] = 0;
+        }
+        if(!empty($score)) {
+            $dataInfo['score'] = $score;
+        } else {
+            $dataInfo['score'] = 0;
+        }
+        if(!empty($passscore)) {
+            $dataInfo['passscore'] = $passscore;
+        } else {
+            $dataInfo['passscore'] = 0;
         }
         if(!empty($startandoverduedate)) {
             $startandoverduedateArr = explode(" - ", $startandoverduedate);
@@ -96,6 +138,11 @@ class ExamController extends ManageBaseController
             $dataInfo['id'] = $id;
         } else {
             $dataInfo['id'] = 0;
+        }
+        if(!empty($types) && is_array($types)) {
+            $dataInfo['types'] = json_encode($types);
+        } else {
+            $dataInfo['types'] = json_encode([]);
         }
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 58000, "提交数据有误");

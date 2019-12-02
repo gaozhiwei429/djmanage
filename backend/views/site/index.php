@@ -126,33 +126,29 @@ $this->title = '北京往全保科技有限公司';
         ?>
 
         <div data-submenu-layout="m-<?=isset($oneMenu['id']) ? $oneMenu['id'] : ''?>-<?=isset($twoMenu['id']) ? $twoMenu['id'] : ''?>">
-            <a class='menu-title transition'>
-                <?php
-                if(isset($twoMenu['icon']) && !empty($twoMenu['icon'])) {
-                    ?>
-                    <span class="<?=isset($twoMenu['icon']) ? $twoMenu['icon'] : ''?> font-icon"></span>&nbsp;
-                <?php
-                }
-                ?>
-                <?=isset($twoMenu['title']) ? $twoMenu['title'] : ''?><i class='layui-icon pull-right font-s12 transition'>&#xe619;</i>
-            </a>
-            <div>
-                <?php
-                foreach($twoMenu['sub'] as $thrMenu) {
-                    ?>
-                    <a class='transition' data-open="<?=isset($thrMenu['url']) ? Url::to([$thrMenu['url']]) : ''?>" data-menu-node="m-<?=isset($oneMenu['id']) ? $oneMenu['id'] : ''?>-<?=isset($twoMenu['id']) ? $twoMenu['id'] : ''?>-<?=isset($thrMenu['id']) ? $thrMenu['id'] : ''?>">
-                        <?php
-                        if(isset($thrMenu['icon']) && !empty($thrMenu['icon'])) {
-                            ?>
-                            <span class="<?=isset($thrMenu['icon']) ? $thrMenu['icon'] : ''?>  font-icon"></span>&nbsp;
-                        <?php
-                        }
-                        ?>
-                        <?=isset($thrMenu['title']) ? $thrMenu['title'] : ''?>
-                    </a>
-                <?php
-                }
-                ?>
+<a class='menu-title transition'>
+<?php
+if(isset($twoMenu['icon']) && !empty($twoMenu['icon'])) {
+?>
+<span class="fa <?=isset($twoMenu['icon']) ? $twoMenu['icon'] : ''?> font-icon"></span>
+<?php
+}
+?>
+<?=isset($twoMenu['title']) ? $twoMenu['title'] : ''?><i class='layui-icon pull-right font-s12 transition'>&#xe619;</i>
+</a>
+            <div style="text-align: left;">
+<?php
+foreach($twoMenu['sub'] as $thrMenu) {
+?>
+<a class='transition' data-open="<?=isset($thrMenu['url']) ? Url::to([$thrMenu['url']]) : ''?>" data-menu-node="m-<?=isset($oneMenu['id']) ? $oneMenu['id'] : ''?>-<?=isset($twoMenu['id']) ? $twoMenu['id'] : ''?>-<?=isset($thrMenu['id']) ? $thrMenu['id'] : ''?>">
+<?php
+if(isset($thrMenu['icon']) && !empty($thrMenu['icon'])) {
+?>
+<span class="<?=isset($thrMenu['icon']) ? $thrMenu['icon'] : ''?>  font-icon"></span><?php }?><?=isset($thrMenu['title']) ? $thrMenu['title'] : ''?>
+</a>
+<?php
+}
+?>
             </div>
         </div>
         <?php

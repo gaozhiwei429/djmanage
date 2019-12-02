@@ -140,6 +140,9 @@ use yii\helpers\Url;
                                     {checkbox: true, fixed: true, width: 30}
                                     ,{field:'id', title: 'ID', width: 30}
                                     ,{field:'title', title: '题库名称', minWidth: 100}
+                                    ,{field:'score', title: '总分', minWidth: 100}
+                                    ,{field:'passscore', title: '及格分数', minWidth: 100}
+                                    ,{field:'decide', title: '评卷方式', minWidth: 100, toolbar:"#Jdecide"}
                                     ,{field:'status', title: '状态', width: 80, toolbar:"#Jstatus"}//,toolbar:"#Jstatus"
                                     ,{field:'start_time', title: '考题开始时间',"type":"text","width":130, toolbar:"#JstartTime"}
                                     ,{field:'overdue_time', title: '考题截止时间',"type":"text","width":130, toolbar:"#JoverdueTime"}
@@ -254,6 +257,15 @@ use yii\helpers\Url;
     开始考试
     {{# }if(d.status ==2) { }}
     终止考试
+    {{#  } }}
+</script>
+<script type="text/html" id="Jdecide">
+    {{#  if(d.decide ==0){ }}
+    系统自评
+    {{# }if(d.decide ==1) { }}
+    党组织评卷
+    {{# }if(d.status ==2) { }}
+    其他
     {{#  } }}
 </script>
 <script type="text/html" id="JstartTime">

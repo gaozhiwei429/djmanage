@@ -36,14 +36,8 @@ use yii\helpers\Url;
                 <blockquote class="layui-elem-quote layui-text">点击排序的序号可编辑排序，数字越大排序越前</blockquote>
                 <form id="search_form" class="layui-form layui-clear " action="">
                     <a href="#">
-                        <button data-open='<?=Url::to(['manage/question/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加问题</button>
+                        <button data-open='<?=Url::to(['manage/question/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加考题</button>
                     </a>
-                    <!--                    <a class="layui-btn  layui-btn-sm" data-open="--><?//=Url::to(['manage/organization/edit']);?><!--">添加部门</a>-->
-                    <div class="" style="float: right;">
-                        <script>
-                            let renderArr = [];
-                        </script>
-                    </div>
                 </form>
                 <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief">
                     <div class="layui-tab-content">
@@ -125,6 +119,7 @@ use yii\helpers\Url;
                                     ,{field:'status', title: '状态', width: 80, toolbar:"#Jstatus"}
                                     ,{field:'type', title: '类型', width: 80, toolbar:"#Jtype"}
                                     ,{field:'sort', title: '排序',"type":"text","edit":"text","width":100}
+                                    ,{field:'answer', title: '答案',"type":"text","width":100}
                                     ,{field:'right', title: '操作', minWidth: 120,toolbar:"#barDemo"}
                                 ]]
                                 ,done: function(res, curr, count){
@@ -294,14 +289,15 @@ use yii\helpers\Url;
     {{# }else if(d.type ==1) { }}
     单项选择
     {{# }else if(d.type ==2) { }}
-    填空
+    多项选择
     {{# }else if(d.type ==3) { }}
     判断
     {{# }else if(d.type ==4) { }}
     解答
     {{# }else if(d.type ==5) { }}
-    多项选择
+    填空
     {{# }else { }}
+    未知
     {{#  } }}
 </script>
 <script type="text/html" id="barDemo">

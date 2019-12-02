@@ -67,19 +67,55 @@ class QuestionController extends ManageBaseController
         $title = trim(Yii::$app->request->post('title', ""));
         $status = intval(Yii::$app->request->post('status', 0));
         $sort = intval(Yii::$app->request->post('sort', 0));
-        $exam_id = trim(Yii::$app->request->post('exam_id', 0));
+        $analysis = trim(Yii::$app->request->post('analysis', null));
+        $level = intval(Yii::$app->request->post('level', 0));
         $type = trim(Yii::$app->request->post('type', 0));
         $problem = intval(Yii::$app->request->post('problem', ""));
-        $answer = Yii::$app->request->post('answer', []);
         $bannerService = new QuestionService();
+        $answer = "";
         if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "职务名称不能为空");
+            return BaseService::returnErrData([], 55900, "考题名称不能为空");
         }
         $dataInfo = [];
+        if(!empty($type)) {
+            $dataInfo['type'] = $type;
+            if($type == 2) {
+                for($i=0; $i<=8; $i++) {
+                    $answerData = Yii::$app->request->post("targs[questionanswer$type][$i]", null);
+                    if($answerData) {
+                        $answer[] = trim($answerData);
+                    }
+                }
+            } else {
+                $answer = Yii::$app->request->post("targs[questionanswer$type]", null);
+            }
+
+        } else {
+            return BaseService::returnErrData([], 55900, "考题类型不能为空");
+        }
+        if(empty($answer)) {
+            return BaseService::returnErrData([], 55900, "考题答案不能为空");
+        }
+        //多选的情况下
+        if($type == 2) {
+            $dataInfo['answer'] = is_array($answer) ? json_encode($answer) : [];
+        } else {
+            $dataInfo['answer'] = $answer;
+        }
         if(!empty($title)) {
             $dataInfo['title'] = $title;
         } else {
             $dataInfo['title'] = "";
+        }
+        if(!empty($analysis)) {
+            $dataInfo['analysis'] = $analysis;
+        } else {
+            $dataInfo['analysis'] = "";
+        }
+        if(!empty($level)) {
+            $dataInfo['level'] = $level;
+        } else {
+            $dataInfo['level'] = 1;
         }
         if(!empty($answer)) {
             $dataInfo['answer'] = json_encode($answer);
@@ -100,11 +136,6 @@ class QuestionController extends ManageBaseController
             $dataInfo['exam_id'] = $exam_id;
         } else {
             $dataInfo['exam_id'] = 0;
-        }
-        if(!empty($type)) {
-            $dataInfo['type'] = $type;
-        } else {
-            $dataInfo['type'] = 0;
         }
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 58000, "提交数据有误");

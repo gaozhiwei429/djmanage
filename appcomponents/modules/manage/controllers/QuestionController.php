@@ -28,7 +28,7 @@ class QuestionController extends ManageBaseController
     public function actionIndex() {
         return $this->renderPartial('index',
             [
-                'title' => "问题管理",
+                'title' => "考题管理",
                 'menuUrl' => $this->menuUrl,
             ]
         );
@@ -41,7 +41,7 @@ class QuestionController extends ManageBaseController
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
         return $this->renderPartial('info', [
-                'title' => '问题详情',
+                'title' => '考题详情',
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
                 'info' => BaseService::getRetData($bannerInfoRet),
@@ -57,7 +57,7 @@ class QuestionController extends ManageBaseController
         $bannerInfoRet = $bannerService->getInfo($params);
         return $this->renderPartial('edit',
             [
-                'title' => "问题编辑",
+                'title' => "考题编辑",
                 'menuUrl' => $this->menuUrl,
                 'dataInfo' => BaseService::getRetData($bannerInfoRet),
             ]
