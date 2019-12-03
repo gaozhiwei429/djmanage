@@ -11,6 +11,7 @@
  */
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\NewsService;
+use appcomponents\modules\common\TypeService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
@@ -33,10 +34,28 @@ class NewsController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
+        $parent_type_id = intval(Yii::$app->request->post('parent_type_id', 0));
         $newsService = new NewsService();
         $params = [];
-//        $params[] = ['>=', 'create_time', date('Y-m-d H:i:s')];
-//        $params[] = ['>=', 'overdue_time', date('Y-m-d H:i:s')];
+        if($parent_type_id) {
+            $typeService = new TypeService();
+            $typeParams[] = ['=', 'id', $parent_type_id];
+            $typeRet = $typeService->getInfo($typeParams);
+            $typeInfo = BaseService::getRetData($typeRet);
+            if(isset($typeInfo['parent_id']) && $typeInfo['parent_id']==0) {
+                $listParams[] = ['=', 'parent_id', $typeInfo['id']];
+                $typeListRet = $typeService->getList($listParams,[], 1, -1,['id']);
+                $typeList = BaseService::getRetData($typeListRet);
+                $typeDataList = isset($typeList['dataList']) ? $typeList['dataList'] : [];
+                if(!empty($typeDataList)) {
+                    $typeIds = array_column($typeDataList, 'id');
+                    $typeIds[] = $parent_type_id;
+                    $params[] = ['in', 'type_id', $typeIds];
+                }
+            } else {
+                $params[] = ['=', 'type_id', $parent_type_id];
+            }
+        }
         return $newsService->getList($params, ['sort'=>SORT_DESC], $page, $size);
     }
 
@@ -104,7 +123,7 @@ class NewsController extends ManageBaseController
         } else {
             $dataInfo['sort'] = 0;
         }
-        if(!empty($news_type_id)) {
+        if(!empty($type_id)) {
             $dataInfo['type_id'] = $type_id;
         }
         if(!empty($id)) {

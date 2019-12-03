@@ -20,7 +20,7 @@ class ForumModel extends BaseModel
     const ALREADY_APPROVAL_STATUS = 2;//已审批
     const BEFORT_STATUS = 0;//禁用
     public static function tableName() {
-        return '{{%news}}';
+        return '{{%forum}}';
     }
     /**
      * 根据条件获取最后一条信息

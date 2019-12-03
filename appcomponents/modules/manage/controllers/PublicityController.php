@@ -1,7 +1,7 @@
 <?php
 /**
- * 新闻资讯相关的操作
- * @文件名称: NewsController.php
+ * 党内公示相关的操作
+ * @文件名称: PublicityController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-12-06
@@ -14,9 +14,9 @@ use appcomponents\modules\common\TypeService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use \Yii;
-class NewsController extends ManageBaseController
+class PublicityController extends ManageBaseController
 {
-    const parent_id=1;
+    const parent_id=7;
     /**
      * 用户登录态基础类验证
      * @return array
@@ -33,7 +33,7 @@ class NewsController extends ManageBaseController
     public function actionIndex() {
         return $this->renderPartial('index',
             [
-                'title' => "新闻资讯管理",
+                'title' => "党内公示管理",
                 'menuUrl' => $this->menuUrl,
             ]
         );
@@ -48,11 +48,17 @@ class NewsController extends ManageBaseController
         $params = [];
         $params[] = ['=', 'id', $id];
         $newsInfoRet = $newsService->getInfo($params);
+        $typeService = new TypeService();
+        $typeParams[] = ['=', 'parent_id', self::parent_id];
+        $typeParams[] = ['=', 'status', 1];
+        $typeServiceDataListRet = $typeService->getList($typeParams, [], 1, -1, ['*']);
+        $typeServiceListData = BaseService::getRetData($typeServiceDataListRet);
         return $this->renderPartial('info', [
-                'title' => '新闻资讯详情',
+                'title' => '党内公示详情',
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
                 'info' => BaseService::getRetData($newsInfoRet),
+                'typeInfo' => isset($typeServiceListData['listData']) ? $typeServiceListData['listData'] : [],
             ]
         );
     }
@@ -73,7 +79,7 @@ class NewsController extends ManageBaseController
         $typeServiceListData = BaseService::getRetData($typeServiceDataListRet);
         return $this->renderPartial('edit',
             [
-                'title' => "新闻资讯编辑",
+                'title' => "党内公示编辑",
                 'menuUrl' => $this->menuUrl,
                 'info' => BaseService::getRetData($newsInfoRet),
                 'typeList' => isset($typeServiceListData['dataList']) ? $typeServiceListData['dataList'] : [],

@@ -10,7 +10,7 @@ use yii\helpers\Url;
             <?php
             if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/add']),"/"), $menuUrl)) {
                 ?>
-                <button data-open='<?=Url::to(['manage/news/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
+                <button data-open='<?=Url::to(['manage/publicity/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
             <?php
             }
             ?>
@@ -50,7 +50,7 @@ use yii\helpers\Url;
         params.p=page;
         params.size = size;
         params.count = 0;
-        params.parent_type_id = 1;
+        params.parent_type_id = 7;
         form.on('submit(commit)', function(data){
             var paramsStr = "";
             $.each(data.field, function(i, item){
@@ -169,7 +169,7 @@ use yii\helpers\Url;
 </script>
 <script type="text/html" id="barDemo">
     <?php
-    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/info']),"/"), $menuUrl)) {
+    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/publicity/info']),"/"), $menuUrl)) {
         ?>
         <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/news/info']);?>?id={{d.id}}">查看</a>
     <?php
@@ -178,7 +178,7 @@ use yii\helpers\Url;
     <?php
     if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/edit']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/news/edit']);?>?id={{d.id}}">编辑</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/publicity/edit']);?>?id={{d.id}}">编辑</a>
     <?php
     }
     ?>

@@ -11,10 +11,10 @@
  */
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\ForumService;
-use source\controllers\BaseController;
+use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
-class ForumController extends BaseController
+class ForumController extends ManageBaseController
 {
     public function beforeAction($action){
         return parent::beforeAction($action);
@@ -24,6 +24,9 @@ class ForumController extends BaseController
      * @return array
      */
     public function actionGetList() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
         $type = intval(Yii::$app->request->post('type', 0));
@@ -41,6 +44,9 @@ class ForumController extends BaseController
      * @return array
      */
     public function actionGetInfo() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
         $id = intval(Yii::$app->request->post('id', 0));
         if(empty($id)) {
             return BaseService::returnErrData([], 54000, "请求参数异常");

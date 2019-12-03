@@ -110,20 +110,13 @@ use \yii\helpers\Html;
             <div class="layui-form-item">
                 <label class="layui-form-label">选择类型</label>
                 <div class="layui-input-inline">
-                    <div class="layui-form-select downpanel">
-                        <div class="layui-unselect layui-select-title">
-<select name="type_id">
-<option value="0" <?=(isset($info['type_id']) && $info['type_id']==0) ? "selected" : "";?>>请选择</option>
-<?php
-if(isset($typeList)) {
-foreach($typeList as $typeInfo) {
-    ?>
-    <option value="<?=isset($typeInfo['id']) ? $typeInfo['id'] : 0;?>" class="<?=(isset($typeInfo['id']) && isset($info['type_id']) && $typeInfo['id']==$info['type_id']) ? "layui-this" : "";?>"><?=isset($typeInfo['title']) ? $typeInfo['title'] : "";?></option>
-<?php
-}
-}
-?>
-</select>
+                    <div class="layui-unselect layui-form-select downpanel">
+                        <div class="layui-select-title">
+                            <select name="type_id">
+                                <option value="0" <?=(isset($info['type_id']) && $info['type_id']==0) ? "selected" : "";?>>请选择</option>
+                                <option value="1" <?=(isset($info['type_id']) && $info['type_id']==1) ? "selected" : "";?>>重要通知</option>
+                                <option value="2" <?=(isset($info['type_id']) && $info['type_id']==2) ? "selected" : "";?>>紧急通知</option>
+                            </select>
                         </div>
                     </div>
                 </div>

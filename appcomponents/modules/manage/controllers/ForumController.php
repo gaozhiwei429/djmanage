@@ -1,7 +1,7 @@
 <?php
 /**
- * 新闻资讯相关的操作
- * @文件名称: NewsController.php
+ * 论坛相关的操作
+ * @文件名称: ForumController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-12-06
@@ -14,9 +14,8 @@ use appcomponents\modules\common\TypeService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use \Yii;
-class NewsController extends ManageBaseController
+class ForumController extends ManageBaseController
 {
-    const parent_id=1;
     /**
      * 用户登录态基础类验证
      * @return array
@@ -27,19 +26,19 @@ class NewsController extends ManageBaseController
         return parent::beforeAction($action);
     }
     /**
-     * 新闻资讯列表
+     * 论坛资讯管理
      * @return string
      */
     public function actionIndex() {
         return $this->renderPartial('index',
             [
-                'title' => "新闻资讯管理",
+                'title' => "论坛资讯管理",
                 'menuUrl' => $this->menuUrl,
             ]
         );
     }
     /**
-     * 新闻资讯详情
+     * 论坛资讯详情
      * @return string
      */
     public function actionInfo() {
@@ -49,7 +48,7 @@ class NewsController extends ManageBaseController
         $params[] = ['=', 'id', $id];
         $newsInfoRet = $newsService->getInfo($params);
         return $this->renderPartial('info', [
-                'title' => '新闻资讯详情',
+                'title' => '论坛资讯详情',
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
                 'info' => BaseService::getRetData($newsInfoRet),
@@ -57,7 +56,7 @@ class NewsController extends ManageBaseController
         );
     }
     /**
-     * 新闻资讯编辑
+     * 论坛资讯编辑
      * @return string
      */
     public function actionEdit() {
@@ -73,7 +72,7 @@ class NewsController extends ManageBaseController
         $typeServiceListData = BaseService::getRetData($typeServiceDataListRet);
         return $this->renderPartial('edit',
             [
-                'title' => "新闻资讯编辑",
+                'title' => "论坛资讯编辑",
                 'menuUrl' => $this->menuUrl,
                 'info' => BaseService::getRetData($newsInfoRet),
                 'typeList' => isset($typeServiceListData['dataList']) ? $typeServiceListData['dataList'] : [],

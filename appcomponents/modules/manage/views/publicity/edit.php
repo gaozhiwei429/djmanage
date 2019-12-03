@@ -110,20 +110,20 @@ use \yii\helpers\Html;
             <div class="layui-form-item">
                 <label class="layui-form-label">选择类型</label>
                 <div class="layui-input-inline">
-                    <div class="layui-form-select downpanel">
-                        <div class="layui-unselect layui-select-title">
-<select name="type_id">
-<option value="0" <?=(isset($info['type_id']) && $info['type_id']==0) ? "selected" : "";?>>请选择</option>
+                    <div class="layui-unselect layui-form-select downpanel">
+                        <div class="layui-select-title">
+                            <select name="type_id">
+                                <option value="0" <?=(isset($info['type_id']) && $info['type_id']==0) ? "selected" : "";?>>请选择</option>
 <?php
 if(isset($typeList)) {
-foreach($typeList as $typeInfo) {
-    ?>
-    <option value="<?=isset($typeInfo['id']) ? $typeInfo['id'] : 0;?>" class="<?=(isset($typeInfo['id']) && isset($info['type_id']) && $typeInfo['id']==$info['type_id']) ? "layui-this" : "";?>"><?=isset($typeInfo['title']) ? $typeInfo['title'] : "";?></option>
+    foreach($typeList as $typeInfo) {
+?>
+<option value="<?=isset($typeInfo['id']) ? $typeInfo['id'] : 0;?>" <?=(isset($typeInfo['id']) && isset($info['type_id']) && $typeInfo['id']==$info['type_id']) ? "selected" : "";?>><?=isset($typeInfo['title']) ? $typeInfo['title'] : "";?></option>
 <?php
-}
+    }
 }
 ?>
-</select>
+                            </select>
                         </div>
                     </div>
                 </div>

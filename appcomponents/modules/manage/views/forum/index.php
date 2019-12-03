@@ -8,16 +8,16 @@ use yii\helpers\Url;
         <div class="pull-left"><span><?= Html::encode($title ? $title : (isset($this->title) ? $this->title : null)) ?></span></div>
         <div class="pull-right margin-right-15 nowrap">
             <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/add']),"/"), $menuUrl)) {
+            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/add']),"/"), $menuUrl)) {
                 ?>
-                <button data-open='<?=Url::to(['manage/news/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
+                <button data-open='<?=Url::to(['manage/forum/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>发表话题</button>
             <?php
             }
             ?>
             <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/del']),"/"), $menuUrl)) {
+            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/del']),"/"), $menuUrl)) {
                 ?>
-                <button data-update data-field='delete' data-action='<?=Url::to(['manage/news/del']);?>'  class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+                <button data-update data-field='delete' data-action='<?=Url::to(['manage/forum/del']);?>'  class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
             <?php
             }
             ?>
@@ -61,7 +61,7 @@ use yii\helpers\Url;
         });
         $.ajax({
             type: "post",
-            url:"<?= Url::to(['common/news/get-list']); ?>",
+            url:"<?= Url::to(['common/forum/get-list']); ?>",
             contentType: "application/json;charset=utf-8",
             data :JSON.stringify(params),
             dataType: "json",
@@ -81,13 +81,17 @@ use yii\helpers\Url;
                         ,cols: [[
                             {checkbox: true, fixed: true}
                             ,{field:'id', title: 'ID', width: 60}
-                            ,{field:'title', title: '名称', minWidth: 120}
-                            ,{field:'pic_url', title: '封面图片', minWidth: 180, height: 100,toolbar:"#Jimg"}
-                            ,{field:'sort', title: '排序', width: 40}
-                            ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 60}
-                            ,{field:'create_time', title: '创建时间', minWidth: 120}
-                            ,{field:'type', title: '所属类型', minWidth: 120,toolbar:"#Jtype"}
-                            ,{field:'right', title: '操作', minWidth: 180,toolbar:"#barDemo"}
+                            ,{field:'title', title: '话题', minWidth: 120}
+                            ,{field:'pic_url', title: '图片', minWidth: 180, height: 100,toolbar:"#Jimg"}
+                            ,{field:'full_name', title: '姓名', width: 100}
+                            ,{field:'fabulous_num', title: '点赞数', width: 80}
+                            ,{field:'collection_num', title: '收藏数', width: 80}
+                            ,{field:'comment_num', title: '评论数', width: 80}
+                            ,{field:'type', title: '所属类型', minWidth: 80,toolbar:"#Jtype"}
+                            ,{field:'is_anonymous', title: '是否匿名', minWidth: 60,toolbar:"#JAnonymous"}
+                            ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 100}
+                            ,{field:'create_time', title: '创建时间', minWidth: 140}
+                            ,{field:'right', title: '操作', minWidth: 160,toolbar:"#barDemo"}
                         ]]
                         ,done: function(res, curr, count){
                             //自定义样式
@@ -142,18 +146,31 @@ use yii\helpers\Url;
 </script>
 <script type="text/html" id="Jstatus">
     {{#  if(d.status ==0){ }}
-    下线
-    {{# }if(d.status ==1) { }}
-    上线
+    禁用
+    {{# }else if(d.status ==1) { }}
+    待审批
+    {{# }else if(d.status ==2) { }}
+    已审批
     {{#  }else{ }}
     未知
     {{#  } }}
 </script>
 <script type="text/html" id="Jtype">
     {{#  if(d.type ==1){ }}
-    重要通知
+    国际形势
     {{# }else if(d.type ==2) { }}
-    紧急通知
+    国内党政
+    {{# }else if(d.type ==3) { }}
+    公司论坛
+    {{#  }else{ }}
+    全部
+    {{#  } }}
+</script>
+<script type="text/html" id="JAnonymous">
+    {{#  if(d.type ==0){ }}
+    匿名
+    {{# }else if(d.type ==1) { }}
+    非匿名
     {{#  }else{ }}
     全部
     {{#  } }}
@@ -169,16 +186,16 @@ use yii\helpers\Url;
 </script>
 <script type="text/html" id="barDemo">
     <?php
-    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/info']),"/"), $menuUrl)) {
+    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/info']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/news/info']);?>?id={{d.id}}">查看</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/forum/info']);?>?id={{d.id}}">查看</a>
     <?php
     }
     ?>
     <?php
-    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/edit']),"/"), $menuUrl)) {
+    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/add']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/news/edit']);?>?id={{d.id}}">编辑</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/forum/edit']);?>?id={{d.id}}">编辑</a>
     <?php
     }
     ?>

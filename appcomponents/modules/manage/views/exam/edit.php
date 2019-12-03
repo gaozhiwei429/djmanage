@@ -99,8 +99,8 @@ use \yii\helpers\Html;
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[1][score]" value="5" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[1][describe]" value="" size="12"/>
                                 <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_1">14</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selected&questionids={iselectquestions_1}&rowsquestionids={iselectrowsquestions_1}" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selectquestions&search[questionsubjectid]=2&search[questiontype]=1&questionids={iselectquestions_1}&rowsquestionids={iselectrowsquestions_1}&useframe=1" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_1" name="types[1][questions]" value=""/>
                             </div>
                         </div>
@@ -113,8 +113,8 @@ use \yii\helpers\Html;
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[2][score]" value="2.5" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[2][describe]" value="" size="12"/>
                                 <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_2">4</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selected&questionids={iselectquestions_2}&rowsquestionids={iselectrowsquestions_2}" valuefrom="iselectquestions_2|iselectrowsquestions_2">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selectquestions&search[questionsubjectid]=2&search[questiontype]=2&questionids={iselectquestions_2}&rowsquestionids={iselectrowsquestions_2}&useframe=1" valuefrom="iselectquestions_2|iselectrowsquestions_2">选题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_2" name="types[2][questions]" value=""/>
                             </div>
                         </div>
@@ -127,8 +127,8 @@ use \yii\helpers\Html;
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[3][score]" value="2.5" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[3][describe]" value="" size="12"/>
                                 <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_3">4</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selected&questionids={iselectquestions_3}&rowsquestionids={iselectrowsquestions_3}" valuefrom="iselectquestions_3|iselectrowsquestions_3">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selectquestions&search[questionsubjectid]=2&search[questiontype]=3&questionids={iselectquestions_3}&rowsquestionids={iselectrowsquestions_3}&useframe=1" valuefrom="iselectquestions_3|iselectrowsquestions_3">选题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_3" name="types[3][questions]" value=""/>
                             </div>
                         </div>
@@ -141,8 +141,8 @@ use \yii\helpers\Html;
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[4][score]" value="10" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[4][describe]" value="" size="12"/>
                                 <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_4">1</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selected&questionids={iselectquestions_4}&rowsquestionids={iselectrowsquestions_4}" valuefrom="iselectquestions_4|iselectrowsquestions_4">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selectquestions&search[questionsubjectid]=2&search[questiontype]=4&questionids={iselectquestions_4}&rowsquestionids={iselectrowsquestions_4}&useframe=1" valuefrom="iselectquestions_4|iselectrowsquestions_4">选题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_4" name="types[4][questions]" value=""/>
                             </div>
                         </div>
@@ -155,8 +155,8 @@ use \yii\helpers\Html;
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[5][score]" value="2" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[5][describe]" value="" size="12"/>
                                 <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_5">0</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selected&questionids={iselectquestions_5}&rowsquestionids={iselectrowsquestions_5}" valuefrom="iselectquestions_5|iselectrowsquestions_5">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" url="index.php?exam-master-exams-selectquestions&search[questionsubjectid]=2&search[questiontype]=5&questionids={iselectquestions_5}&rowsquestionids={iselectrowsquestions_5}&useframe=1" valuefrom="iselectquestions_5|iselectrowsquestions_5">选题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" valuefrom="iselectquestions_5|iselectrowsquestions_5">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" valuefrom="iselectquestions_5|iselectrowsquestions_5">选题</a></span>
                                 <input type="hidden" id="iselectquestions_5" name="types[5][questions]" value=""/>
                             </div>
                         </div>

@@ -64,13 +64,14 @@ class QuestionController extends ManageBaseController
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
         $id = intval(Yii::$app->request->post('id', 0));
+        $exam_id = intval(Yii::$app->request->post('exam_id', 0));
         $title = trim(Yii::$app->request->post('title', ""));
         $status = intval(Yii::$app->request->post('status', 0));
         $sort = intval(Yii::$app->request->post('sort', 0));
         $analysis = trim(Yii::$app->request->post('analysis', null));
         $level = intval(Yii::$app->request->post('level', 0));
         $type = trim(Yii::$app->request->post('type', 0));
-        $problem = intval(Yii::$app->request->post('problem', ""));
+        $problem = trim(Yii::$app->request->post('problem', ""));
         $bannerService = new QuestionService();
         $answer = "";
         if(empty($title)) {
@@ -83,11 +84,12 @@ class QuestionController extends ManageBaseController
                 for($i=0; $i<=8; $i++) {
                     $answerData = Yii::$app->request->post("targs[questionanswer$type][$i]", null);
                     if($answerData) {
-                        $answer[] = trim($answerData);
+                        $answer[] = trim($answerData,'"');
                     }
                 }
             } else {
                 $answer = Yii::$app->request->post("targs[questionanswer$type]", null);
+                $answer = trim($answer,'"');
             }
 
         } else {
@@ -117,11 +119,6 @@ class QuestionController extends ManageBaseController
         } else {
             $dataInfo['level'] = 1;
         }
-        if(!empty($answer)) {
-            $dataInfo['answer'] = json_encode($answer);
-        } else {
-            $dataInfo['answer'] = json_encode([]);
-        }
         if(!empty($problem)) {
             $dataInfo['problem'] = $problem;
         } else {
@@ -142,6 +139,7 @@ class QuestionController extends ManageBaseController
         }
         $dataInfo['status'] = $status;
         $dataInfo['sort'] = $sort;
+//        var_dump($dataInfo);die;
         return $bannerService->editInfo($dataInfo);
     }
     /**

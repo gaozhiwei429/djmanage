@@ -33,6 +33,14 @@ class QuestionController extends ManageBaseController
             ]
         );
     }
+    public function actionList() {
+        return $this->renderPartial('list',
+            [
+                'title' => "考题管理",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
 
     public function actionInfo() {
         $id = intval(Yii::$app->request->get('id', 0));
@@ -55,11 +63,15 @@ class QuestionController extends ManageBaseController
         $params = [];
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
+        $dataInfo = BaseService::getRetData($bannerInfoRet);
+        if(isset($dataInfo['type']) && $dataInfo['type']==2) {
+            $dataInfo['type'] = json_encode($dataInfo['type'], true);
+        }
         return $this->renderPartial('edit',
             [
                 'title' => "考题编辑",
                 'menuUrl' => $this->menuUrl,
-                'dataInfo' => BaseService::getRetData($bannerInfoRet),
+                'dataInfo' => $dataInfo,
             ]
         );
     }

@@ -42,44 +42,7 @@ $this->title = '北京往全保科技有限公司';
                 <li class="topbar-btn"><a data-modal="<?= Url::to(['manage-user/pass']); ?>?id=<?=isset($userInfo['id']) ? $userInfo['id'] : ''?>" data-title="修改密码"><i class="glyphicon glyphicon-lock"></i> 修改密码</a></li>
                 <li class="topbar-btn"><a data-modal="<?= Url::to(['manage-user/info']); ?>?id=<?=isset($userInfo['id']) ? $userInfo['id'] : ''?>" data-title="个人信息"><i class="glyphicon glyphicon-lock"></i> 个人信息</a></li>
                 <li class="topbar-btn"><a data-modal="<?= Url::to(['manage-user/edit-info']); ?>?id=<?=isset($userInfo['id']) ? $userInfo['id'] : ''?>" data-title="编辑个人信息"><i class="glyphicon glyphicon-lock"></i> 编辑个人信息</a></li>
-                <!--
-                <?php
-                if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['/manage/concern/index']),"/"), $menuUrl)) {
-                ?>
-                    <li class="topbar-btn">
-                        <a data-open="<?= Url::to(['manage/concern/index']); ?>"><i class="glyphicon glyphicon-th-list"></i> 我的关注</a>
-                    </li>
-                <?php
-                }
-                ?>
-                <?php
-                if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['/manage/concern-group/index']),"/"), $menuUrl)) {
-                    ?>
-                    <li class="topbar-btn">
-                        <a data-open="<?= Url::to(['manage/concern-group/index']); ?>"><i class="glyphicon glyphicon-bed"></i> 关注分组</a>
-                    </li>
-                <?php
-                }
-                ?>
-                <?php
-                if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['/store/renewal/index']),"/"), $menuUrl)) {
-                    ?>
-                    <li class="topbar-btn">
-                        <a data-open="<?= Url::to(['store/renewal/index']); ?>"><i class="glyphicon glyphicon-bed"></i>商城续租</a>
-                    </li>
-                <?php
-                }
-                ?>
-                <?php
-                if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['/store/repair/index']),"/"), $menuUrl)) {
-                    ?>
-                    <li class="topbar-btn">
-                        <a data-open="<?= Url::to(['store/repair/index']); ?>"><i class="glyphicon glyphicon-th-list"></i>商城报修</a>
-                    </li>
-                <?php
-                }
-                ?>
-                -->
+
                 <li class="topbar-btn">
                     <a data-href="<?= Url::to(['user/logout']); ?>" data-confirm="确定要退出登录吗？"><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
                 </li>
