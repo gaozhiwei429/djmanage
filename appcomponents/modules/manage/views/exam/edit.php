@@ -18,6 +18,8 @@ use \yii\helpers\Html;
     .btn.active,.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);}
     .btn.disabled,.btn[disabled]{cursor:default;background-image:none;opacity:0.65;filter:alpha(opacity=65);-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
 </style>
+<?=Html::jsFile('@web/static/js/jquery-1.9.1.min.js?v='.date("ymd"), ['type' => "text/javascript"]);?>
+<?=Html::jsFile('@web/static/js/jquery.cookie.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <div class="layui-card">
     <div class="layui-card-body">
         <div class="container-fluid">
@@ -98,9 +100,9 @@ use \yii\helpers\Html;
                                 <input id="iselectallnumber_1" type="text" class="input-mini" needle="needle" name="types[1][number]" value="12" size="2" msg="您必须填写总题数"/>
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[1][score]" value="5" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[1][describe]" value="" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_1">14</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
+                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_1">0</a>&nbsp;&nbsp;题</span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="showQuestion(1,1)" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="getArticleById(1,1)" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_1" name="types[1][questions]" value=""/>
                             </div>
                         </div>
@@ -112,9 +114,9 @@ use \yii\helpers\Html;
                                 <input id="iselectallnumber_2" type="text" class="input-mini" needle="needle" name="types[2][number]" value="4" size="2" msg="您必须填写总题数"/>
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[2][score]" value="2.5" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[2][describe]" value="" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_2">4</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
+                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_2">0</a>&nbsp;&nbsp;题</span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="showQuestion(1,2)" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="getArticleById(1,2)" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_2" name="types[2][questions]" value=""/>
                             </div>
                         </div>
@@ -126,9 +128,9 @@ use \yii\helpers\Html;
                                 <input id="iselectallnumber_3" type="text" class="input-mini" needle="needle" name="types[3][number]" value="4" size="2" msg="您必须填写总题数"/>
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[3][score]" value="2.5" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[3][describe]" value="" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_3">4</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
+                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_3">0</a>&nbsp;&nbsp;题</span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="showQuestion(1,3)" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="getArticleById(1,3)" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_3" name="types[3][questions]" value=""/>
                             </div>
                         </div>
@@ -140,9 +142,9 @@ use \yii\helpers\Html;
                                 <input id="iselectallnumber_4" type="text" class="input-mini" needle="needle" name="types[4][number]" value="1" size="2" msg="您必须填写总题数"/>
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[4][score]" value="10" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[4][describe]" value="" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_4">1</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
+                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_4">0</a>&nbsp;&nbsp;题</span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal"  onclick="showQuestion(1, 4)" data-title="看题" valuefrom="iselectquestions_1|iselectrowsquestions_1">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal"  onclick="getArticleById(1, 4)" data-title="选题" valuefrom="iselectquestions_1|iselectrowsquestions_1">选题</a></span>
                                 <input type="hidden" id="iselectquestions_4" name="types[4][questions]" value=""/>
                             </div>
                         </div>
@@ -155,8 +157,8 @@ use \yii\helpers\Html;
                                 <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[5][score]" value="2" size="2" msg="您必须填写每题的分值"/>
                                 <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[5][describe]" value="" size="12"/>
                                 <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_5">0</a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" valuefrom="iselectquestions_5|iselectrowsquestions_5">看题</a></span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" data-modal="<?= Url::to(['/manage/question/list']); ?>" valuefrom="iselectquestions_5|iselectrowsquestions_5">选题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="showQuestion(1, 5)" valuefrom="iselectquestions_5|iselectrowsquestions_5">看题</a></span>
+                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" data-target="#modal" onclick="getArticleById(1, 5)" valuefrom="iselectquestions_5|iselectrowsquestions_5">选题</a></span>
                                 <input type="hidden" id="iselectquestions_5" name="types[5][questions]" value=""/>
                             </div>
                         </div>
@@ -248,7 +250,36 @@ use \yii\helpers\Html;
             })
             return false;
         });
-
         form.render(); //更新全部，防止input多选和单选框不显示问题
     });
+    function getArticleById(articleId, questionNum){
+        var index = layer.open({
+            type: 2
+            ,title: "题库选择"
+            ,area: ['80%', '85%'] //宽高
+            ,content: "<?= Url::to(['/manage/question/list']); ?>?articleId="+articleId
+            ,btn: ['确定', '取消']
+            ,yes: function(index, layero){
+                //按钮【按钮一】的回调
+                var body = layer.getChildFrame('body', index); //得到iframe页的body内容
+                var selectData = body.find("#JtableIds").val();
+                var selectArr = selectData.split(',')
+                $("#iselectquestions_"+questionNum).val(selectData);
+                $("#ialreadyselectnumber_"+questionNum).html(selectArr.length);
+//                $.cookie('checkbox', null);
+                layer.close(index);
+            }
+            ,btn2: function(index, layero){
+//                $.cookie('checkbox', null);
+                //按钮【按钮二】的回调
+                layer.closeAll();
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+                layer.closeAll();
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
 </script>

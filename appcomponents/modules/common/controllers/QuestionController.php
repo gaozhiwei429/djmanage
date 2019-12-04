@@ -35,6 +35,7 @@ class QuestionController extends ManageBaseController
         $size = intval(Yii::$app->request->post('size', 10));
         $bannerService = new QuestionService();
         $params = [];
+        $params[] = ['=', 'status', 1];
         return $bannerService->getList($params, ['id'=>SORT_DESC], $page, $size);
     }
 

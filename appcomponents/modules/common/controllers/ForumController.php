@@ -57,4 +57,42 @@ class ForumController extends ManageBaseController
         $params[] = ['!=', 'status', 0];
         return $newsService->getInfo($params,['*']);
     }
+
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetStatus() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = intval(Yii::$app->request->post('id', 0));
+        $status = intval(Yii::$app->request->post('status',  0));
+        $newsService = new ForumService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['status'] = $status;
+        return $newsService->editInfo($dataInfo);
+    }
+
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetIsHot() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = trim(Yii::$app->request->post('id', 0));
+        $is_hot = intval(Yii::$app->request->post('is_hot',  0));
+        $newsService = new ForumService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['is_hot'] = $is_hot;
+        return $newsService->editInfo($dataInfo);
+    }
 }

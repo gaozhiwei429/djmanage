@@ -7,6 +7,15 @@ use yii\helpers\Url;
 <?=Html::cssFile('@web/static/dangjian/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/dangjian/css/layer.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/dangjian/css/laydate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/layui.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/theme/css/console.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/theme/css/animate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+
+<script>window.ROOT_URL = '__ROOT__';</script>
+<?=Html::jsFile('@web/static/plugs/jquery/pace.min.js?v='.date("ymd"), ['type' => "text/javascript"])?>
+<?=Html::jsFile('@web/static/plugs/layui/layui.all.js?v='.date("ymd"), ['type' => "text/javascript"])?>
+<?=Html::jsFile('@web/static/admin.js?v='.date("ymd"), ['type' => "text/javascript"])?>
+<?=Html::jsFile('@web/static/js/jquery.cookie.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <div class="layui-card">
     <div class="layui-card-body gray-bg searchPage">
         <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief">
@@ -14,6 +23,7 @@ use yii\helpers\Url;
                 <div class="layui-tab-item layui-show">
                     <form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
                         <input type="hidden" value="resort" name="action">
+                        <input type="hidden" value="" name="ids" id="JtableIds">
                         <table class="layui-hide" id="dataList" lay-filter="text"></table>
                     </form>
                     <div id="page"></div>
@@ -89,6 +99,19 @@ use yii\helpers\Url;
                                     ,{field:'answer', title: '答案',"width":100}
                                 ]]
                                 ,done: function(res, curr, count){
+                                    var checkboxArr = $.cookie('checkbox').split(',');
+                                    if(checkboxArr.length!=0) {
+                                        $.each(res.data, function(i, item){
+                                            $.each(checkboxArr,function(j,val){
+                                                if(item.id==val) {
+                            var index= res.data[i]['LAY_TABLE_INDEX'];
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                                                }
+                                            });
+                                        });
+                                    }
+                                    console.log(res);
                                     //自定义样式
                                     laypage.render({
                                         elem: 'page'
@@ -103,7 +126,7 @@ use yii\helpers\Url;
                                             }
                                         }
                                     });
-                            }
+                                }
                             });
                         });
                     } else if(result.code == 5001) {
@@ -129,9 +152,21 @@ use yii\helpers\Url;
                 }
             });
         }
-        table.on('toolbar(dataList)', function (obj) {
-            alert(111);
+        var emp = [];
+        table.on('checkbox(text)', function(obj){
+            if($.cookie('checkbox') !="" && $.cookie('checkbox') != undefined) {
+                emp = $.cookie('checkbox').split(',');
+            }
+            if(obj.checked==true) {
+                emp.push(obj.data.id);
+                $.cookie('checkbox', emp.join(','));
+            } else {
+                emp.pop(obj.data.id);
+                $.cookie('checkbox', emp.join(','));
+            }
+            console.log($("#JtableIds").val());
         });
+        $("#JtableIds").val($.cookie('checkbox'));
         table.render(tableData);
         form.render(); //更新全部，防止input多选和单选框不显示问题
     })
