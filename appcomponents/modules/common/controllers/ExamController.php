@@ -73,14 +73,14 @@ class ExamController extends ManageBaseController
         $score = intval(Yii::$app->request->post('score', 0));//总分
         $examtime = intval(Yii::$app->request->post('examtime', 0));//考试时间
         $types = [];//考试时间
-        for($i=1; $i<=4; $i++) {
-            $score = floatval(Yii::$app->request->post("types[$i][score]", ""));
+        for($i=1; $i<=5; $i++) {
+            $typeScore = floatval(Yii::$app->request->post("types[$i][score]", ""));
             $describe = trim(Yii::$app->request->post("types[$i][describe]", ""));
             $number = intval(Yii::$app->request->post("types[$i][number]", ""));
             $questions = trim(Yii::$app->request->post("types[$i][questions]", ""));
-            if($number && $score) {
+            if($number && $typeScore) {
                 $types[$i] = [
-                    'score' => $score,
+                    'score' => $typeScore,
                     'describe' => $describe,
                     'number' => $number,
                     'questions' => $questions,
@@ -95,6 +95,13 @@ class ExamController extends ManageBaseController
             return BaseService::returnErrData([], 55900, "考题不能为空，请选择考题");
         }
         $dataInfo = [];
+        $questionsArr = [];
+        for($i=1; $i<=5; $i++) {
+            $questionsArr[$i]['describe'] = trim(Yii::$app->request->post("types[$i][describe]", ""));
+            $questionsArr[$i]['number'] = intval(Yii::$app->request->post("types[$i][number]", 0));
+            $questionsArr[$i]['questions'] = trim(Yii::$app->request->post("types[$i][questions]", ""));
+            $questionsArr[$i]['score'] = floatval(Yii::$app->request->post("types[$i][score]", 0));
+        }
         if(!empty($organization_uuid)) {
             $dataInfo['organization_uuid'] = $organization_uuid;
         } else {
@@ -148,6 +155,9 @@ class ExamController extends ManageBaseController
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
         $dataInfo['status'] = $status;
+        $dataInfo['score'] = $score;
+        $dataInfo['passscore'] = $passscore;
+        $dataInfo['types'] = json_encode($questionsArr);
         return $bannerService->editInfo($dataInfo);
     }
     /**

@@ -34,9 +34,19 @@ class QuestionController extends ManageBaseController
         );
     }
     public function actionList() {
+        $questionIds = trim(Yii::$app->request->get('questionIds', null));
+        $type = intval(Yii::$app->request->get('type', null));
+        if(!empty($questionIds)) {
+            $questionIds = implode(',', array_unique(array_filter(explode(',', $questionIds))));
+        } else {
+            $cookies = Yii::$app->request->cookies;//注意此处是request
+            $questionIds = $cookies->get('checkbox');//设置默认值
+        }
         return $this->renderPartial('list',
             [
                 'title' => "考题管理",
+                'questionIds' => $questionIds,
+                'type' => $type,
                 'menuUrl' => $this->menuUrl,
             ]
         );

@@ -11,11 +11,17 @@
 namespace appcomponents\modules\manage\controllers;
 use appcomponents\modules\common\LeadersService;
 use appcomponents\modules\common\LevelService;
+use appcomponents\modules\common\ZhuantiService;
+use appcomponents\modules\common\ZhuantiTypeService;
 use source\controllers\ManageBaseController;
+use source\manager\BaseException;
 use source\manager\BaseService;
 use \Yii;
 class CmsController extends ManageBaseController
 {
+    const ztjy = 34;//专题教育
+    const ffcl = 37;//反腐倡廉
+    const zcfg = 40;//政策法规
     /**
      * 用户登录态基础类验证
      * @return array
@@ -76,6 +82,76 @@ class CmsController extends ManageBaseController
                 'title' => "职务编辑",
                 'menuUrl' => $this->menuUrl,
                 'dataInfo' => BaseService::getRetData($bannerInfoRet),
+            ]
+        );
+    }
+    /**
+     * 专题
+     * @return string
+     */
+    public function actionZhuanti() {
+        return $this->renderPartial('zhuanti',
+            [
+                'title' => "专题教育管理",
+                'menuUrl' => $this->menuUrl,
+                'utilization_id'=>self::ztjy,
+            ]
+        );
+    }
+    /**
+     * 专题
+     * @return string
+     */
+    public function actionZhuantiEdit() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        $utilization_id = intval(Yii::$app->request->get('utilization_id', self::ztjy));
+        $newsService = new ZhuantiService();
+        $params = [];
+        $params[] = ['=', 'id', $id];
+        $newsInfoRet = $newsService->getInfo($params);
+        $zhuantiTypeService = new ZhuantiTypeService();
+        $zhuantiTypeParams[] = ['=', 'utilization_id', $utilization_id];
+        $zhuantiTypeParams[] = ['=', 'status', 1];
+        $zhuantiTypeListRet = $zhuantiTypeService->getList($zhuantiTypeParams, [], 1, -1, ['id','title']);
+        $zhuantiTypeData = [];
+        if(BaseService::checkRetIsOk($zhuantiTypeListRet)) {
+            $zhuantiTypeDataList = BaseService::getRetData($zhuantiTypeListRet);
+            if(isset($zhuantiTypeDataList['dataList'])) {
+                $zhuantiTypeData = $zhuantiTypeDataList['dataList'];
+            }
+        }
+        return $this->renderPartial('zhuanti-edit',
+            [
+                'title' => "专题编辑",
+                'menuUrl' => $this->menuUrl,
+                'info' => BaseService::getRetData($newsInfoRet),
+                'zhuantiTypeData' => $zhuantiTypeData,
+            ]
+        );
+    }
+    /**
+     * 反腐倡廉
+     * @return string
+     */
+    public function actionFanFuChangLian() {
+        return $this->renderPartial('zhuanti',
+            [
+                'title' => "反腐倡廉管理",
+                'menuUrl' => $this->menuUrl,
+                'utilization_id'=>self::ffcl,
+            ]
+        );
+    }
+    /**
+     * 政策法规
+     * @return string
+     */
+    public function actionZhengCeFaGui() {
+        return $this->renderPartial('zhuanti',
+            [
+                'title' => "政策法规管理",
+                'menuUrl' => $this->menuUrl,
+                'utilization_id'=>self::zcfg,
             ]
         );
     }

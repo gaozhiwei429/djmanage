@@ -58,6 +58,13 @@ class ExamModel extends BaseModel
             $query -> orderBy($orderBy);
         }
         $dataList = $query->asArray()->all();
+        if(!empty($dataList)) {
+            foreach($dataList as $k=>&$v) {
+                if(isset($v['types']) && !empty($v['types'])) {
+                    $v['types'] = json_decode($v['types']);
+                }
+            }
+        }
         if($index) {
             $dataArr = [];
             foreach($dataList as $k=>$v) {

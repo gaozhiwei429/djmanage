@@ -58,6 +58,13 @@ class QuestionModel extends BaseModel
             $query -> orderBy($orderBy);
         }
         $dataList = $query->asArray()->all();
+        if(!empty($dataList)) {
+            foreach($dataList as $k=>&$v) {
+                if(isset($v['type']) && $v['type']==2) {
+                    $v['answer'] = json_decode($v['answer'], true);
+                }
+            }
+        }
         if($index) {
             $dataArr = [];
             foreach($dataList as $k=>$v) {

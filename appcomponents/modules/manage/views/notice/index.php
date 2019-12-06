@@ -121,6 +121,7 @@ use yii\helpers\Url;
                     }, function(){
                         top.location.href="../user/login"
                     });
+                    return false;
                 }else {
                     layer.msg(result.msg, {icon: 2});
                 }

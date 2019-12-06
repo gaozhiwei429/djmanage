@@ -33,9 +33,13 @@ class QuestionController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
+        $type = intval(Yii::$app->request->post('type', 0));
         $bannerService = new QuestionService();
         $params = [];
         $params[] = ['=', 'status', 1];
+        if($type) {
+            $params[] = ['=', 'type', $type];
+        }
         return $bannerService->getList($params, ['id'=>SORT_DESC], $page, $size);
     }
 
@@ -73,6 +77,8 @@ class QuestionController extends ManageBaseController
         $level = intval(Yii::$app->request->post('level', 0));
         $type = trim(Yii::$app->request->post('type', 0));
         $problem = trim(Yii::$app->request->post('problem', ""));
+        $score = floatval(Yii::$app->request->post('score', 0));
+        $passscore = floatval(Yii::$app->request->post('passscore', 0));
         $bannerService = new QuestionService();
         $answer = "";
         if(empty($title)) {
@@ -140,6 +146,8 @@ class QuestionController extends ManageBaseController
         }
         $dataInfo['status'] = $status;
         $dataInfo['sort'] = $sort;
+        $dataInfo['score'] = $score;
+        $dataInfo['passscore'] = $passscore;
 //        var_dump($dataInfo);die;
         return $bannerService->editInfo($dataInfo);
     }

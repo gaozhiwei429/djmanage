@@ -67,14 +67,13 @@ layui.use(['table', 'laypage', 'layer'], function(){
                     ,data:result.data.dataList
                     ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                     ,cols: [[
-                        {checkbox: true, fixed: true}
-                        ,{field:'id', title: 'ID'}
-                        ,{field:'role_name', title: '角色名称'}
-                        ,{field:'desc', title: '描述'}
-                        ,{field:'status', title: '状态',toolbar:"#Jstatus"}// ,templet:function(d){return d.status ==1 ? "启用" : "禁用";}
-                        ,{field:'create_time', title: '添加时间', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-//                        ,{width: '20%', title: '操作'}
-                        ,{field:'right', title: '操作', minWidth: 100, width:'15%',toolbar:"#barDemo"}
+                        {checkbox: true, fixed: true, width: 30}
+                        ,{field:'id', title: 'ID', width: 30}
+                        ,{field:'role_name', title: '角色名称', minWidth: 100}
+                        ,{field:'desc', title: '描述', width: 100}
+                        ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 80}// ,templet:function(d){return d.status ==1 ? "启用" : "禁用";}
+                        ,{field:'create_time', title: '添加时间',"width":200} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                        ,{field:'right', title: '操作', minWidth: 300,toolbar:"#barDemo"}
                     ]]
                     ,done: function(res, curr, count){
                         //如果是异步请求数据方式，res即为你接口返回的信息。

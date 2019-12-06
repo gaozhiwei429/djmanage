@@ -41,7 +41,10 @@ class ExamController extends ManageBaseController
             ]
         );
     }
-
+    /**
+     * 题库详情
+     * @return string
+     */
     public function actionInfo() {
         $id = intval(Yii::$app->request->get('id', 0));
         $bannerService = new ExamService();
@@ -63,11 +66,15 @@ class ExamController extends ManageBaseController
         $params = [];
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
+        $dataInfo = BaseService::getRetData($bannerInfoRet);
+        if(isset($dataInfo['types']) && !empty($dataInfo['types'])) {
+            $dataInfo['types'] = json_decode($dataInfo['types'], true);
+        }
         return $this->renderPartial('edit',
             [
                 'title' => "题库编辑",
                 'menuUrl' => $this->menuUrl,
-                'dataInfo' => BaseService::getRetData($bannerInfoRet),
+                'dataInfo' => $dataInfo,
             ]
         );
     }
