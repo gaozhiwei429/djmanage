@@ -9,6 +9,7 @@ use yii\helpers\Url;
 <?=Html::cssFile('@web/static/plugs/layui/css/modules/laydate/default/laydate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/plugs/layui/css/layui.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/theme/css/console.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/theme/css/animate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 
 <script>window.ROOT_URL = '__ROOT__';</script>
 <?=Html::jsFile('@web/static/plugs/jquery/pace.min.js?v='.date("ymd"), ['type' => "text/javascript"])?>
@@ -37,7 +38,7 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
         ,jq = layui.jquery
         ,$ = layui.jquery
         ,layer = layui.layer;
-    $.cookie('checkbox', "<?=isset($questionIds) ? $questionIds : ""?>");
+    $.cookie('lessions', "<?=isset($lessionIds) ? $lessionIds : ""?>");
     var type = "<?=isset($type) ? $type : 0?>";
     var params = {};
     var page = GetUrlParam("p") ? GetUrlParam("p") : 1;
@@ -62,7 +63,7 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
     });
     $.ajax({
         type: "post",
-        url:"<?= Url::to(['/common/question/get-list']); ?>",
+        url:"<?= Url::to(['/common/lession/get-list']); ?>",
         contentType: "application/json;charset=utf-8",
         data :JSON.stringify(params),
         dataType: "json",
@@ -88,10 +89,9 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
                     ,cols: [[
                         {checkbox: true, fixed: true, width: 30}
                         ,{field:'id', title: 'ID', width: 30}
-                        ,{field:'title', title: '问题标题', minWidth: 100}
+                        ,{field:'title', title: '课件标题', minWidth: 100}
                         ,{field:'type', title: '类型', width: 80, toolbar:"#Jtype"}
                         ,{field:'sort', title: '排序',"width":100}
-                        ,{field:'answer', title: '答案',"width":100}
                     ]]
                     ,done: function(res, curr, count){
                         var checkboxArr = $.cookie('checkbox').split(',');
@@ -114,8 +114,8 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
                             ,theme: '#1E9FFF'
                             ,curr: parseInt(page) || 1 //当前页
                             ,jump : function(obj, first){
-                                if($.cookie('checkbox') !="" && $.cookie('checkbox') != undefined) {
-                                    selfUrl = changeURLArg(selfUrl,'questionIds',$.cookie('checkbox'));
+                                if($.cookie('lessions') !="" && $.cookie('lessions') != undefined) {
+                                    selfUrl = changeURLArg(selfUrl,'lessionIds',$.cookie('lessions'));
                                 }
                                 if(type !="" && type != undefined) {
                                     selfUrl = changeURLArg(selfUrl,'type',type);
@@ -155,20 +155,20 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
     });
     var emp = [];
     table.on('checkbox(text)', function(obj){
-        if($.cookie('checkbox') !="" && $.cookie('checkbox') != undefined) {
-            emp = $.cookie('checkbox').split(',');
+        if($.cookie('lessions') !="" && $.cookie('lessions') != undefined) {
+            emp = $.cookie('lessions').split(',');
         }
         if(obj.checked==true) {
             emp.push(obj.data.id);
-            $.cookie('checkbox', emp.join(','));
+            $.cookie('lessions', emp.join(','));
         } else {
             emp.pop(obj.data.id);
-            $.cookie('checkbox', emp.join(','));
+            $.cookie('lessions', emp.join(','));
         }
-        $("#JtableIds").val($.cookie('checkbox'));
+        $("#JtableIds").val($.cookie('lessions'));
         console.log($("#JtableIds").val());
     });
-    $("#JtableIds").val($.cookie('checkbox'));
+    $("#JtableIds").val($.cookie('lessions'));
     form.render(); //更新全部，防止input多选和单选框不显示问题
 })
 </script>

@@ -1,7 +1,7 @@
 <?php
 /**
  * 课件相关相关的接口
- * @文件名称: SessionController.php
+ * @文件名称: LessionController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,11 +10,11 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common\controllers;
-use appcomponents\modules\common\SessionService;
+use appcomponents\modules\common\LessionService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
-class SessionController extends ManageBaseController
+class LessionController extends ManageBaseController
 {
     public function beforeAction($action){
         $userToken = parent::userToken();
@@ -33,7 +33,7 @@ class SessionController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
-        $newsService = new SessionService();
+        $newsService = new LessionService();
         $params = [];
         return $newsService->getList($params, ['sort'=>SORT_DESC,'id'=>SORT_DESC], $page, $size);
     }
@@ -50,7 +50,7 @@ class SessionController extends ManageBaseController
         if(empty($id)) {
             return BaseService::returnErrData([], 54000, "请求参数异常");
         }
-        $newsService = new SessionService();
+        $newsService = new LessionService();
         $params = [];
         $params[] = ['=', 'id', $id];
         return $newsService->getInfo($params);
@@ -65,46 +65,41 @@ class SessionController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $title = trim(Yii::$app->request->post('title', ""));
-        $content = trim(Yii::$app->request->post('content', ""));
+        $file = trim(Yii::$app->request->post('file', ""));
+        $size = floatval(Yii::$app->request->post('size', 0));
         $sort = intval(Yii::$app->request->post('sort', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $course_type_id = intval(Yii::$app->request->post('course_type_id',  0));
-        $pic_url = trim(Yii::$app->request->post('pic_url', ""));
-        $newsService = new SessionService();
-        $postData = Yii::$app->request->post();
-        $sections_uuidsArr = [];
-        foreach($postData as $k=>$v) {
-            if(strstr($k,"sections_uuids")) {
-                $sections_uuidsArr[] = $v;
-            }
-        }
+        $newsService = new LessionService();
         if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "请求参数异常，请填写完整");
+            return BaseService::returnErrData([], 55900, "请填写课件名称");
+        }
+        if(empty($file)) {
+            return BaseService::returnErrData([], 55900, "请上传课件文件");
         }
         $dataInfo = [];
-        if(!empty($pic_url)) {
-            $dataInfo['pic_url'] = $pic_url;
-        }
-        if(!empty($course_type_id)) {
-            $dataInfo['course_type_id'] = $course_type_id;
-        }
         if(!empty($title)) {
             $dataInfo['title'] = $title;
         } else {
             $dataInfo['title'] = "";
         }
-        if(!empty($content)) {
-            $dataInfo['content'] = $content;
-        } else {
-            $dataInfo['content'] = "";
+        $format = "";
+        if(!empty($file)) {
+            $dataInfo['file'] = $file;
+            $fileData = explode('.',$file);
+            $format = @end($fileData);
         }
+        if(strtolower($format)!='pdf') {
+            return BaseService::returnErrData([], 55900, "请上传课件文件必须是pdf格式");
+        }
+        if($size<=0) {
+            return BaseService::returnErrData([], 55900, "请上传课件文件");
+        }
+        $dataInfo['format'] = $format;
+        $dataInfo['size'] = $size;
         if(!empty($sort)) {
             $dataInfo['sort'] = $sort;
         } else {
             $dataInfo['sort'] = 0;
-        }
-        if(!empty($sections_uuidsArr)) {
-            $dataInfo['sections_uuids'] = implode(',', $sections_uuidsArr);
         }
         if(!empty($id)) {
             $dataInfo['id'] = $id;

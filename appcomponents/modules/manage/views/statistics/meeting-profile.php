@@ -3,11 +3,12 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 ?>
+<?=Html::cssFile('@web/static/plugs/layui/css/main.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/layer.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/modules/laydate/default/laydate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/plugs/layui/css/layui.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/main.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/layer.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/laydate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/theme/css/console.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 
 <style>
 .dis_flex {

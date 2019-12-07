@@ -3,6 +3,9 @@ use yii\helpers\Url;
 use \yii\helpers\Html;
 /* @var $this yii\web\View */
 ?>
+<?=Html::cssFile('@web/static/dangjian/css/main.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/dangjian/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/dangjian/css/layer.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <style>
     .layui-form-label {
         width: 100px;
@@ -22,17 +25,17 @@ use \yii\helpers\Html;
                 <!-- layui-btn-sm -->
                 <button class="layui-btn layui-btn-sm" onclick="window.history.go(-1);">返回</button>
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                    <legend>添加职务</legend>
+                    <legend>考题编辑</legend>
                 </fieldset>
 
                 <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
                     <input type="hidden" name="id" class="layui-input" value="<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>">
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="require-text">*</span>职务名称</label>
+                        <label class="layui-form-label"><span class="require-text">*</span>考题名称</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入职务名称至少2个字符" class="layui-input" value="<?=isset($dataInfo['title']) ? $dataInfo['title']:"";?>">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入考题名称至少2个字符" class="layui-input" value="<?=isset($dataInfo['title']) ? $dataInfo['title']:"";?>">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">在所在党组织上显示的职务名称</div>
+                        <div class="layui-form-mid layui-word-aux">在所在试题上显示的考题名称</div>
                     </div>
 
                     <div class="layui-form-item">
@@ -40,17 +43,18 @@ use \yii\helpers\Html;
                             <span class="require-text">*</span>是否上线
                         </label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="status" value="1" title="是" <?=(isset($dataInfo['status'])&&$dataInfo['status']) ? "checked='checked'":"";?>>
-                            <input type="radio" name="status" value="0" title="否" <?=(isset($dataInfo['status'])&&$dataInfo['status']==0) ? "checked='checked'":"";?>>
+                            <input type="radio" name="status" value="1" title="开始考试" <?=(isset($dataInfo['status'])&&$dataInfo['status']&&$dataInfo['status']==1) ? "checked='checked'":"";?>>
+                            <input type="radio" name="status" value="0" title="结束考试" <?=(isset($dataInfo['status'])&&$dataInfo['status']==0) ? "checked='checked'":"";?>>
+                            <input type="radio" name="status" value="2" title="终止考试" <?=(isset($dataInfo['status'])&&$dataInfo['status']==0) ? "checked='checked'":"";?>>
                         </div>
                     </div>
 
-
                     <div class="layui-form-item">
                         <label class="layui-form-label">
-                            <span class="require-text">*</span>排序</label>
+                            <span class="require-text"></span>考试周期
+                        </label>
                         <div class="layui-input-inline">
-                            <input type="number" name="sort" placeholder="" class="layui-input" lay-verify="number" value="<?=isset($dataInfo['sort']) ? $dataInfo['sort']:0;?>">
+                            <input type="text" name="startandoverduedate" id="startandoverduedate" autocomplete="off" placeholder="请选择考试周期" class="layui-input" value="<?=(isset($dataInfo['start_time'])&&!empty($dataInfo['start_time'])) ? $dataInfo['start_time']." - ":"";?><?=(isset($dataInfo['overdue_time'])&&!empty($dataInfo['overdue_time'])) ? $dataInfo['overdue_time']:"";?>">
                         </div>
                     </div>
 
@@ -67,21 +71,27 @@ use \yii\helpers\Html;
 </div>
 <?=Html::jsFile('@web/static/dangjian/js/delelement.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <script type="application/javascript">
-layui.use(['form', 'table', 'laypage'], function(){
-    var layedit = layui.layedit;
+layui.use(['form', 'table', 'laypage','laydate', 'layer'], function(){
     var table = layui.table
         ,form = layui.form
         ,jq = layui.jquery
         ,$ = layui.jquery;
-    var storage=window.localStorage;
-    var userData = storage.getItem("userData");
-    var headerParams = JSON.parse(userData);
-
+        var laydate = layui.laydate;
+        var storage=window.localStorage;
+        var userData = storage.getItem("userData");
+        var headerParams = JSON.parse(userData);
+        //常规用法
+        laydate.render({
+            elem: '#startandoverduedate'
+            ,range: true
+            ,min: '2019-01-01 00:00:00' //最小日期
+            ,max: '2099-12-31 23:59:59' //最大日期
+        });
     //自定义验证规则
     form.verify({
         title: function(value){
             if(value.length < 2){
-                return '职务名称至少2个字符！';
+                return '考题名称至少2个字符！';
             }
         }
     });
@@ -89,7 +99,7 @@ layui.use(['form', 'table', 'laypage'], function(){
     form.on('submit(submitLevel)', function(data){
         $.ajax({
             type: "post",
-            url: "<?= Url::to(['common/level/edit']); ?>",
+            url: "<?= Url::to(['common/exam/edit']); ?>",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(data.field),
             dataType: "json",

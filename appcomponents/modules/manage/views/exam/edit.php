@@ -6,9 +6,6 @@ use \yii\helpers\Html;
 <!–[if lt IE9]>
 <?=Html::jsFile('@web/static/exam/styles/js/html5.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <![endif]–>
-<?=Html::cssFile('@web/static/dangjian/css/main.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/layer.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <style>
     .btn{display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin-bottom:0;font-size:14px;line-height:20px;text-align:center;vertical-align:middle;cursor:pointer;color:#333333;text-shadow:0 1px 1px rgba(255, 255, 255, 0.75);background-color:#f5f5f5;background-image:-moz-linear-gradient(top, #ffffff, #e6e6e6);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));background-image:-webkit-linear-gradient(top, #ffffff, #e6e6e6);background-image:-o-linear-gradient(top, #ffffff, #e6e6e6);background-image:linear-gradient(to bottom, #ffffff, #e6e6e6);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);*background-color:#e6e6e6;filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);border:1px solid #cccccc;*border:0;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*margin-left:.3em;-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);}.btn:hover,.btn:focus,.btn:active,.btn.active,.btn.disabled,.btn[disabled]{color:#333333;background-color:#e6e6e6;*background-color:#d9d9d9;}
     .btn:active,.btn.active{background-color:#cccccc \9;}
@@ -25,7 +22,7 @@ use \yii\helpers\Html;
                 <div class="span10" id="datacontent">
                     <button class="layui-btn layui-btn-sm" onclick="window.history.go(-1);">返回</button>
                     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                        <legend>编辑考题</legend>
+                        <legend><?= Html::encode($title ? $title : (isset($this->title) ? $this->title : null)) ?></legend>
                     </fieldset>
                     <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
                         <input type="hidden" name="id" class="layui-input" value="<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>">
@@ -90,76 +87,76 @@ use \yii\helpers\Html;
                             </div>
                             <span class="layui-form-mid layui-word-aux">单位（分）数字类型</span>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">
-                                <span class="require-text"></span>单选题</label>
-                            <div class="layui-input-block">
-                                <span class="info">共&nbsp;</span>
-                                <input id="iselectallnumber_1" type="text" class="input-mini" needle="needle" name="types[1][number]" value="<?=(isset($dataInfo['types'][1]['number']) && $dataInfo['types'][1]['number']) ? $dataInfo['types'][1]['number']: ""?>" size="2" msg="您必须填写总题数"/>
-                                <span>&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[1][score]" value="<?=(isset($dataInfo['types'][1]['score']) && $dataInfo['types'][1]['score']) ? $dataInfo['types'][1]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
-                                <span>&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[1][describe]" value="<?=(isset($dataInfo['types'][1]['describe']) && $dataInfo['types'][1]['describe']) ? $dataInfo['types'][1]['describe']: ""?>" size="12"/>
-                                <span>&nbsp;已选题数：<a id="ialreadyselectnumber_1"><?=(isset($dataInfo['types'][1]['questions']) && $dataInfo['types'][1]['questions']) ? count(explode(',',$dataInfo['types'][1]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
-                                <span class="selfmodal btn">&nbsp;看题</span>
-                                <span class="selfmodal btn" onclick="getArticleById(1, <?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>)">&nbsp;选题</span>
-                                <input type="hidden" id="iselectquestions_1" name="types[1][questions]" value="<?=(isset($dataInfo['types'][1]['questions']) && $dataInfo['types'][1]['questions']) ? $dataInfo['types'][1]['questions']: ""?>"/>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">
-                                <span class="require-text"></span>多选题</label>
-                            <div class="layui-input-block">
-                                <span class="info">共&nbsp;</span>
-                                <input id="iselectallnumber_2" type="text" class="input-mini" needle="needle" name="types[2][number]" value="<?=(isset($dataInfo['types'][2]['number']) && $dataInfo['types'][2]['number']) ? $dataInfo['types'][2]['number']: ""?>" size="2" msg="您必须填写总题数"/>
-                                <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[2][score]" value="<?=(isset($dataInfo['types'][2]['score']) && $dataInfo['types'][2]['score']) ? $dataInfo['types'][2]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
-                                <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[2][describe]" value="<?=(isset($dataInfo['types'][2]['describe']) && $dataInfo['types'][2]['describe']) ? $dataInfo['types'][2]['describe']: ""?>" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_2"><?=(isset($dataInfo['types'][2]['questions']) && $dataInfo['types'][2]['questions']) ? count(explode(',',$dataInfo['types'][2]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
-                                <span class="selfmodal btn">&nbsp;看题</span>
-                                <span class="selfmodal btn" onclick="getArticleById(2, <?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>)">&nbsp;选题</span>
-                                <input type="hidden" id="iselectquestions_2" name="types[2][questions]" value="<?=(isset($dataInfo['types'][2]['questions']) && $dataInfo['types'][2]['questions']) ? $dataInfo['types'][2]['questions']: ""?>"/>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">
-                                <span class="require-text"></span>判断题</label>
-                            <div class="layui-input-block">
-                                <span class="info">共&nbsp;</span>
-                                <input id="iselectallnumber_3" type="text" class="input-mini" needle="needle" name="types[3][number]" value="<?=(isset($dataInfo['types'][3]['number']) && $dataInfo['types'][3]['number']) ? $dataInfo['types'][3]['number']: ""?>" size="2" msg="您必须填写总题数"/>
-                                <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[3][score]" value="<?=(isset($dataInfo['types'][3]['score']) && $dataInfo['types'][3]['score']) ? $dataInfo['types'][3]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
-                                <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[3][describe]" value="<?=(isset($dataInfo['types'][3]['describe']) && $dataInfo['types'][3]['describe']) ? $dataInfo['types'][3]['describe']: ""?>" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_3"><?=(isset($dataInfo['types'][3]['questions']) && $dataInfo['types'][3]['questions']) ? count(explode(',',$dataInfo['types'][3]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" onclick="showQuestion(1,3)" data-title="看题">看题</a></span>
-                                <span class="info" onclick="getArticleById(3, <?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>)">&nbsp;<a class="selfmodal btn" href="javascript:;" data-title="选题">选题</a></span>
-                                <input type="hidden" id="iselectquestions_3" name="types[3][questions]" value="<?=(isset($dataInfo['types'][3]['questions']) && $dataInfo['types'][3]['questions']) ? $dataInfo['types'][3]['questions']: ""?>"/>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">
-                                <span class="require-text"></span>问答题</label>
-                            <div class="layui-input-block">
-                                <span class="info">共&nbsp;</span>
-                                <input id="iselectallnumber_4" type="text" class="input-mini" needle="needle" name="types[4][number]" value="<?=(isset($dataInfo['types'][4]['number']) && $dataInfo['types'][4]['number']) ? $dataInfo['types'][4]['number']: ""?>" size="2" msg="您必须填写总题数"/>
-                                <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[4][score]" value="<?=(isset($dataInfo['types'][4]['score']) && $dataInfo['types'][4]['score']) ? $dataInfo['types'][4]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
-                                <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[4][describe]" value="<?=(isset($dataInfo['types'][4]['describe']) && $dataInfo['types'][4]['describe']) ? $dataInfo['types'][4]['describe']: ""?>" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_4"><?=(isset($dataInfo['types'][4]['questions']) && $dataInfo['types'][4]['questions']) ? count(explode(',',$dataInfo['types'][4]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" onclick="showQuestion(1, 4)" data-title="看题">看题</a></span>
-                                <span class="info" onclick="getArticleById(4, <?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>)">&nbsp;<a class="selfmodal btn" href="javascript:;" data-title="选题">选题</a></span>
-                                <input type="hidden" id="iselectquestions_4" name="types[4][questions]" value="<?=(isset($dataInfo['types'][4]['questions']) && $dataInfo['types'][4]['questions']) ? $dataInfo['types'][4]['questions']: ""?>"/>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">
-                                <span class="require-text"></span>填空题</label>
-                            <div class="layui-input-block">
-                                <span class="info">共&nbsp;</span>
-                                <input id="iselectallnumber_5" type="text" class="input-mini" needle="needle" name="types[5][number]" value="<?=(isset($dataInfo['types'][5]['number']) && $dataInfo['types'][5]['number']) ? $dataInfo['types'][5]['number']: ""?>" size="2" msg="您必须填写总题数"/>
-                                <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[5][score]" value="<?=(isset($dataInfo['types'][5]['score']) && $dataInfo['types'][5]['score']) ? $dataInfo['types'][5]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
-                                <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[5][describe]" value="<?=(isset($dataInfo['types'][5]['describe']) && $dataInfo['types'][5]['describe']) ? $dataInfo['types'][5]['describe']: ""?>" size="12"/>
-                                <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_5"><?=(isset($dataInfo['types'][5]['questions']) && $dataInfo['types'][5]['questions']) ? count(explode(',',$dataInfo['types'][5]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
-                                <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" onclick="showQuestion(1, 5)">看题</a></span>
-                                <span class="info" onclick="getArticleById(5, <?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>)" >&nbsp;<a class="selfmodal btn" href="javascript:;">选题</a></span>
-                                <input type="hidden" id="iselectquestions_5" name="types[5][questions]" value="<?=(isset($dataInfo['types'][5]['questions']) && $dataInfo['types'][5]['questions']) ? $dataInfo['types'][5]['questions']: ""?>"/>
-                            </div>
-                        </div>
+<div class="layui-form-item">
+    <label class="layui-form-label">
+        <span class="require-text"></span>单选题</label>
+    <div class="layui-input-block">
+        <span class="info">共&nbsp;</span>
+        <input id="iselectallnumber_1" type="text" class="input-mini" needle="needle" name="types[1][number]" value="<?=(isset($dataInfo['types'][1]['number']) && $dataInfo['types'][1]['number']) ? $dataInfo['types'][1]['number']: ""?>" size="2" msg="您必须填写总题数"/>
+        <span>&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[1][score]" value="<?=(isset($dataInfo['types'][1]['score']) && $dataInfo['types'][1]['score']) ? $dataInfo['types'][1]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
+        <span>&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[1][describe]" value="<?=(isset($dataInfo['types'][1]['describe']) && $dataInfo['types'][1]['describe']) ? $dataInfo['types'][1]['describe']: ""?>" size="12"/>
+        <span>&nbsp;已选题数：<a id="ialreadyselectnumber_1"><?=(isset($dataInfo['types'][1]['questions']) && $dataInfo['types'][1]['questions']) ? count(explode(',',$dataInfo['types'][1]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
+        <span class="selfmodal btn">&nbsp;看题</span>
+        <span class="selfmodal btn" onclick='getArticleById("1", "<?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>")'>&nbsp;选题</span>
+        <input type="hidden" id="iselectquestions_1" name="types[1][questions]" value="<?=(isset($dataInfo['types'][1]['questions']) && $dataInfo['types'][1]['questions']) ? $dataInfo['types'][1]['questions']: ""?>"/>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">
+        <span class="require-text"></span>多选题</label>
+    <div class="layui-input-block">
+        <span class="info">共&nbsp;</span>
+        <input id="iselectallnumber_2" type="text" class="input-mini" needle="needle" name="types[2][number]" value="<?=(isset($dataInfo['types'][2]['number']) && $dataInfo['types'][2]['number']) ? $dataInfo['types'][2]['number']: ""?>" size="2" msg="您必须填写总题数"/>
+        <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[2][score]" value="<?=(isset($dataInfo['types'][2]['score']) && $dataInfo['types'][2]['score']) ? $dataInfo['types'][2]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
+        <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[2][describe]" value="<?=(isset($dataInfo['types'][2]['describe']) && $dataInfo['types'][2]['describe']) ? $dataInfo['types'][2]['describe']: ""?>" size="12"/>
+        <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_2"><?=(isset($dataInfo['types'][2]['questions']) && $dataInfo['types'][2]['questions']) ? count(explode(',',$dataInfo['types'][2]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
+        <span class="selfmodal btn">&nbsp;看题</span>
+        <span class="selfmodal btn" onclick='getArticleById("2", "<?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>")'>&nbsp;选题</span>
+        <input type="hidden" id="iselectquestions_2" name="types[2][questions]" value="<?=(isset($dataInfo['types'][2]['questions']) && $dataInfo['types'][2]['questions']) ? $dataInfo['types'][2]['questions']: ""?>"/>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">
+        <span class="require-text"></span>判断题</label>
+    <div class="layui-input-block">
+        <span class="info">共&nbsp;</span>
+        <input id="iselectallnumber_3" type="text" class="input-mini" needle="needle" name="types[3][number]" value="<?=(isset($dataInfo['types'][3]['number']) && $dataInfo['types'][3]['number']) ? $dataInfo['types'][3]['number']: ""?>" size="2" msg="您必须填写总题数"/>
+        <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[3][score]" value="<?=(isset($dataInfo['types'][3]['score']) && $dataInfo['types'][3]['score']) ? $dataInfo['types'][3]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
+        <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[3][describe]" value="<?=(isset($dataInfo['types'][3]['describe']) && $dataInfo['types'][3]['describe']) ? $dataInfo['types'][3]['describe']: ""?>" size="12"/>
+        <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_3"><?=(isset($dataInfo['types'][3]['questions']) && $dataInfo['types'][3]['questions']) ? count(explode(',',$dataInfo['types'][3]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
+        <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" onclick="showQuestion(1,3)" data-title="看题">看题</a></span>
+        <span class="info" onclick='getArticleById("3", "<?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>")'>&nbsp;<a class="selfmodal btn" href="javascript:;" data-title="选题">选题</a></span>
+        <input type="hidden" id="iselectquestions_3" name="types[3][questions]" value="<?=(isset($dataInfo['types'][3]['questions']) && $dataInfo['types'][3]['questions']) ? $dataInfo['types'][3]['questions']: ""?>"/>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">
+        <span class="require-text"></span>问答题</label>
+    <div class="layui-input-block">
+        <span class="info">共&nbsp;</span>
+        <input id="iselectallnumber_4" type="text" class="input-mini" needle="needle" name="types[4][number]" value="<?=(isset($dataInfo['types'][4]['number']) && $dataInfo['types'][4]['number']) ? $dataInfo['types'][4]['number']: ""?>" size="2" msg="您必须填写总题数"/>
+        <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[4][score]" value="<?=(isset($dataInfo['types'][4]['score']) && $dataInfo['types'][4]['score']) ? $dataInfo['types'][4]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
+        <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[4][describe]" value="<?=(isset($dataInfo['types'][4]['describe']) && $dataInfo['types'][4]['describe']) ? $dataInfo['types'][4]['describe']: ""?>" size="12"/>
+        <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_4"><?=(isset($dataInfo['types'][4]['questions']) && $dataInfo['types'][4]['questions']) ? count(explode(',',$dataInfo['types'][4]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
+        <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" onclick="showQuestion(1, 4)" data-title="看题">看题</a></span>
+        <span class="info" onclick='getArticleById("4", "<?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>")'>&nbsp;<a class="selfmodal btn" href="javascript:;" data-title="选题">选题</a></span>
+        <input type="hidden" id="iselectquestions_4" name="types[4][questions]" value="<?=(isset($dataInfo['types'][4]['questions']) && $dataInfo['types'][4]['questions']) ? $dataInfo['types'][4]['questions']: ""?>"/>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">
+        <span class="require-text"></span>填空题</label>
+    <div class="layui-input-block">
+        <span class="info">共&nbsp;</span>
+        <input id="iselectallnumber_5" type="text" class="input-mini" needle="needle" name="types[5][number]" value="<?=(isset($dataInfo['types'][5]['number']) && $dataInfo['types'][5]['number']) ? $dataInfo['types'][5]['number']: ""?>" size="2" msg="您必须填写总题数"/>
+        <span class="info">&nbsp;题，每题&nbsp;</span><input class="input-mini" needle="needle" type="text" name="types[5][score]" value="<?=(isset($dataInfo['types'][5]['score']) && $dataInfo['types'][5]['score']) ? $dataInfo['types'][5]['score']: ""?>" size="2" msg="您必须填写每题的分值"/>
+        <span class="info">&nbsp;分，描述&nbsp;</span><input class="input-mini" type="text" name="types[5][describe]" value="<?=(isset($dataInfo['types'][5]['describe']) && $dataInfo['types'][5]['describe']) ? $dataInfo['types'][5]['describe']: ""?>" size="12"/>
+        <span class="info">&nbsp;已选题数：<a id="ialreadyselectnumber_5"><?=(isset($dataInfo['types'][5]['questions']) && $dataInfo['types'][5]['questions']) ? count(explode(',',$dataInfo['types'][5]['questions'])): 0?></a>&nbsp;&nbsp;题</span>
+        <span class="info">&nbsp;<a class="selfmodal btn" href="javascript:;" onclick="showQuestion(1, 5)">看题</a></span>
+        <span class="info" onclick='getArticleById("5", "<?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选题</a></span>
+        <input type="hidden" id="iselectquestions_5" name="types[5][questions]" value="<?=(isset($dataInfo['types'][5]['questions']) && $dataInfo['types'][5]['questions']) ? $dataInfo['types'][5]['questions']: ""?>"/>
+    </div>
+</div>
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
@@ -173,117 +170,123 @@ use \yii\helpers\Html;
     </div>
 </div>
 <script type="application/javascript">
-    layui.use(['form', 'table', 'laypage','laydate', 'layer'], function(){
-        var table = layui.table
-            ,form = layui.form
-            ,jq = layui.jquery
-            ,$ = layui.jquery;
-        var laydate = layui.laydate;
-        var storage=window.localStorage;
-        var userData = storage.getItem("userData");
-        var headerParams = JSON.parse(userData);
-        //常规用法
-        laydate.render({
-            elem: '#startandoverduedate'
-            ,range: true
-            ,min: '2019-01-01 00:00:00' //最小日期
-            ,max: '2099-12-31 23:59:59' //最大日期
-        });
-        //自定义验证规则
-        form.verify({
-            title: function(value){
-                if(value.length < 2){
-                    return '考题名称至少2个字符！';
-                }
+layui.use(['form', 'table', 'laypage','laydate', 'layer'], function(){
+    var table = layui.table
+        ,form = layui.form
+        ,jq = layui.jquery
+        ,$ = layui.jquery;
+    var laydate = layui.laydate;
+    var storage=window.localStorage;
+    var userData = storage.getItem("userData");
+    var headerParams = JSON.parse(userData);
+    //常规用法
+    laydate.render({
+        elem: '#startandoverduedate'
+        ,range: true
+        ,min: '2019-01-01 00:00:00' //最小日期
+        ,max: '2099-12-31 23:59:59' //最大日期
+    });
+    //自定义验证规则
+    form.verify({
+        title: function(value){
+            if(value.length < 2){
+                return '考题名称至少2个字符！';
             }
-        });
-        //监听提交
-        form.on('submit(submitLevel)', function(data){
-            $.ajax({
-                type: "post",
-                url: "<?= Url::to(['common/exam/edit']); ?>",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify(data.field),
-                dataType: "json",
-                beforeSend: function (XMLHttpRequest) {
-                    for (var i in headerParams) {
-                        XMLHttpRequest.setRequestHeader(i, headerParams[i]);
-                    }
-                },
-                success: function (result) {
-                    if (result.code == 0) {
-                        layer.msg(result.msg, {
-                            time: 2000,
-                            shade: 0.6
-                        },function(){
-                            window.history.go(-1);
-                        });
-                        return true;
-                    } else if(result.code == 5001){
-                        layer.msg(result.msg, {
-                            icon: 2,
-                            shade: 0.6,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        }, function(){
-                            top.location.href="../user/login"
-                        });
-                        return true;
-                    } else {
-                        layer.msg(result.msg, {
-                            time: 2000,
-                            shade: 0.6,
-                            icon: 2
-                        });
-                        return true;
-                    }
-                },
-                error: function () {
-                    layer.msg("系统异常", {
+        }
+    });
+    //监听提交
+    form.on('submit(submitLevel)', function(data){
+        $.ajax({
+            type: "post",
+            url: "<?= Url::to(['common/exam/edit']); ?>",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(data.field),
+            dataType: "json",
+            beforeSend: function (XMLHttpRequest) {
+                for (var i in headerParams) {
+                    XMLHttpRequest.setRequestHeader(i, headerParams[i]);
+                }
+            },
+            success: function (result) {
+                if (result.code == 0) {
+                    layer.msg(result.msg, {
+                        time: 2000,
+                        shade: 0.6
+                    },function(){
+                        window.history.go(-1);
+                    });
+                    return true;
+                } else if(result.code == 5001){
+                    layer.msg(result.msg, {
+                        icon: 2,
+                        shade: 0.6,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        top.location.href="../user/login"
+                    });
+                    return true;
+                } else {
+                    layer.msg(result.msg, {
                         time: 2000,
                         shade: 0.6,
                         icon: 2
                     });
                     return true;
                 }
-            })
-            return false;
-        });
-        form.render(); //更新全部，防止input多选和单选框不显示问题
+            },
+            error: function () {
+                layer.msg("系统异常", {
+                    time: 2000,
+                    shade: 0.6,
+                    icon: 2
+                });
+                return true;
+            }
+        })
+        return false;
     });
-    /**
-     * @param type [1单项选择、2多项选择、3判断、4解答、5填空]
-     * @param articleId
-     * @param questionNum
-     */
-    function getArticleById(type, id){
-        var questionIds = $("#iselectquestions_"+type).val();
-        var index = layer.open({
-            type: 2
-            ,title: "题库选择"
-            ,area: ['80%', '85%'] //宽高
-            ,content: "<?= Url::to(['/manage/question/list']); ?>?type="+type+"&questionIds="+questionIds
-            ,btn: ['确定', '取消']
-            ,yes: function(index, layero){
-                //按钮【按钮一】的回调
-                var body = layer.getChildFrame('body', index); //得到iframe页的body内容
-                var selectData = body.find("#JtableIds").val();
-                var selectArr = selectData.split(',')
-                $("#iselectquestions_"+type).val(selectData);
-                $("#ialreadyselectnumber_"+type).html(selectArr.length);
+    form.render(); //更新全部，防止input多选和单选框不显示问题
+});
+/**
+ * @param type [1单项选择、2多项选择、3判断、4解答、5填空]
+ * @param articleId
+ * @param questionNum
+ */
+function getArticleById(type, id){
+    var questionIds = $("#iselectquestions_"+type).val();
+    var index = layer.open({
+        type: 2
+        ,title: "题库选择"
+        ,area: ['80%', '85%'] //宽高
+        ,content: "<?= Url::to(['/manage/question/list']); ?>?type="+type+"&questionIds="+questionIds
+        ,shade: 0.6 //遮罩透明度
+        ,maxmin: true //允许全屏最小化
+        ,anim: 5 //0-6的动画形式，-1不开启
+        ,btn: ['确定', '取消']
+        ,yes: function(index, layero){
+            //按钮【按钮一】的回调
+            var body = layer.getChildFrame('body', index); //得到iframe页的body内容
+            var selectData = body.find("#JtableIds").val();
+            var selectArr = selectData.split(',')
+            $("#iselectquestions_"+type).val(selectData);
+            $("#ialreadyselectnumber_"+type).html(selectArr.length);
 //                $.cookie('checkbox', null);
-                layer.close(index);
-            }
-            ,btn2: function(index, layero){
+            layer.close(index);
+            return true;
+        }
+        ,btn2: function(index, layero){
 //                $.cookie('checkbox', null);
-                //按钮【按钮二】的回调
-                layer.closeAll();
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-                layer.closeAll();
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-        });
-    }
+            //按钮【按钮二】的回调
+            layer.closeAll();
+            return true;
+            //return false 开启该代码可禁止点击该按钮关闭
+        }
+        ,cancel: function(){
+            //右上角关闭回调
+            layer.closeAll();
+            return true;
+            //return false 开启该代码可禁止点击该按钮关闭
+        }
+    });
+}
 </script>

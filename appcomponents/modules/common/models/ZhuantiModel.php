@@ -1,7 +1,7 @@
 <?php
 /**
- * 运营平台章节课件管理表
- * @文件名称: SessionModel.php
+ * 学习板块的cms管理表
+ * @文件名称: ZhuantiModel.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-06-06
@@ -14,12 +14,12 @@ use source\manager\BaseException;
 use source\models\BaseModel;
 use Yii;
 
-class SessionModel extends BaseModel
+class ZhuantiModel extends BaseModel
 {
     const ON_LINE_STATUS = 1;//已上线
     const BEFORT_STATUS = 0;//已下线
     public static function tableName() {
-        return '{{%session}}';
+        return '{{%zhuanti}}';
     }
     /**
      * 根据条件获取最后一条信息
@@ -84,6 +84,13 @@ class SessionModel extends BaseModel
     public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*']) {
         try {
             $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
+            if(!empty($dataList)) {
+                foreach($dataList as &$dataInfo) {
+                    if(isset($dataInfo['pic_url'])) {
+                        $dataInfo['pic_url'] = json_decode($dataInfo['pic_url'], true);
+                    }
+                }
+            }
             $data = [
                 'dataList' => $dataList,
                 'count' => 0,
@@ -132,11 +139,12 @@ class SessionModel extends BaseModel
             $thisModel = new self();
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
             $thisModel->title = isset($addData['title']) ? trim($addData['title']) : "";//名称
-            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
-            $thisModel->file = isset($addData['file']) ? trim($addData['file']) : "";
-            $thisModel->size = isset($addData['size']) ? floatval($addData['size']) : 0;
-            $thisModel->format = isset($addData['format']) ? trim($addData['format']) : "";
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
+            $thisModel->zhuanti_type_id = isset($addData['zhuanti_type_id']) ? intval($addData['zhuanti_type_id']) : 0;
+            $thisModel->user_id = isset($addData['user_id']) ? intval($addData['user_id']) : 0;
+            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
+            $thisModel->content = isset($addData['content']) ? trim($addData['content']) : ""; //文章内容
+            $thisModel->pic_url = isset($addData['pic_url']) ? trim($addData['pic_url']) : json_encode([]); //文章图片
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;

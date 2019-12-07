@@ -10,6 +10,7 @@
  */
 namespace appcomponents\modules\manage\controllers;
 use appcomponents\modules\common\CourseService;
+use appcomponents\modules\common\LessionService;
 use appcomponents\modules\common\SectionsService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
@@ -98,8 +99,39 @@ class CourseController extends ManageBaseController
                 'title' => "课程编辑",
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
-                'info' => BaseService::getRetData($courseInfoRet),
+                'dataInfo' => BaseService::getRetData($courseInfoRet),
                 'sectionsList' => $sectionsList,
+            ]
+        );
+    }
+    /**
+     * 章节管理
+     * @return string
+     */
+    public function actionSectionIndex() {
+        return $this->renderPartial('section-index',
+            [
+                'title' => "课件章节管理",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
+    /**
+     * 章节编辑管理
+     * @return string
+     */
+    public function actionSectionEdit() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        $sectionService = new SectionsService();
+        $params = [];
+        $params[] = ['=', 'id', $id];
+        $courseInfoRet = $sectionService->getInfo($params);
+        $info = BaseService::getRetData($courseInfoRet);
+        return $this->renderPartial('section-edit',
+            [
+                'title' => "课程章节编辑",
+                'dataInfo' => $info,
+                'menuUrl' => $this->menuUrl,
             ]
         );
     }
@@ -110,7 +142,39 @@ class CourseController extends ManageBaseController
     public function actionSessionList() {
         return $this->renderPartial('session-list',
             [
-                'title' => "课件管理",
+                'title' => "课程章节管理",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
+
+    /**
+     * 章节管理
+     * @return string
+     */
+    public function actionLessionIndex() {
+        return $this->renderPartial('lession-index',
+            [
+                'title' => "章节课件管理",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
+    /**
+     * 章节编辑管理
+     * @return string
+     */
+    public function actionLessionEdit() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        $sectionService = new LessionService();
+        $params = [];
+        $params[] = ['=', 'id', $id];
+        $courseInfoRet = $sectionService->getInfo($params);
+        $info = BaseService::getRetData($courseInfoRet);
+        return $this->renderPartial('lession-edit',
+            [
+                'title' => "章节课件编辑",
+                'dataInfo' => $info,
                 'menuUrl' => $this->menuUrl,
             ]
         );

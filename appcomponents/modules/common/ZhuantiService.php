@@ -1,7 +1,7 @@
 <?php
 /**
- * 章节课件相关的数据获取service
- * @文件名称: SessionService.php
+ * 专题相关的数据获取service
+ * @文件名称: ZhuantiService.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,12 +10,12 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common;
-use appcomponents\modules\common\models\SessionModel;
+use appcomponents\modules\common\models\ZhuantiModel;
 use source\libs\Common;
 use source\manager\BaseException;
 use source\manager\BaseService;
 use Yii;
-class SessionService extends BaseService
+class ZhuantiService extends BaseService
 {
     /**
      * @inheritdoc
@@ -36,7 +36,7 @@ class SessionService extends BaseService
     public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*']) {
         $Common = new Common();
         $offset = $Common->getOffset($limit, $p);
-        $newsModel = new SessionModel();
+        $newsModel = new ZhuantiModel();
         $cityList = $newsModel->getListData($params, $orderBy, $offset, $limit, $fied);
         if(!empty($cityList)) {
             return BaseService::returnOkData($cityList);
@@ -52,7 +52,7 @@ class SessionService extends BaseService
         if(empty($params)) {
             return BaseService::returnErrData([], 55000, "请求参数异常");
         }
-        $newsModel = new SessionModel();
+        $newsModel = new ZhuantiModel();
         $newsInfo = $newsModel->getInfoByValue($params);
         if(!empty($newsInfo)) {
             if(isset($newsInfo['pic_url'])) {
@@ -71,7 +71,7 @@ class SessionService extends BaseService
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 56900, "请求参数异常");
         }
-        $newsModel = new SessionModel();
+        $newsModel = new ZhuantiModel();
         $id = isset($dataInfo['id']) ? $dataInfo['id'] : 0;
         $editRest = 0;
         if($id) {
