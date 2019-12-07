@@ -13,10 +13,12 @@ use yii\helpers\Url;
     .laytable-cell-1-0-4 {
         width: 525px;
     }
-    .layui-table-cell{
-        height:100px;
-        line-height: 100px;
-    }
+     .layui-table-cell{
+         height:auto;
+         overflow:visible;
+         text-overflow:inherit;
+         white-space:normal;
+     }
 </style>
 <div class="layui-card">
     <div class="layui-header notselect">

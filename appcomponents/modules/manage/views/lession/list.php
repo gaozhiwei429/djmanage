@@ -11,6 +11,14 @@ use yii\helpers\Url;
 <?=Html::cssFile('@web/static/theme/css/console.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/theme/css/animate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 
+<style>
+    .layui-table-cell{
+        height:auto;
+        overflow:visible;
+        text-overflow:inherit;
+        white-space:normal;
+    }
+</style>
 <script>window.ROOT_URL = '__ROOT__';</script>
 <?=Html::jsFile('@web/static/plugs/jquery/pace.min.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <?=Html::jsFile('@web/static/plugs/layui/layui.all.js?v='.date("ymd"), ['type' => "text/javascript"])?>

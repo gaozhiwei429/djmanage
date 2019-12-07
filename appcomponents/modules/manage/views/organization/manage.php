@@ -15,6 +15,14 @@ use yii\helpers\Url;
         width: 525px;
     }
 </style>
+<style>
+    .layui-table-cell{
+        height:auto;
+        overflow:visible;
+        text-overflow:inherit;
+        white-space:normal;
+    }
+</style>
 <div class="layui-card">
     <div class="layui-header notselect">
         <div class="pull-left">

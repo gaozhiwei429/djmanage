@@ -3,6 +3,14 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 ?>
+<style>
+    .layui-table-cell{
+        height:auto;
+        overflow:visible;
+        text-overflow:inherit;
+        white-space:normal;
+    }
+</style>
 <div class="ibox-content">
     <div class="row">
         <div class="col-sm-12">

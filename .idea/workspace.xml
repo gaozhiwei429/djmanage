@@ -24,75 +24,31 @@
     <favorites_list name="dangjian-manage" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="edit.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/exam/edit.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0116279" vertical-offset="6053" max-vertical-offset="7425">
-              <caret line="263" column="16" selection-start-line="263" selection-start-column="16" selection-end-line="263" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="meeting-profile.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/statistics/meeting-profile.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="22950">
-              <caret line="10" column="95" selection-start-line="10" selection-start-column="95" selection-end-line="10" selection-end-column="95" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/organization/manage.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="7925">
-              <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/views/site/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/PublicityController.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/news/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/publicity/edit.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/publicity/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/common/controllers/NewsController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/NewsController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/news/edit.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/CourseTypeService.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/CourseTypeController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/models/ForumModel.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/controllers/ForumController.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/forum/index.php" />
         <option value="$PROJECT_DIR$/backend/views/layouts/public.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/notice/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/index.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/course/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/leaders.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/QuestionController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/controllers/QuestionController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/ExamController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/controllers/ExamController.php" />
         <option value="$PROJECT_DIR$/backend/views/role/index.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/admin/views/role/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/question/index.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/exam/index.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/models/ExamModel.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/models/QuestionModel.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/zhuanti-edit.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/ZhuantiTypeService.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/CmsController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/controllers/ZhuantiController.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/zhuanti.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/common/controllers/SectionsController.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/course/section-index.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/controllers/CourseController.php" />
@@ -103,14 +59,27 @@
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/edit.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/lession/edit.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/level/edit.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/level/index.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/organization/edit.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/organization/manage.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/question/edit.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/statistics/meeting-profile.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/lession/list.php" />
-        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/question/list.php" />
         <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/exam/edit.php" />
+        <option value="$PROJECT_DIR$/backend/web/static/plugs/layui/lay/modules/table.js" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/news/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/banner/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/leaders.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/cms/zhuanti.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/exam/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/forum/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/lession/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/lession/list.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/level/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/notice/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/organization/manage.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/publicity/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/question/index.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/question/list.php" />
+        <option value="$PROJECT_DIR$/appcomponents/modules/manage/views/session/index.php" />
       </list>
     </option>
   </component>
@@ -190,151 +159,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="role" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layouts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="appcomponents" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="appcomponents" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="appcomponents" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dangjian-manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="appcomponents" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="exam" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -396,16 +225,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2734375" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43359375" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.034375" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.219375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.219375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -440,93 +269,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/concern/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.30991736" vertical-offset="225" max-vertical-offset="8000">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/views/layouts/public1.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.30991736" vertical-offset="225" max-vertical-offset="3775">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/forum/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1954" max-vertical-offset="8175">
-          <caret line="75" column="32" selection-start-line="75" selection-start-column="20" selection-end-line="75" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/notice/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-60.933334" vertical-offset="1197" max-vertical-offset="4750">
-          <caret line="121" column="27" selection-start-line="121" selection-start-column="24" selection-end-line="121" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/cms/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1141" max-vertical-offset="7625">
-          <caret line="52" column="89" selection-start-line="52" selection-start-column="72" selection-end-line="52" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/cms/leaders.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1296" max-vertical-offset="7925">
-          <caret line="124" column="21" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/RoleService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2500">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/views/layouts/public.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="159" max-vertical-offset="1100">
-          <caret line="14" column="60" selection-start-line="14" selection-start-column="60" selection-end-line="24" selection-end-column="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/controllers/QuestionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2350">
-          <caret line="48" column="31" selection-start-line="48" selection-start-column="26" selection-end-line="48" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/course/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="624" max-vertical-offset="6100">
-          <caret line="29" column="69" selection-start-line="29" selection-start-column="69" selection-end-line="29" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/web/static/admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="16608" max-vertical-offset="17975">
-          <caret line="674" column="9" selection-start-line="674" selection-start-column="9" selection-end-line="674" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/common/controllers/QuestionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1562" max-vertical-offset="4925">
-          <caret line="66" column="34" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/controllers/ExamController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1411" max-vertical-offset="2175">
@@ -565,14 +307,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/question/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="8000">
-          <caret line="19" column="97" selection-start-line="19" selection-start-column="97" selection-end-line="19" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/appcomponents/modules/common/models/ExamModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1158" max-vertical-offset="4850">
@@ -585,14 +319,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1083" max-vertical-offset="4900">
           <caret line="66" column="9" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/news/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3563" max-vertical-offset="4750">
-          <caret line="167" column="13" selection-start-line="161" selection-start-column="4" selection-end-line="167" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -653,26 +379,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/cms/zhuanti.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6553" max-vertical-offset="7725">
-          <caret line="285" column="9" selection-start-line="277" selection-start-column="9" selection-end-line="285" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/course/section-index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6925">
           <caret line="7" column="119" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="119" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/exam/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41322315" vertical-offset="0" max-vertical-offset="5950">
-          <caret line="12" column="125" selection-start-line="12" selection-start-column="125" selection-end-line="12" selection-end-column="125" />
           <folding />
         </state>
       </provider>
@@ -765,25 +475,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/organization/manage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="7925">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/question/edit.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="8525">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/level/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2647059" vertical-offset="1" max-vertical-offset="7925">
           <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
           <folding />
         </state>
@@ -793,22 +487,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2647059" vertical-offset="1" max-vertical-offset="3675">
           <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/question/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="934" max-vertical-offset="6075">
-          <caret line="43" column="61" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/lession/list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11583924" vertical-offset="826" max-vertical-offset="6075">
-          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -831,8 +509,175 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/exam/edit.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0116279" vertical-offset="6053" max-vertical-offset="7425">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6053" max-vertical-offset="7425">
           <caret line="263" column="16" selection-start-line="263" selection-start-column="16" selection-end-line="263" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/web/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="800">
+          <caret line="13" column="48" selection-start-line="13" selection-start-column="44" selection-end-line="13" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/web/static/plugs/layui/lay/modules/table.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="175">
+          <caret line="1" column="56" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
+          <folding>
+            <marker date="1575736657278" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1575736657278" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1575736657278" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/admin/views/role/edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="1269" max-vertical-offset="3325">
+          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/banner/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5175">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/cms/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="332" max-vertical-offset="7775">
+          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/cms/leaders.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="207" max-vertical-offset="7975">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/cms/zhuanti.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="157" max-vertical-offset="7875">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/exam/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6150">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/forum/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8375">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/lession/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8200">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/level/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="232" max-vertical-offset="8125">
+          <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/question/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3816794" vertical-offset="0" max-vertical-offset="8200">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/lession/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5547074" vertical-offset="157" max-vertical-offset="6275">
+          <caret line="15" column="20" selection-start-line="14" selection-start-column="4" selection-end-line="19" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/publicity/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7633588" vertical-offset="0" max-vertical-offset="4950">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/verify/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="1344" max-vertical-offset="7375">
+          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
+          <folding>
+            <marker date="1567826838357" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1567826838357" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/session/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="7369" max-vertical-offset="7950">
+          <caret line="300" column="16" selection-start-line="300" selection-start-column="16" selection-end-line="300" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/question/list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="5.1984735" vertical-offset="157" max-vertical-offset="6275">
+          <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/organization/manage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8727735" vertical-offset="257" max-vertical-offset="8125">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/notice/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7633588" vertical-offset="0" max-vertical-offset="4950">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/appcomponents/modules/manage/views/news/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.69974554" vertical-offset="0" max-vertical-offset="4950">
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
           <folding />
         </state>
       </provider>
