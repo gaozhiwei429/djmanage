@@ -11,14 +11,6 @@ use yii\helpers\Url;
 <?=Html::cssFile('@web/static/theme/css/console.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/theme/css/animate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 
-<style>
-    .layui-table-cell{
-        height:auto;
-        overflow:visible;
-        text-overflow:inherit;
-        white-space:normal;
-    }
-</style>
 <script>window.ROOT_URL = '__ROOT__';</script>
 <?=Html::jsFile('@web/static/plugs/jquery/pace.min.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <?=Html::jsFile('@web/static/plugs/layui/layui.all.js?v='.date("ymd"), ['type' => "text/javascript"])?>
@@ -46,7 +38,7 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
         ,jq = layui.jquery
         ,$ = layui.jquery
         ,layer = layui.layer;
-    $.cookie('lessions', "<?=isset($lessionIds) ? $lessionIds : ""?>");
+    $.cookie('lessionIds', "<?=isset($lessionIds) ? $lessionIds : ""?>");
     var type = "<?=isset($type) ? $type : 0?>";
     var params = {};
     var page = GetUrlParam("p") ? GetUrlParam("p") : 1;
@@ -102,7 +94,7 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
                         ,{field:'sort', title: '排序',"width":100}
                     ]]
                     ,done: function(res, curr, count){
-                        var checkboxArr = $.cookie('checkbox').split(',');
+                        var checkboxArr = $.cookie('lessionIds').split(',');
                         if(checkboxArr.length!=0) {
                             $.each(res.data, function(i, item){
                                 $.each(checkboxArr,function(j,val){
@@ -122,8 +114,8 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
                             ,theme: '#1E9FFF'
                             ,curr: parseInt(page) || 1 //当前页
                             ,jump : function(obj, first){
-                                if($.cookie('lessions') !="" && $.cookie('lessions') != undefined) {
-                                    selfUrl = changeURLArg(selfUrl,'lessionIds',$.cookie('lessions'));
+                                if($.cookie('lessionIds') !="" && $.cookie('lessionIds') != undefined) {
+                                    selfUrl = changeURLArg(selfUrl,'lessionIds',$.cookie('lessionIds'));
                                 }
                                 if(type !="" && type != undefined) {
                                     selfUrl = changeURLArg(selfUrl,'type',type);
@@ -163,20 +155,20 @@ layui.use(['form', 'table', 'laypage', 'layer', 'element', 'jquery', 'laydate'],
     });
     var emp = [];
     table.on('checkbox(text)', function(obj){
-        if($.cookie('lessions') !="" && $.cookie('lessions') != undefined) {
-            emp = $.cookie('lessions').split(',');
+        if($.cookie('lessionIds') !="" && $.cookie('lessionIds') != undefined) {
+            emp = $.cookie('lessionIds').split(',');
         }
         if(obj.checked==true) {
             emp.push(obj.data.id);
-            $.cookie('lessions', emp.join(','));
+            $.cookie('lessionIds', emp.join(','));
         } else {
             emp.pop(obj.data.id);
-            $.cookie('lessions', emp.join(','));
+            $.cookie('lessionIds', emp.join(','));
         }
-        $("#JtableIds").val($.cookie('lessions'));
+        $("#JtableIds").val($.cookie('lessionIds'));
         console.log($("#JtableIds").val());
     });
-    $("#JtableIds").val($.cookie('lessions'));
+    $("#JtableIds").val($.cookie('lessionIds'));
     form.render(); //更新全部，防止input多选和单选框不显示问题
 })
 </script>

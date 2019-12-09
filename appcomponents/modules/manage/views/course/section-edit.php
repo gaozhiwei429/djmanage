@@ -43,20 +43,16 @@ use \yii\helpers\Html;
                                 <input type="radio" name="status" value="0" title="否" <?=(isset($dataInfo['status'])&&$dataInfo['status']==0) ? "checked='checked'":"";?>>
                             </div>
                         </div>
-
                         <div class="layui-form-item">
-                            <label class="layui-form-label"><span class="require-text">*</span>课件选择</label>
+                            <label class="layui-form-label">
+                                <span class="require-text"></span>选择课件</label>
                             <div class="layui-input-block">
-                                <span class="info">共&nbsp;</span>
-                                <input id="iselectallnumber_1" type="text" class="input-mini" needle="needle" name="lessions[1][number]" value="<?=(isset($dataInfo['lessions'][1]['number']) && $dataInfo['lessions'][1]['number']) ? $dataInfo['lessions'][1]['number']: ""?>" size="2" msg="您必须填写总题数"/>
-                                <span>&nbsp;课件，</span>
-                                <span>&nbsp;已选课件数：<a id="ialreadyselectnumber_1"><?=(isset($dataInfo['lessions'][1]['lession']) && $dataInfo['lessions'][1]['lession']) ? count(explode(',',$dataInfo['lessions'][1]['lession'])): 0?></a>&nbsp;&nbsp;课件</span>
+                                <span>&nbsp;已选课件数：<a id="ialreadyselectnumber_1"><?=(isset($lessionList) && $lessionList) ? count($lessionList): 0?></a>&nbsp;&nbsp;章</span>
                                 <span class="selfmodal btn">&nbsp;查看课件</span>
-                                <span class="selfmodal btn" onclick="getArticleById(1, <?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>)">&nbsp;选择课件</span>
-                                <input type="hidden" id="iselectLession_1" name="lessions[1][lession]" value="<?=(isset($dataInfo['lessions'][1]['lession']) && $dataInfo['lessions'][1]['lession']) ? $dataInfo['lessions'][1]['lession']: ""?>"/>
+                                <span class="selfmodal btn" onclick='getArticleById("1", "<?=isset($dataInfo['id']) ? $dataInfo['id']:0;?>")'>&nbsp;选择课件</span>
+                                <input type="hidden" id="iselectlession_1" name="lession_ids" value="<?=(isset($dataInfo['lession_ids']) && $dataInfo['lession_ids']) ? $dataInfo['lession_ids']: ""?>"/>
                             </div>
                         </div>
-
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitLevel">立即提交</button>
@@ -144,7 +140,7 @@ use \yii\helpers\Html;
      * @param questionNum
      */
     function getArticleById(type, id){
-        var lessionIds = $("#iselectLession_"+type).val();
+        var lessionIds = $("#iselectlession_"+type).val();
         var index = layer.open({
             type: 2
             ,title: "课件选择"
@@ -156,7 +152,7 @@ use \yii\helpers\Html;
                 var body = layer.getChildFrame('body', index); //得到iframe页的body内容
                 var selectData = body.find("#JtableIds").val();
                 var selectArr = selectData.split(',')
-                $("#iselectLession_"+type).val(selectData);
+                $("#iselectlession_"+type).val(selectData);
                 $("#ialreadyselectnumber_"+type).html(selectArr.length);
 //                $.cookie('checkbox', null);
                 layer.close(index);

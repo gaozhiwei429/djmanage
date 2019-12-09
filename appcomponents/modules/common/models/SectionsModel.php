@@ -134,7 +134,7 @@ class SectionsModel extends BaseModel
             $thisModel->title = isset($addData['title']) ? trim($addData['title']) : "";//名称
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
-            $thisModel->session_uuids = isset($addData['session_uuids']) ? trim($addData['session_uuids']) : "";//课件uuid集合
+            $thisModel->lession_ids = isset($addData['lession_ids']) ? $addData['lession_ids'] : "";//课件id集合
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;

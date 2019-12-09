@@ -135,9 +135,13 @@ class CourseModel extends BaseModel
             $thisModel->course_type_id = isset($addData['course_type_id']) ? intval($addData['course_type_id']) : 0;
             $thisModel->content = isset($addData['content']) ? trim($addData['content']) : ""; //文章内容
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
+            $thisModel->elective_type = isset($addData['elective_type']) ? intval($addData['elective_type']) : 1;
             $thisModel->pic_url = isset($addData['pic_url']) ? trim($addData['pic_url']) : ""; //文章图片
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
-            $thisModel->sections_uuids = isset($addData['sections_uuids']) ? trim($addData['sections_uuids']) : "";//章节uuid集合
+            $thisModel->sections_count = isset($addData['sections_count']) ? intval($addData['sections_count']) : 0;
+            $thisModel->lessions_count = isset($addData['lessions_count']) ? intval($addData['lessions_count']) : 0;
+            $thisModel->sections_ids = isset($addData['sections_ids'])&&!empty($addData['sections_ids'])
+                ? $addData['sections_ids'] : "";//章节id集合
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;

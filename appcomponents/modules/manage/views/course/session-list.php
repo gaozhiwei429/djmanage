@@ -20,7 +20,8 @@ use yii\helpers\Url;
         <!-- 表单搜索 开始 -->
         <form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
             <input type="hidden" value="resort" name="action">
-            <table class="layui-hide" id="dataList"></table>
+            <input type="hidden" value="" name="ids" id="JtableIds">
+            <table class="layui-hide" id="dataList" lay-filter="text"></table>
         </form>
         <div id="page"></div>
         <!-- 表单搜索 结束 -->

@@ -101,9 +101,7 @@ use \yii\helpers\Html;
                         $('input[name="title"]').val(filename);
                     }
                     var size = file.size/(1024*1024);
-                    alert(size);
                     $('input[name="size"]').val(size.toFixed(2));
-                    alert($('input[name="size"]').val());
                 });
             }
             ,before: function(obj){

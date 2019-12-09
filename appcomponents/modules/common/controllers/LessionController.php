@@ -35,7 +35,7 @@ class LessionController extends ManageBaseController
         $size = intval(Yii::$app->request->post('size', 10));
         $newsService = new LessionService();
         $params = [];
-        return $newsService->getList($params, ['sort'=>SORT_DESC,'id'=>SORT_DESC], $page, $size);
+        return $newsService->getList($params, ['id'=>SORT_DESC,'sort'=>SORT_ASC], $page, $size);
     }
 
     /**
@@ -110,6 +110,43 @@ class LessionController extends ManageBaseController
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
         $dataInfo['status'] = $status;
+        return $newsService->editInfo($dataInfo);
+    }
+
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetStatus() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = intval(Yii::$app->request->post('id', 0));
+        $status = intval(Yii::$app->request->post('status',  0));
+        $newsService = new LessionService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['status'] = $status;
+        return $newsService->editInfo($dataInfo);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetSort() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = trim(Yii::$app->request->post('id', 0));
+        $sort = intval(Yii::$app->request->post('sort',  0));
+        $newsService = new LessionService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['sort'] = $sort;
         return $newsService->editInfo($dataInfo);
     }
 }

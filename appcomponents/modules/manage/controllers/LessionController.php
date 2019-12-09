@@ -34,13 +34,13 @@ class LessionController extends ManageBaseController
         );
     }
     public function actionList() {
-        $lessionIds = trim(Yii::$app->request->get('LessionIds', null));
+        $lessionIds = trim(Yii::$app->request->get('lessionIds', null));
         $type = intval(Yii::$app->request->get('type', null));
         if(!empty($lessionIds)) {
             $lessionIds = implode(',', array_unique(array_filter(explode(',', $lessionIds))));
         } else {
             $cookies = Yii::$app->request->cookies;//注意此处是request
-            $lessionIds = $cookies->get('checkbox');//设置默认值
+            $lessionIds = $cookies->get('lessionIds');//设置默认值
         }
         return $this->renderPartial('list',
             [

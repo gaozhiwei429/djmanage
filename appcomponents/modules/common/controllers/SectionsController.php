@@ -70,7 +70,11 @@ class SectionsController extends ManageBaseController
         $sort = intval(Yii::$app->request->post('sort', 0));
         $status = intval(Yii::$app->request->post('status', 1));
         $course_uuid = trim(Yii::$app->request->post('course_uuid', ""));
-        $session_uuids = trim(Yii::$app->request->post('session_uuids', ""));
+        $lession_ids = trim(Yii::$app->request->post('lession_ids', ""));
+        $lessionIds = [];
+        if(!empty($lession_ids)) {
+            $lessionIds = implode(',', array_unique(array_filter(explode(',', $lession_ids))));
+        }
         $newsService = new SectionsService();
         if(empty($title)) {
             return BaseService::returnErrData([], 55900, "请求参数异常，请填写完整");
@@ -94,11 +98,15 @@ class SectionsController extends ManageBaseController
         } else {
             $dataInfo['id'] = 0;
         }
+        if(!empty($lessionIds)) {
+            $dataInfo['lession_ids'] = $lessionIds;
+        } else {
+            $dataInfo['lession_ids'] = "";
+        }
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
         $dataInfo['status'] = $status;
-        $dataInfo['session_uuids'] = $session_uuids;
         return $newsService->editInfo($dataInfo);
     }
 

@@ -10,6 +10,7 @@
  */
 namespace appcomponents\modules\manage\controllers;
 use appcomponents\modules\common\CourseService;
+use appcomponents\modules\common\CourseTypeService;
 use appcomponents\modules\common\LessionService;
 use appcomponents\modules\common\SectionsService;
 use source\controllers\ManageBaseController;
@@ -84,16 +85,19 @@ class CourseController extends ManageBaseController
         $params[] = ['=', 'id', $id];
         $courseInfoRet = $courseService->getInfo($params);
         $info = BaseService::getRetData($courseInfoRet);
-        $sections_uuids = isset($info['sections_uuids']) ? explode(",",$info['sections_uuids']) : [];
+        $sections_ids = isset($info['sections_ids']) ? explode(",",$info['sections_ids']) : [];
         $sectionsList = [];
-        if(!empty($sections_uuids)) {
-            $sectionsParams[] = ['in', 'uuid', $sections_uuids];
+        if(!empty($sections_ids)) {
+            $sectionsParams[] = ['in', 'id', $sections_ids];
             $sectionsService = new SectionsService();
             $sectionsListRet = $sectionsService->getList($sectionsParams,['sort'=>SORT_DESC,'id'=>SORT_ASC], 1, -1, ['*']);
             $sectionsListData = BaseService::getRetData($sectionsListRet);
             $sectionsList = isset($sectionsListData['dataList']) ? $sectionsListData['dataList'] : [];
         }
-
+        $courseTypeService = new CourseTypeService();
+        $getTreeParams[] = ['=', 'status', 1];
+        $courseTypeTreeRet = $courseTypeService->getTree($getTreeParams,['sort'=>SORT_DESC,'id'=>SORT_ASC],1,-1,['id','title','parent_id'], true);
+        $courseTypeTree = BaseService::getRetData($courseTypeTreeRet);
         return $this->renderPartial('edit',
             [
                 'title' => "课程编辑",
@@ -101,6 +105,7 @@ class CourseController extends ManageBaseController
                 'id' => $id,
                 'dataInfo' => BaseService::getRetData($courseInfoRet),
                 'sectionsList' => $sectionsList,
+                'courseTypeTree' => $courseTypeTree,
             ]
         );
     }
@@ -127,11 +132,22 @@ class CourseController extends ManageBaseController
         $params[] = ['=', 'id', $id];
         $courseInfoRet = $sectionService->getInfo($params);
         $info = BaseService::getRetData($courseInfoRet);
+        $lession_ids = isset($info['lession_ids']) ? explode(",",$info['lession_ids']) : [];
+        $lessionList = [];
+        if(!empty($lession_ids)) {
+            $lessionParams[] = ['in', 'id', $lession_ids];
+            $lessionService = new LessionService();
+            $lessionListRet = $lessionService->getList($lessionParams,['sort'=>SORT_DESC,'id'=>SORT_ASC], 1, -1, ['*']);
+            $lessionListData = BaseService::getRetData($lessionListRet);
+            $lessionList = isset($lessionListData['dataList']) ? $lessionListData['dataList'] : [];
+        }
+
         return $this->renderPartial('section-edit',
             [
                 'title' => "课程章节编辑",
                 'dataInfo' => $info,
                 'menuUrl' => $this->menuUrl,
+                'lessionList' => $lessionList,
             ]
         );
     }
@@ -139,11 +155,21 @@ class CourseController extends ManageBaseController
      * 课件管理
      * @return string
      */
-    public function actionSessionList() {
-        return $this->renderPartial('session-list',
+    public function actionSectionList() {
+        $sectionIds = trim(Yii::$app->request->get('sectionIds', null));
+        $type = intval(Yii::$app->request->get('type', null));
+        if(!empty($sectionIds)) {
+            $sectionIds = implode(',', array_unique(array_filter(explode(',', $sectionIds))));
+        } else {
+            $cookies = Yii::$app->request->cookies;//注意此处是request
+            $sectionIds = $cookies->get('sectionIds');//设置默认值
+        }
+        return $this->renderPartial('section-list',
             [
                 'title' => "课程章节管理",
                 'menuUrl' => $this->menuUrl,
+                'sectionIds' => $sectionIds,
+                'type' => $type,
             ]
         );
     }

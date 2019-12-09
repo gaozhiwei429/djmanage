@@ -8,9 +8,9 @@ use yii\helpers\Url;
         <div class="pull-left"><span><?= Html::encode($title ? $title : (isset($this->title) ? $this->title : null)) ?></span></div>
         <div class="pull-right margin-right-15 nowrap">
             <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/add']),"/"), $menuUrl)) {
+            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/edit']),"/"), $menuUrl)) {
                 ?>
-                <button data-open='<?=Url::to(['manage/course/add']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加课程</button>
+                <button data-open='<?=Url::to(['manage/course/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加课程</button>
             <?php
             }
             ?>
@@ -84,10 +84,11 @@ use yii\helpers\Url;
                             ,{field:'id', title: 'ID', width: 60}
                             ,{field:'title', title: '名称', minWidth: 120}
                             ,{field:'pic_url', title: '封面图片', minWidth: 100, height: 100,toolbar:"#Jimg"}
-                            ,{field:'sort', title: '排序', width: 40}
-                            ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 60}
+                            ,{field:'sort', title: '排序', width: 80,"type":"text","edit":"text"}
+                            ,{field:'status', title: '状态', width: 120,toolbar:"#Jstatus"}
+                            ,{field:'elective_type', title: '选修方式', minWidth: 120,toolbar:"#JelectiveType"}
                             ,{field:'create_time', title: '创建时间', minWidth: 120}
-                            ,{field:'course_type_title', title: '所属分类', minWidth: 120}
+                            ,{field:'course_type_title', title: '所属分类', minWidth: 60}
                             ,{field:'right', title: '操作', minWidth: 180,toolbar:"#barDemo"}
                         ]]
                         ,done: function(res, curr, count){
@@ -141,7 +142,62 @@ use yii\helpers\Url;
             params.status=status;
             $.ajax({
                 type: "post",
-                url: "<?= Url::to(['common/exam/set-status']); ?>",
+                url: "<?= Url::to(['common/course/set-status']); ?>",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                dataType: "json",
+                beforeSend: function (XMLHttpRequest) {
+                    for (var i in headerParams) {
+                        XMLHttpRequest.setRequestHeader(i, headerParams[i]);
+                    }
+                },
+                success: function (result) {
+                    if (result.code == 0) {
+                        layer.msg(result.msg, {
+                            time: 2000,
+                            shade: 0.6
+                        });
+                        return true;
+                    } else if(result.code == 5001){
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            shade: 0.6,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            top.location.href="../user/login"
+                        });
+                        return true;
+                    } else {
+                        layer.msg(result.msg, {
+                            time: 2000,
+                            shade: 0.6,
+                            icon: 2
+                        });
+                        return true;
+                    }
+                },
+                error: function () {
+                    layer.msg("系统异常", {
+                        time: 2000,
+                        shade: 0.6,
+                        icon: 2
+                    });
+                    return true;
+                }
+            })
+        });
+        //监听状态的操作
+        form.on('switch(elective_type)', function(obj){
+            var params = {};
+            var elective_type = (obj.elem.checked && obj.elem.checked==1) ? 2 : 1;
+            var id = obj.elem.value;
+            if(id) {
+                params.id=id;
+            }
+            params.elective_type=elective_type;
+            $.ajax({
+                type: "post",
+                url: "<?= Url::to(['common/course/set-elective-type']); ?>",
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(params),
                 dataType: "json",
@@ -188,40 +244,20 @@ use yii\helpers\Url;
         element.render();
     });
 </script>
-
 <script type="text/html" id="Jstatus">
     {{#  if(d.status ==0){ }}
-    结束开始
+    <input type="checkbox" name="status" lay-skin="switch" lay-text="上线|下线" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}"/>
     {{# }if(d.status ==1) { }}
-    开始考试
-    {{# }if(d.status ==2) { }}
-    终止考试
+    <input type="checkbox" name="status" lay-skin="switch" lay-text="上线|下线" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}" checked />
     {{#  } }}
 </script>
-<script type="text/html" id="Jdecide">
-    {{#  if(d.decide ==0){ }}
-    系统自评
-    {{# }if(d.decide ==1) { }}
-    党组织评卷
-    {{# }if(d.status ==2) { }}
-    其他
+<script type="text/html" id="JelectiveType">
+    {{#  if(d.elective_type ==1){ }}
+    <input type="checkbox" name="elective_type" lay-skin="switch" lay-text="选修|必修" lay-filter="elective_type" data-id="{{d.id}}" data-status="{{d.elective_type}}" value="{{d.id}}"/>
+    {{# }else if(d.elective_type ==2) { }}
+    <input type="checkbox" name="elective_type" lay-skin="switch" lay-text="选修|必修" lay-filter="elective_type" data-id="{{d.id}}" data-status="{{d.elective_type}}" value="{{d.id}}" checked />
     {{#  } }}
 </script>
-<script type="text/html" id="JstartTime">
-    {{#  if(d.start_time ==null){ }}
-    长期
-    {{# }if(d.start_time !=null) { }}
-    {{d.start_time }}
-    {{#  } }}
-</script>
-<script type="text/html" id="JoverdueTime">
-    {{#  if(d.overdue_time ==null){ }}
-    长期
-    {{# }if(d.overdue_time !=null) { }}
-    {{d.overdue_time }}
-    {{#  } }}
-</script>
-
 <script type="text/html" id="Jimg">
     {{#  if(d.pic_url!=""){ }}
     <img src="{{d.pic_url}}">
@@ -230,7 +266,7 @@ use yii\helpers\Url;
     {{#  } }}
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/exam/edit']);?>?id={{d.id }}">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/course/edit']);?>?id={{d.id }}">
         修改
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs">

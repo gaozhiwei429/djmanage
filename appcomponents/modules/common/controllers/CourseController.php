@@ -12,6 +12,8 @@
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\CourseService;
 use appcomponents\modules\common\CourseTypeService;
+use appcomponents\modules\common\LessionService;
+use appcomponents\modules\common\SectionsService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
@@ -57,7 +59,6 @@ class CourseController extends ManageBaseController
         }
         return $courseListRet;
     }
-
     /**
      * 文章详情数据获取
      * @return array
@@ -66,14 +67,44 @@ class CourseController extends ManageBaseController
         if (!isset($this->user_id) || !$this->user_id) {
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
-        $id = intval(Yii::$app->request->post('id', 0));
-        if(empty($id)) {
+        $uuid = trim(Yii::$app->request->post('uuid', null));
+        if(empty($uuid)) {
             return BaseService::returnErrData([], 54000, "请求参数异常");
         }
         $newsService = new CourseService();
         $params = [];
-        $params[] = ['=', 'id', $id];
-        return $newsService->getInfo($params);
+        $params[] = ['=', 'uuid', $uuid];
+        $courseInfoRet = $newsService->getInfo($params);
+        if(BaseService::checkRetIsOk($courseInfoRet)) {
+            $courseInfo = BaseService::getRetData($courseInfoRet);
+            if(isset($courseInfo['sections_ids']) && !empty($courseInfo['sections_ids'])) {
+                $sections_ids = explode(',',$courseInfo['sections_ids']);
+                $sectionService = new SectionsService();
+                $sectionParams[] = ['in', 'id', $sections_ids];
+                $sectionParams[] = ['!=', 'status', 0];
+                $sectionListRet = $sectionService->getList($sectionParams, ['sort'=>SORT_DESC, 'id'=>SORT_ASC], 1, -1, ['id', 'title', 'lession_ids'], true);
+                $sectionDataList = BaseService::getRetData($sectionListRet);
+                if(isset($sectionDataList['dataList']) && !empty($sectionDataList['dataList'])) {
+                    foreach($sectionDataList['dataList'] as &$sectionData) {
+                        $courseInfo['sectionData'][$sectionData['id']]['sectionInfo'] = $sectionData;
+                        if(isset($sectionData['lession_ids']) && !empty($sectionData['lession_ids'])) {
+                            $lessionParams = [];
+                            $lessionParams[] = ['in', 'id', explode(',',$sectionData['lession_ids'])];
+                            $lessionParams[] = ['!=', 'status', 0];
+                            $lessionService = new LessionService();
+                            $lessionListRet = $lessionService->getList($lessionParams, ['sort'=>SORT_ASC, 'id'=>SORT_ASC], 1, -1, ['id', 'title', 'uuid', 'file', 'format']);
+                            $lessionDataList = BaseService::getRetData($lessionListRet);
+                            if(isset($lessionDataList['dataList']) && !empty($lessionDataList['dataList'])) {
+                                $courseInfo['sectionData'][$sectionData['id']]['lessionList'] = $lessionDataList['dataList'];
+                            }
+                        }
+
+                    }
+                }
+            }
+            return BaseService::returnOkData($courseInfo);
+        }
+        return $courseInfoRet;
     }
     /**
      * 资讯详情数据编辑
@@ -88,19 +119,37 @@ class CourseController extends ManageBaseController
         $content = trim(Yii::$app->request->post('content', ""));
         $sort = intval(Yii::$app->request->post('sort', 0));
         $status = intval(Yii::$app->request->post('status',  0));
+        $elective_type = intval(Yii::$app->request->post('elective_type',  1));
         $course_type_id = intval(Yii::$app->request->post('course_type_id',  0));
         $pic_url = trim(Yii::$app->request->post('pic_url', ""));
+        $sections_ids = Yii::$app->request->post('sections_ids', "");
         $newsService = new CourseService();
-        $postData = Yii::$app->request->post();
-        $sections_uuidsArr = [];
-        foreach($postData as $k=>$v) {
-            if(strstr($k,"sections_uuids")) {
-                $sections_uuidsArr[] = $v;
-            }
-        }
+        $sections_ids = explode(',', $sections_ids);
         if(empty($title)) {
             return BaseService::returnErrData([], 55900, "请求参数异常，请填写完整");
         }
+        if(!is_array($sections_ids) || empty($sections_ids)) {
+            return BaseService::returnErrData([], 510000, "请选择章节");
+        }
+        $lession_count = 0;
+        $sectionsService = new SectionsService();
+        $sectionsParams[] = ['in', 'id', $sections_ids];
+        $sectionsListRet = $sectionsService->getList($sectionsParams,[],1,-1,['lession_ids']);
+        if(BaseService::checkRetIsOk($sectionsListRet)) {
+            $sectionsList = BaseService::getRetData($sectionsListRet);
+            if(isset($sectionsList['dataList'])) {
+                foreach($sectionsList['dataList'] as $dataInfo) {
+                    if(isset($dataInfo['lession_ids'])) {
+                        $lession_count += count(explode(',', $dataInfo['lession_ids']));
+                    }
+                }
+            }
+        }
+        if($lession_count==0) {
+            return BaseService::returnErrData([], 510000, "您选择的章节没有选择课件请为选择的章节选择课件");
+        }
+        $dataInfo['sections_count'] = count($sections_ids);
+        $dataInfo['lession_count'] = $lession_count;
         $dataInfo = [];
         if(!empty($pic_url)) {
             $dataInfo['pic_url'] = $pic_url;
@@ -123,8 +172,8 @@ class CourseController extends ManageBaseController
         } else {
             $dataInfo['sort'] = 0;
         }
-        if(!empty($sections_uuidsArr)) {
-            $dataInfo['sections_uuids'] = implode(',', $sections_uuidsArr);
+        if(!empty($sections_ids)) {
+            $dataInfo['sections_ids'] = implode(',',$sections_ids);
         }
         if(!empty($id)) {
             $dataInfo['id'] = $id;
@@ -135,6 +184,61 @@ class CourseController extends ManageBaseController
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
         $dataInfo['status'] = $status;
+        $dataInfo['elective_type'] = $elective_type;
+        return $newsService->editInfo($dataInfo);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetStatus() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = intval(Yii::$app->request->post('id', 0));
+        $status = intval(Yii::$app->request->post('status',  0));
+        $newsService = new CourseService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['status'] = $status;
+        return $newsService->editInfo($dataInfo);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetSort() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = trim(Yii::$app->request->post('id', 0));
+        $sort = intval(Yii::$app->request->post('sort',  0));
+        $newsService = new CourseService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['sort'] = $sort;
+        return $newsService->editInfo($dataInfo);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetElectiveType() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = intval(Yii::$app->request->post('id', 0));
+        $elective_type = intval(Yii::$app->request->post('elective_type',  1));
+        $newsService = new CourseService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['elective_type'] = $elective_type;
         return $newsService->editInfo($dataInfo);
     }
 }

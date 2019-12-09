@@ -20,7 +20,7 @@ use yii\helpers\Url;
         <!-- 表单搜索 开始 -->
         <form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
             <input type="hidden" value="resort" name="action">
-            <table class="layui-hide" id="dataList"></table>
+            <table class="layui-hide" id="dataList" lay-filter="text"></table>
         </form>
         <div id="page"></div>
         <!-- 表单搜索 结束 -->
@@ -128,7 +128,7 @@ use yii\helpers\Url;
             params.sort = obj.data.sort;
             $.ajax({
                 type: "post",
-                url: "<?= Url::to(['common/sections/set-sort']); ?>",
+                url: "<?= Url::to(['common/lession/set-sort']); ?>",
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(params),
                 dataType: "json",
@@ -272,9 +272,9 @@ use yii\helpers\Url;
     }
     ?>
     <?php
-    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/section-edit']),"/"), $menuUrl)) {
+    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/course/lession-edit']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/course/section-edit']);?>?id={{d.id}}">编辑</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/course/lession-edit']);?>?id={{d.id}}">编辑</a>
     <?php
     }
     ?>
