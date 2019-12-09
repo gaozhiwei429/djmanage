@@ -3,14 +3,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 ?>
-<style>
-.layui-table-cell{
-    height:auto;
-    overflow:visible;
-    text-overflow:inherit;
-    white-space:normal;
-}
-</style>
 <div class="layui-card">
     <div class="layui-header notselect">
         <div class="pull-left"><span><?= Html::encode($title ? $title : (isset($this->title) ? $this->title : null)) ?></span></div>
