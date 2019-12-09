@@ -99,6 +99,14 @@ use \yii\helpers\Html;
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">
+                                <span class="require-text"></span>学习周期
+                            </label>
+                            <div class="layui-input-block">
+                                <input type="text" name="startandenddate" id="startandenddate" autocomplete="off" placeholder="请选择考试周期" class="layui-input" value="<?=(isset($dataInfo['start_time'])&&!empty($dataInfo['start_time'])) ? $dataInfo['start_time']." - ":"";?><?=(isset($dataInfo['end_time'])&&!empty($dataInfo['end_time'])) ? $dataInfo['end_time']:"";?>">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
                                 <span class="require-text"></span>选择章节</label>
                             <div class="layui-input-block">
                                 <span>&nbsp;已选章节数：<a id="ialreadyselectnumber_1"><?=(isset($sectionsList) && $sectionsList) ? count($sectionsList): 0?></a>&nbsp;&nbsp;章</span>
@@ -133,7 +141,7 @@ use \yii\helpers\Html;
         var headerParams = JSON.parse(userData);
         //常规用法
         laydate.render({
-            elem: '#startandoverduedate'
+            elem: '#startandenddate'
             ,range: true
             ,min: '2019-01-01 00:00:00' //最小日期
             ,max: '2099-12-31 23:59:59' //最大日期

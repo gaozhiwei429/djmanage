@@ -142,6 +142,8 @@ class CourseModel extends BaseModel
             $thisModel->lessions_count = isset($addData['lessions_count']) ? intval($addData['lessions_count']) : 0;
             $thisModel->sections_ids = isset($addData['sections_ids'])&&!empty($addData['sections_ids'])
                 ? $addData['sections_ids'] : "";//章节id集合
+            $thisModel->start_time = isset($addData['start_time']) ? trim($addData['start_time']) : "";//开始学习时间
+            $thisModel->end_time = isset($addData['end_time']) ? trim($addData['end_time']) : "";//结束学习时间
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;

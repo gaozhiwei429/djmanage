@@ -87,7 +87,7 @@ use yii\helpers\Url;
                             ,{field:'sort', title: '排序', width: 80,"type":"text","edit":"text"}
                             ,{field:'status', title: '状态', width: 120,toolbar:"#Jstatus"}
                             ,{field:'elective_type', title: '选修方式', minWidth: 120,toolbar:"#JelectiveType"}
-                            ,{field:'create_time', title: '创建时间', minWidth: 120}
+                            ,{field:'startAndEndTime', title: '学习周期', minWidth: 200,toolbar:"#startAndEndTime"}
                             ,{field:'course_type_title', title: '所属分类', minWidth: 60}
                             ,{field:'right', title: '操作', minWidth: 180,toolbar:"#barDemo"}
                         ]]
@@ -249,6 +249,19 @@ use yii\helpers\Url;
     <input type="checkbox" name="status" lay-skin="switch" lay-text="上线|下线" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}"/>
     {{# }if(d.status ==1) { }}
     <input type="checkbox" name="status" lay-skin="switch" lay-text="上线|下线" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}" checked />
+    {{#  } }}
+</script>
+<script type="text/html" id="startAndEndTime">
+    {{#  if(d.start_time){ }}
+    {{d.start_time}}
+    {{# }else{ }}
+    -
+    {{#  } }}
+    至
+    {{#  if(d.end_time){ }}
+    {{d.end_time}}
+    {{# }else{ }}
+    -
     {{#  } }}
 </script>
 <script type="text/html" id="JelectiveType">

@@ -123,6 +123,7 @@ class CourseController extends ManageBaseController
         $course_type_id = intval(Yii::$app->request->post('course_type_id',  0));
         $pic_url = trim(Yii::$app->request->post('pic_url', ""));
         $sections_ids = Yii::$app->request->post('sections_ids', "");
+        $startandenddate = trim(Yii::$app->request->post('startandenddate', null));
         $newsService = new CourseService();
         $sections_ids = explode(',', $sections_ids);
         if(empty($title)) {
@@ -179,6 +180,16 @@ class CourseController extends ManageBaseController
             $dataInfo['id'] = $id;
         } else {
             $dataInfo['id'] = 0;
+        }
+
+        if(!empty($startandenddate)) {
+            $startandenddateArr = explode(" - ", $startandenddate);
+            if(!empty($startandenddateArr[0]) && isset($startandenddateArr[0])) {
+                $dataInfo['start_time'] = $startandenddateArr[0];
+            }
+            if(!empty($startandenddateArr[1]) && isset($startandenddateArr[1])) {
+                $dataInfo['end_time'] = $startandenddateArr[1];
+            }
         }
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 58000, "提交数据有误");

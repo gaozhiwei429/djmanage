@@ -282,6 +282,7 @@ layui.use(['form', 'table', 'laypage', 'upload','layedit'], function(){
     form.on('submit(submitLevel)', function(data){
         data.field.problem = layedit2.getContent(index2);
         data.field.analysis = layedit.getContent(index1);
+        data.field.answer = layedit3.getContent(index3);
         $.ajax({
             type: "post",
             url: "<?= Url::to(['common/question/edit']); ?>",
