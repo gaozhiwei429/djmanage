@@ -14,6 +14,7 @@ use appcomponents\modules\common\MettingTypeService;
 use appcomponents\modules\common\NewsService;
 use appcomponents\modules\common\OrganizationService;
 use appcomponents\modules\common\TypeService;
+use appcomponents\modules\common\VoteService;
 use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
 use source\libs\Common;
@@ -221,6 +222,48 @@ class ForumController extends ManageBaseController
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
                 'dataInfo' => $newsInfo,
+            ]
+        );
+    }
+    /**
+     * 民主投票
+     * @return string
+     */
+    public function actionMztp() {
+        return $this->renderPartial('vote',
+            [
+                'title' => "民主投票管理",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
+    /**
+     * 民主投票编辑
+     * @return string
+     */
+    public function actionVoteEdit() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        //组织树形结构数据
+        $organizationService = new OrganizationService();
+        $params = [];
+        $params[] = ['!=', 'status', 0];
+        $ret = $organizationService->getTree($params, ['id'=>SORT_ASC], 1, -1, $fied=['*'], true);
+        $treeData = BaseService::getRetData($ret);
+        $arr = [];
+        $arr = Common::treeToArr($treeData, $arr);
+        $dataInfo = [];
+        if($id) {
+            $voteParams[] = ['=', 'id', $id];
+            $newsService = new VoteService();
+            $newsInfoRet = $newsService->getInfo($voteParams);
+            $dataInfo = BaseService::getRetData($newsInfoRet);
+        }
+        return $this->renderPartial('vote-edit',
+            [
+                'title' => "民主投票管理",
+                'menuUrl' => $this->menuUrl,
+                'treeData' => $arr,
+                'dataInfo' => $dataInfo,
             ]
         );
     }

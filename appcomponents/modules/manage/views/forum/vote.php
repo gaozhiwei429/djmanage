@@ -8,16 +8,16 @@ use yii\helpers\Url;
         <div class="pull-left"><span><?= Html::encode($title ? $title : (isset($this->title) ? $this->title : null)) ?></span></div>
         <div class="pull-right margin-right-15 nowrap">
             <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/metting-edit']),"/"), $menuUrl)) {
+            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/vote-edit']),"/"), $menuUrl)) {
                 ?>
-                <button data-open='<?=Url::to(['manage/forum/metting-edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>发布会议</button>
+                <button data-open='<?=Url::to(['manage/forum/vote-edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>发布投票</button>
             <?php
             }
             ?>
             <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/del']),"/"), $menuUrl)) {
+            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/vote-del']),"/"), $menuUrl)) {
                 ?>
-                <button data-update data-field='delete' data-action='<?=Url::to(['manage/forum/del']);?>'  class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+                <button data-update data-field='delete' data-action='<?=Url::to(['manage/forum/vote-del']);?>'  class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
             <?php
             }
             ?>
@@ -61,7 +61,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     });
     $.ajax({
         type: "post",
-        url:"<?= Url::to(['common/metting/get-list']); ?>",
+        url:"<?= Url::to(['common/vote/get-list']); ?>",
         contentType: "application/json;charset=utf-8",
         data :JSON.stringify(params),
         dataType: "json",
@@ -81,9 +81,13 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
                     ,cols: [[
                         {checkbox: true, fixed: true}
                         ,{field:'id', title: 'ID', width: 60}
-                        ,{field:'title', title: '会议主题', minWidth: 120}
-                        ,{field:'content', title: '会议要求', minWidth: 120}
-                        ,{field:'metting_type_title', title: '所属类型', minWidth: 80}
+                        ,{field:'title', title: '投票主题', minWidth: 120}
+                        ,{field:'content', title: '投票内容', minWidth: 120}
+                        ,{field:'address', title: '地址', minWidth: 120}
+                        ,{field:'start_time', title: '开始时间', minWidth: 80}
+                        ,{field:'end_time', title: '结束时间', minWidth: 80}
+                        ,{field:'join_people_num', title: '投票人数', minWidth: 80}
+                        ,{field:'waiver_people_num', title: '弃权人数', minWidth: 80}
                         ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 100}
                         ,{field:'create_time', title: '创建时间', minWidth: 140}
                         ,{field:'right', title: '操作', minWidth: 160,toolbar:"#barDemo"}
@@ -147,7 +151,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
         params.status=status;
         $.ajax({
             type: "post",
-            url: "<?= Url::to(['common/metting/set-status']); ?>",
+            url: "<?= Url::to(['common/vote/set-status']); ?>",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(params),
             dataType: "json",
@@ -205,11 +209,11 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
 </script>
 
 <script type="text/html" id="barDemo">
-<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/forum/metting-info']);?>?id={{d.id}}">查看</a>
+<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/forum/vote-info']);?>?id={{d.id}}">查看</a>
     <?php
-    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/metting-edit']),"/"), $menuUrl)) {
+    if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/forum/vote-edit']),"/"), $menuUrl)) {
         ?>
-        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/forum/metting-edit']);?>?id={{d.id}}">编辑</a>
+        <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" lay-event="edit" data-open="<?=Url::to(['manage/forum/vote-edit']);?>?id={{d.id}}">编辑</a>
     <?php
     }
     ?>
