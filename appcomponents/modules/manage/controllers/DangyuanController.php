@@ -10,6 +10,7 @@
  */
 namespace appcomponents\modules\manage\controllers;
 use appcomponents\modules\common\BannerService;
+use appcomponents\modules\common\DangyuanService;
 use appcomponents\modules\common\LevelService;
 use appcomponents\modules\common\OrganizationService;
 use source\controllers\ManageBaseController;
@@ -41,19 +42,24 @@ class DangyuanController extends ManageBaseController
     }
     public function actionIndex() {
         $organization_id = intval(Yii::$app->request->get('organization_id', 0));
+        $dep_name = trim(Yii::$app->request->get('dep_name', "全部"));
         return $this->renderPartial('index',
             [
                 'title' => "党员管理",
                 'hostInfo' => Yii::$app->request->hostInfo,
                 'organization_id' => $organization_id,
+                'dep_name' => $dep_name,
                 'menuUrl' => $this->menuUrl,
             ]
         );
     }
-
+    /**
+     * 党员详情
+     * @return string
+     */
     public function actionInfo() {
         $id = intval(Yii::$app->request->get('id', 0));
-        $bannerService = new BannerService();
+        $bannerService = new DangyuanService();
         $params = [];
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
@@ -97,6 +103,22 @@ class DangyuanController extends ManageBaseController
                 'treeData' => $arr,
                 'levelData' => isset($levelDataList['dataList']) ? $levelDataList['dataList'] : [],
                 'info' => BaseService::getRetData($bannerInfoRet),
+            ]
+        );
+    }
+    /**
+     * 党员列表数据获取
+     * @return string
+     */
+    public function actionList() {
+        $organization_id = intval(Yii::$app->request->get('organization_id', 0));
+        $userIds = trim(Yii::$app->request->get('userIds', "全部"));
+        return $this->renderPartial('list',
+            [
+                'title' => "党员列表",
+                'organization_id' => $organization_id,
+                'userIds' => $userIds,
+                'menuUrl' => $this->menuUrl,
             ]
         );
     }

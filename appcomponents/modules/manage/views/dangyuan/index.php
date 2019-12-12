@@ -3,43 +3,18 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 ?>
-
+<?=Html::cssFile('@web/static/plugs/layui/css/main.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/layer.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
+<?=Html::cssFile('@web/static/plugs/layui/css/modules/laydate/default/laydate.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/plugs/layui/css/layui.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/css/common/main.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<?=Html::cssFile('@web/static/dangjian/css/form.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
-<style>
-    .layui-laypage-btn {
-        border: 1px solid #666 !important;
-    }
-    .my-light{
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #f00;
-        vertical-align: middle;
-        margin-bottom: 3px;
-    }
-    .my-light-red{
-        background-color: #f00;
-    }
-    .my-light-yellow{
-        background-color: #ff0;
-    }
-    .my-light-green{
-        background-color: #0f0;
-    }
-    #search_form input.layui-input {
-        height: 31px;
-    }
-</style>
+<?=Html::cssFile('@web/static/theme/css/console.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 
-
-<!--[if lt IE 9]>
-<script src="__CSS__/html5shiv.min.js"></script>
-<script src="__CSS__/respond.min.js"></script>
-<![endif]-->
+<script>window.ROOT_URL = '__ROOT__';</script>
+<?=Html::jsFile('@web/static/plugs/jquery/pace.min.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <?=Html::jsFile('@web/static/plugs/layui/layui.all.js?v='.date("ymd"), ['type' => "text/javascript"])?>
+<?=Html::jsFile('@web/static/admin.js?v='.date("ymd"), ['type' => "text/javascript"])?>
+<?=Html::jsFile('@web/static/js/jquery.cookie.js?v='.date("ymd"), ['type' => "text/javascript"])?>
 <div class="ibox-content">
     <div class="row">
         <div class="col-sm-12">
@@ -50,21 +25,13 @@ use yii\helpers\Url;
 
                     <div class="admin-main layui-form" style="margin: 0 15px;">
                         <blockquote class="layui-elem-quote layui-text">
-                            企业党委（共2人）        </blockquote>
+                            <?=$dep_name?$dep_name : "全部";?>（共<span id="peopleCount">0</span>人）        </blockquote>
                         <form id="search_form" class="layui-form layui-clear" action="">
-                            <a class="layui-btn layui-btn-sm" href="<?=Url::to(['manage/dangyuan/edit']);?>?organization_id=<?=isset($organization_id) ? $organization_id : "";?>">添加用户</a>
+<a class="layui-btn layui-btn-sm" href="<?=Url::to(['manage/dangyuan/edit']);?>?organization_id=<?=isset($organization_id) ? $organization_id : "";?>">添加用户</a>
                             <div class="" style="float: right;">
                                 <script>
                                     let renderArr = [];
                                 </script>
-                                <!--<div class="layui-inline">-->
-                                <!--<select name="recommend">-->
-                                <!--<option value="0"-->
-                                <!--selected > 是否推荐 </option>-->
-                                <!--<option value="1"-->
-                                <!--&gt; 推荐 </option>-->
-                                <!--</select>-->
-                                <!--</div>-->
                                 <div class="layui-inline">
                                     <input type="text" name="keyword" autocomplete="off" lay-verify="" placeholder="请输入姓名关键字"
                                            value=""  class="layui-input">
@@ -72,17 +39,12 @@ use yii\helpers\Url;
                                 <button id="search_btn" class="layui-btn layui-btn-sm" data-type="reload">搜索</button>
                             </div>
                         </form>
-                        <div class="layui-clear">
-                            <table class="layui-hide" id="demo" lay-filter="test"></table>
-                        </div>
 
-                        <!--<script type="text/html" id="toolbarDemo">-->
-                        <!--<div class="layui-btn-container">-->
-                        <!--<a href="/admin.php/article/edit.html" class="layui-btn layui-btn-sm" id="add">-->
-                        <!--<i class="layui-icon">&#xe608;</i> 添加-->
-                        <!--</a>-->
-                        <!--</div>-->
-                        <!--</script>-->
+
+                        <div class="layui-clear">
+                            <table class="layui-hide" id="dataList" lay-filter="text"></table>
+                            <div id="page"></div>
+                        </div>
 
                         <script type="text/html" id="barDemo">
                             {{#  if( true ){ }}
@@ -101,111 +63,105 @@ use yii\helpers\Url;
 
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 </div>
 <script>
-    layui.use(['table', 'jquery','form'], function () {
-        var table = layui.table
-            , jq = layui.jquery
-            , $ = layui.jquery
-            , currPage = 1
-            , form = layui.form;
+    layui.use(['form', 'table', 'laypage', 'layer'], function(){
+        var laypage = layui.laypage;
+        var form = layui.form
+            ,element = layui.element;
+        var jq = layui.jquery
+            ,$ = layui.jquery;
+        var storage=window.localStorage;
+        var table = layui.table;
+        var userData = storage.getItem("userData");
+        var headerParams = JSON.parse(userData);
 
-        let url = "<?=Url::to(['common/dangyuan/get-list']);?>?organization_id=<?=isset($organization_id) ? $organization_id : 0;?>";
-        let tableData = {
-            elem: '#demo'
-            , url: url
-            , defaultToolbar: []//['filter', 'print', 'exports']
-            , title: 'list test'
-            , cellMinWidth: 30
-            , cols: [
-                [{
-                    "title": "ID",
-                    "field": "id",
-                    "type": "text",
-                    "width": 55,
-                    "align": "center",
-                    "sort": false
-                }, {
-                    "title": "用户姓名",
-                    "field": "full_name",
-                    "type": "text",
-                    "width": 80,
-                }, {
-                    "title": "职务",
-                    "field": "level_title",
-                    "type": "select",
-                }, {
-                    "title": "手机号",
-                    "field": "username",
-                    "type": "text",
-                    "width": 120,
-                }, {
-                    "title": "积分",
-                    "field": "point",
-                    "type": "text",
-                    "width": 60,
-                }, {
-                    "title": "红灯",
-                    "field": "red_light",
-                    "width": 70,
-                    templet: '<div><a href="/admin.php/meeting_user/index/light/1.html?user_id={{d.id}}">\n' +
-                    '                        <span class="my-light my-light-red"></span>\n' +
-                    '                        <span>x\n' +
-                    '                            {{d.red_light}}\n' +
-                    '                        </span>\n' +
-                    '                    </a></div>'
-                }, {
-                    "title": "黄灯",
-                    "field": "yellow_light",
-                    "width": 70,
-                    templet: '<div><a href="/admin.php/meeting_user/index/light/2.html?user_id={{d.id}}">\n' +
-                    '                        <span class="my-light my-light-yellow"></span>\n' +
-                    '                        <span>x\n' +
-                    '                            {{d.yellow_light}}\n' +
-                    '                        </span>\n' +
-                    '                    </a></div>'
-                }, {
-                    "title": "绿灯",
-                    "field": "green_light",
-                    "width": 70,
-                    templet: '<div><a href="/admin.php/meeting_user/index/light/3.html?user_id={{d.id}}">\n' +
-                    '                        <span class="my-light my-light-green"></span>\n' +
-                    '                        <span>x\n' +
-                    '                            {{d.green_light}}\n' +
-                    '                        </span>\n' +
-                    '                    </a></div>'
-                }, {
-                    "title": "操作",
-                    "field": "toolbar",
-                    "width": 190,
-                    "type": "toolbar",
-                    "fixed": "right",
-                    "toolbar": "#barDemo"
-                }]
-            ],
-            page: true
-            , response: {
-                statusCode: 0
-            }
-            ,id: 'testReload',
-            done:
-                function (res, curr, count) {
-                    currPage = curr;
-                    if (res.data.length == 0 && currPage > 1) {
-                        //当前页数据为空自动切到前一页
-                        active['reload'] ? active['reload'].call(this, currPage - 1) : '';
-                    }
+        //监听提交
+        var params = {};
+        var selfUrl = window.location.href;
+        var page = GetUrlParam("p") ? GetUrlParam("p") : 1;
+        var size = GetUrlParam("size") ? GetUrlParam("size") : 10;
+        params.p=page;
+        params.size = size;
+        params.count = 0;
+        form.on('submit(commit)', function(data){
+            var paramsStr = "";
+            $.each(data.field, function(i, item){
+                selfUrl = changeURLArg(selfUrl,i,item);
+            });
+            selfUrl = changeURLArg(selfUrl,"p",1);
+            location.href = selfUrl;
+        });
+        $.ajax({
+            type: "post",
+            url:"<?=Url::to(['common/dangyuan/get-list']);?>?organization_id=<?=isset($organization_id) ? $organization_id : 0;?>",
+            contentType: "application/json;charset=utf-8",
+            data :JSON.stringify(params),
+            dataType: "json",
+            beforeSend: function (XMLHttpRequest) {
+                for(var i in headerParams) {
+                    XMLHttpRequest.setRequestHeader(i, headerParams[i]);
                 }
-        };
-
-        let page_where = [];
-        if (page_where != null && page_where != '') {
-            tableData.where = page_where;
-        }
-
-        table.render(tableData);
+            },
+            success:function(result){
+                params.count = result.data.count;
+                $("#peopleCount").html(result.data.count);
+                if(result.code == 0) {
+                    table.render({
+                        elem: '#dataList'
+                        ,id:"dataList"
+                        ,data:result.data.dataList
+                        ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        ,cols: [[
+                            {checkbox: true, fixed: true, width: 30}
+                            ,{field:'id', title: 'ID', width: 30}
+                            ,{field:'full_name', title: '用户姓名', minWidth: 100}
+                            ,{field:'level_title', title: '职务', minWidth: 100}
+                            ,{field:'organization_title', title: '党组织', minWidth: 200}
+                            ,{field:'username', title: '手机号', minWidth: 100}
+                            ,{field:'right', title: '操作',toolbar:"#barDemo"}
+                        ]]
+                        ,done: function(res, curr, count){
+                            //自定义样式
+                            laypage.render({
+                                elem: 'page'
+                                ,count: params.count
+                                ,theme: '#1E9FFF'
+                                ,curr: parseInt(page) || 1 //当前页
+                                ,jump : function(obj, first){
+                                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                                        selfUrl = changeURLArg(selfUrl,'p',obj.curr);
+                                        selfUrl = changeURLArg(selfUrl,'size',size);
+                                        self.location = selfUrl;
+                                    }
+                                }
+                            });
+                            layer.closeAll();
+                        }
+                    })
+                } else if(result.code == 5001) {
+                    layer.msg(result.msg, {
+                        icon: 2,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        top.location.href="../user/login"
+                    });
+                }else {
+                    layer.msg(result.msg, {icon: 2});
+                }
+            },
+            error: function () {
+                table.render({
+                    elem: '#dataList',
+                    id: "dataList",
+                    limit: 0,
+                    size: 'sm',
+                    data:[]
+                })
+            }
+        });
 
         //TODO （暂无用）头工具栏事件
         table.on('toolbar(test)', function (obj) {

@@ -530,6 +530,7 @@ class PassportService extends BaseService
             $userData['user_status'] = 0;
             $userData['nation'] = "未知";
             $userData['work_status'] = 0;
+            $userData['user_info_status'] = 0;
             $userInfoModel = new UserInfoModel();
             $userInfoParams[] = ['=', 'user_id', $id];
             $userInfoData = $userInfoModel->getInfoByParams($userInfoParams);
@@ -590,6 +591,9 @@ class PassportService extends BaseService
                 }
                 if(isset($userInfoData['work_status']) && !empty($userInfoData['work_status'])) {
                     $userData['work_status'] = $userInfoData['work_status'];
+                }
+                if(isset($userInfoData['status']) && !empty($userInfoData['status'])) {
+                    $userData['user_info_status'] = $userInfoData['status'];
                 }
                 return BaseService::returnOkData($userData);
             }
@@ -798,12 +802,13 @@ class PassportService extends BaseService
      * @param $addData
      * @return array
      */
-    public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=true, $getUserInfo=false) {
+    public function getListRmoveIndex($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=true, $getUserInfo=false) {
         $Common = new Common();
         $offset = $Common->getOffset($limit, $p);
         $userModel = new UserModel();
         $userList = $userModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
         $userInfoList = [];
+        $dataList = [];
         if(isset($userList['dataList']) && !empty($userList)) {
             if($getUserInfo) {
                 $userIds = [];
@@ -813,6 +818,7 @@ class PassportService extends BaseService
                     }
                 }
                 if(!empty($userIds)) {
+                    $userInfoParams = [];
                     $userInfoParams[] = ['in', 'user_id', $userIds];
                     $userInfoListRet = $this->getUserInfoList($userInfoParams, [], 1, -1, ['*'], true);
                     if(BaseService::checkRetIsOk($userInfoListRet)) {
@@ -823,9 +829,70 @@ class PassportService extends BaseService
                     }
                 }
                 foreach($userList['dataList'] as $k=>&$v) {
+                    $v['user_info_id'] = "";
+                    $v['user_info_status'] = "";
                     if(isset($v['id']) && isset($userInfoList[$v['id']])) {
-                        unset($userInfoList[$v['id']]['id']);
-                        unset($v['status']);
+                        if(isset($userInfoList[$v['id']]['id'])) {
+                            $v['user_info_id'] = $userInfoList[$v['id']]['id'];
+                            unset($userInfoList[$v['id']]['id']);
+                        }
+                        if(isset($userInfoList[$v['id']]['status'])) {
+                            $v['user_info_status'] = $userInfoList[$v['id']]['status'];
+                            unset($userInfoList[$v['id']]['status']);
+                        }
+                        $v = array_merge($v, $userInfoList[$v['id']]);
+                    }
+                    $dataList[] = &$v;
+                }
+                $userList['dataList'] = &$dataList;
+            }
+            return BaseService::returnOkData($userList);
+        }
+        return BaseService::returnErrData($userList, 500, "暂无数据");
+    }
+    /**
+     * 账户信息数据获取
+     * @param $addData
+     * @return array
+     */
+    public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=true, $getUserInfo=false) {
+        $Common = new Common();
+        $offset = $Common->getOffset($limit, $p);
+        $userModel = new UserModel();
+        $userList = $userModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
+        $userInfoList = [];
+        $dataList = [];
+        if(isset($userList['dataList']) && !empty($userList)) {
+            if($getUserInfo) {
+                $userIds = [];
+                foreach($userList['dataList'] as $k=>$v) {
+                    if(isset($v['id'])) {
+                        $userIds[] = $v['id'];
+                    }
+                }
+                if(!empty($userIds)) {
+                    $userInfoParams = [];
+                    $userInfoParams[] = ['in', 'user_id', $userIds];
+                    $userInfoListRet = $this->getUserInfoList($userInfoParams, [], 1, -1, ['*'], true);
+                    if(BaseService::checkRetIsOk($userInfoListRet)) {
+                        $userInfoDataList = BaseService::getRetData($userInfoListRet);
+                        if(isset($userInfoDataList['dataList']) && !empty($userInfoDataList['dataList'])) {
+                            $userInfoList = $userInfoDataList['dataList'];
+                        }
+                    }
+                }
+                foreach($userList['dataList'] as $k=>&$v) {
+                    $v['user_info_id'] = "";
+                    $v['user_info_status'] = "";
+                    if(isset($v['id']) && isset($userInfoList[$v['id']])) {
+                        if(isset($userInfoList[$v['id']]['id'])) {
+                            $v['user_info_id'] = $userInfoList[$v['id']]['id'];
+                            unset($userInfoList[$v['id']]['id']);
+                        }
+                        if(isset($userInfoList[$v['id']]['status'])) {
+                            $v['user_info_status'] = $userInfoList[$v['id']]['status'];
+                            unset($userInfoList[$v['id']]['status']);
+                        }
                         $v = array_merge($v, $userInfoList[$v['id']]);
                     }
                 }
@@ -853,5 +920,64 @@ class PassportService extends BaseService
             return BaseService::returnOkData($userList);
         }
         return BaseService::returnErrData($userList, 500, "暂无数据");
+    }
+    /**
+     * 编辑前账号
+     * @param $mobile
+     * @param string $password
+     * @param array $userInfoData
+     * @param array $organizationIds
+     * @param array $level
+     */
+    public function editUserData($mobile, $password="", $userInfoData=[]) {
+        if(!empty($mobile)) {
+            $transaction = Yii::$app->getDb()->beginTransaction();
+            try {
+                $passportInfoRet = $this->getUserDataInfoByUserName($mobile);
+                $passportInfo = [];
+                $userid = 0;
+                if(BaseService::checkRetIsOk($passportInfoRet)) {
+                    $passportInfo = BaseService::getRetData($passportInfoRet);
+                }
+                if(!empty($passportInfo)) {
+                    $userid = isset($passportInfo['id']) ? $passportInfo['id'] : 0;
+                }
+                if(!$userid) {
+                    if(empty($password)) {
+                        return BaseService::returnErrData([], 511700, "密码不能为空!");
+                    }
+                    $registerPassportRet = $this->register($mobile, $password);
+                    if(BaseService::checkRetIsOk($registerPassportRet)) {
+                        $registerPassportInfo = BaseService::getRetData($registerPassportRet);
+                        $userid = isset($registerPassportInfo['user_id']) ? $registerPassportInfo['user_id'] : 0;
+                    }
+                }
+                if(!$userid) {
+                    $transaction->rollBack();
+                    return BaseService::returnErrData([], 512700, "没有该账户请注册后再去添加");
+                }
+                if(!empty($password)) {
+                    $updatePasswordRet = $this->resetPwd($userid, $password);
+                    if(!BaseService::checkRetIsOk($updatePasswordRet)) {
+                        $transaction->rollBack();
+                        return BaseService::returnErrData([], 513300, "当前用户密码更新有误");
+                    }
+                }
+                if(!empty($userInfoData)) {
+                    $updateUserInfoRet = $this->editInfoDataByUserId($userid, $userInfoData);
+                    if(!BaseService::checkRetIsOk($updateUserInfoRet)) {
+                        $transaction->rollBack();
+                        return BaseService::returnErrData([], 514000, "当前用户信息更新有误");
+                    }
+                }
+                $transaction->commit();
+                return BaseService::returnOkData($userid);
+            } catch(\Exception $e) {
+//                throw $e;
+                $transaction->rollBack();
+                return BaseService::returnErrData([], 515200, "系统提交异常，请检查网络！");
+            }
+        }
+        return BaseService::returnErrData([], 515000, "请求参数有误");
     }
 }

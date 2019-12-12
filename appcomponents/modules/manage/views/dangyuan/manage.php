@@ -34,20 +34,7 @@ html,body{height:100%}
 </span>
 </div>
         <div class="pull-right margin-right-15 nowrap">
-            <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/add']),"/"), $menuUrl)) {
-                ?>
-                <button data-open='<?=Url::to(['manage/news/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
-            <?php
-            }
-            ?>
-            <?php
-            if(isset($menuUrl) && !empty($menuUrl) && in_array(trim(Url::to(['manage/news/del']),"/"), $menuUrl)) {
-                ?>
-                <button data-update data-field='delete' data-action='<?=Url::to(['manage/news/del']);?>'  class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
-            <?php
-            }
-            ?>
+
         </div>
     </div>
     <div class="layui-card-body gray-bg searchPage">
@@ -55,15 +42,7 @@ html,body{height:100%}
             <!-- <ul id="demoTree" class="dtree" data-id="0"></ul> -->
             <div style="display: flex;flex-direction: row;padding-top: 10px;">
                 <div id="dep-div" style="overflow-x: hidden;overflow-y: auto;">
-                    <div class="dtree-nav-item">
-                        <div id="whole" class="dtree-nav-div dtree-theme-item dtree-theme-item-this">
-                            <i class="dtreefont dtreefont-special dtree-theme-dtreefont dtree-theme-icon dtree-icon-weibiaoti5" data-spread="close" data-id="3" dtree-id="demoTree"></i>
-                            <cite class="t-click" data-id="0" data-leaf="node">全部<div></div></cite>
-                        </div>
-                    </div>
                     <ul id="demoTree" class="dtree" style="padding-bottom: 40px" data-id="0"></ul>
-
-
                 </div>
                 <iframe style="width: 80%; border:none;overflow: hidden" id="userListIframe" src="<?=isset($hostInfo) ? $hostInfo : "";?><?=Url::to(['manage/dangyuan/index']);?>"></iframe>
             </div>

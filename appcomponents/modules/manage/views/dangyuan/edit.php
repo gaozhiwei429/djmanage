@@ -110,12 +110,12 @@ use yii\helpers\Url;
             <div class="layui-form-item" id="addDepBtnItem">
                 <label class="layui-form-label">
                     <span class="require-text">*</span>
-                    添加所在部门
+                    添加党组织
                 </label>
                 <div class="layui-input-inline" style="width: auto;">
-                    <a href="javascript:void(0);" title="增加部门" id="addDepBtn" class="layui-btn layui-btn-primary">+</a>
+                    <a href="javascript:void(0);" title="增加党组织" id="addDepBtn" class="layui-btn layui-btn-primary">+</a>
                 </div>
-                <div class="layui-form-mid layui-word-aux">最少添加一个所在部门</div>
+                <div class="layui-form-mid layui-word-aux">最少添加一个党组织</div>
             </div>
 
             <div class="layui-form-item">
@@ -464,9 +464,17 @@ layui.use(['form', 'layedit', 'laydate', 'jquery', 'upload'], function () {
     var organizationHtml = "";
     <?php
     if(isset($treeData) && !empty($treeData)) {
+    $flag = 0;
     foreach($treeData as $treeInfo) {
+    if(isset($organization_id) && $treeInfo['id']==$organization_id) {
+    $flag = 1;
+    } else if(isset($organization_id) && $organization_id==0){
+    $flag = 1;
+    } else {
+    $flag = 0;
+    }
     ?>
-    organizationHtml+='<option value="<?=isset($treeInfo['id']) ? $treeInfo['id'] : 0;?>"><?=isset($treeInfo['flag']) ? $treeInfo['flag'] : "";?><?=isset($treeInfo['title']) ? $treeInfo['title'] : "";?></option>';
+    organizationHtml+='<option value="<?=isset($treeInfo['id']) ? $treeInfo['id'] : 0;?>" <?=$flag==0 ? 'disabled="disabled"' : "";?> ><?=isset($treeInfo['flag']) ? $treeInfo['flag'] : "";?><?=isset($treeInfo['title']) ? $treeInfo['title'] : "";?></option>';
     <?php
             }
         }
@@ -486,11 +494,11 @@ layui.use(['form', 'layedit', 'laydate', 'jquery', 'upload'], function () {
         i++;
         console.log(i)
         var html = '<div class="layui-form-item dep-item">\n' +
-            '                <label class="layui-form-label">所在部门' + i + '</label>\n' +
+            '                <label class="layui-form-label">所在党组织' + i + '</label>\n' +
             '                <div class="layui-input-inline" style="width: 300px;">\n' +
             '                    <select name="department[]['+i+']">\n' +
             '                        \n' +
-            '                        <option value="0">请选择部门</option>\n' +
+            '                        <option value="0">请选择党组织</option>\n' +
             organizationHtml +
             '                    </select>\n' +
             '                </div>\n' +

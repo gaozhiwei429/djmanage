@@ -32,7 +32,10 @@ class DangyuanController extends ManageBaseController
         if($organization_id) {
             $params[] = ['=', 'organization_id', $organization_id];
         }
-        return $dangyuanService->getList($params, ['id'=>SORT_DESC], $p, $size,['*']);
+        $params[] = ['=','status',1];
+        return $dangyuanService->getList($params, ['id'=>SORT_DESC], $p, $size,
+            ['id','user_id','organization_id','level_id'],
+            ['user_id']);
     }
     /**
      * 添加组织党员数据

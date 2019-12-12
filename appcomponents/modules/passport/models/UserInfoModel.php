@@ -40,6 +40,19 @@ class UserInfoModel extends BaseModel {
             $thisModel->email = isset($addData['email']) ? trim($addData['email']) : "";
             $thisModel->qq = isset($addData['qq']) ? trim($addData['qq']) : "";
             $thisModel->wchat = isset($addData['wchat']) ? trim($addData['wchat']) : "";
+            $thisModel->full_name = isset($addData['full_name']) ? trim($addData['full_name']) : "";
+            $thisModel->apply_organization_date = isset($addData['apply_organization_date']) ? trim($addData['apply_organization_date']) : "";
+            $thisModel->join_organization_date = isset($addData['join_organization_date']) ? trim($addData['join_organization_date']) : "";
+            $thisModel->native_place = isset($addData['native_place']) ? trim($addData['native_place']) : "";
+            $thisModel->education = isset($addData['education']) ? intval($addData['education']) : "";
+            $thisModel->organization_status = isset($addData['organization_status']) ? intval($addData['organization_status']) : 0;
+            $thisModel->user_status = isset($addData['user_status']) ? intval($addData['user_status']) : 0;
+            $thisModel->nation = isset($addData['nation']) ? trim($addData['nation']) : "";
+            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : 0;
+            $thisModel->work_status = isset($addData['work_status']) ? intval($addData['work_status']) : 0;
+            $thisModel->create_time_year = isset($addData['create_time_year']) ? intval($addData['create_time_year']) : date("Y");
+            $thisModel->create_time_month = isset($addData['create_time_month']) ? intval($addData['create_time_month']) : intval(date("m"));
+            $thisModel->create_time_day = isset($addData['create_time_day']) ? intval($addData['create_time_day']) : intval(date("d"));
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
         } catch (BaseException $e) {

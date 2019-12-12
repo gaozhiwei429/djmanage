@@ -1,7 +1,7 @@
 <?php
 /**
- * 运营平台用户与党组织关系管理表
- * @文件名称: UserOrganizationModel.php
+ * 用户参加三会一课管理表
+ * @文件名称: UserMettingModel.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-06-06
@@ -14,12 +14,17 @@ use source\manager\BaseException;
 use source\models\BaseModel;
 use Yii;
 
-class UserOrganizationModel extends BaseModel
+class UserMettingModel extends BaseModel
 {
-    const ON_LINE_STATUS = 1;//已上线
+	//0删除，1参加，2缺席，3请假，4迟到，5待参加
+    const WAIT_JOIN_STATUS = 5;
+    const JOIN_STATUS = 1;
+    const ABSENT_STATUS = 2;
+    const LEAVE_STATUS = 3;
+    const LATE_STATUS = 4;
     const DELECT_STATUS = 0;//删除
     public static function tableName() {
-        return '{{%user_organization}}';
+        return '{{%user_metting}}';
     }
     /**
      * 根据条件获取最后一条信息
@@ -27,8 +32,8 @@ class UserOrganizationModel extends BaseModel
      * @param int $type
      * @return mixed
      */
-    public function getInfoByValue($params){
-        return $this->getOne($params);
+    public function getInfoByValue($params,$field=['*']){
+        return $this->getOne($params,$field);
     }
     /**
      * 获取数据集
@@ -39,7 +44,7 @@ class UserOrganizationModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*'], $groupBy=[]) {
+    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*']) {
         $query = self::find()->select($fied);
         if(!empty($params)) {
             foreach($params as $k=>$v) {
@@ -49,9 +54,6 @@ class UserOrganizationModel extends BaseModel
                     $query -> andWhere([$k=>$v]);
                 }
             }
-        }
-        if (!empty($groupBy) && is_array($groupBy)) {
-            $query->groupBy($groupBy);
         }
         if ($limit !== -1) {
             $query -> offset($offset);
@@ -64,7 +66,7 @@ class UserOrganizationModel extends BaseModel
         return $projectList;
     }
     /**
-     * 获取banner首页数据展示
+     * 获取数据展示
      * @param array $params
      * @param array $orderBy
      * @param int $offset
@@ -84,21 +86,20 @@ class UserOrganizationModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*'], $groupBy=[]) {
+    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*']) {
         try {
-            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied, $groupBy);
+            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
             $data = [
                 'dataList' => $dataList,
                 'count' => 0,
             ];
             if(!empty($dataList)) {
-                $count = self::getCount($params, $groupBy);
+                $count = self::getCount($params);
                 $data['count'] = $count;
             }
             return $data;
 //            $query->createCommand()->getRawSql();
         } catch (BaseException $e) {
-            DmpLog::warning('getListData_user_organization_error', $e);
             return [];
         }
     }
@@ -107,9 +108,9 @@ class UserOrganizationModel extends BaseModel
      * @param $params
      * @return int
      */
-    public static function getCount($params, $groupBy=[]) {
+    public static function getCount($params, $fied=['*']) {
         try {
-            $query = self::find()->select(['id']);
+            $query = self::find()->select($fied);
             if(!empty($params)) {
                 foreach($params as $k=>$v) {
                     if(is_array($v)) {
@@ -119,13 +120,9 @@ class UserOrganizationModel extends BaseModel
                     }
                 }
             }
-            if (!empty($groupBy) && is_array($groupBy)) {
-                $query->groupBy($groupBy);
-            }
 //                return $query->createCommand()->getRawSql();
             return  $query->count();
         } catch (BaseException $e) {
-            DmpLog::warning('getCount_user_organization_error', $e);
             return 0;
         }
     }
@@ -140,18 +137,18 @@ class UserOrganizationModel extends BaseModel
             $thisModel = new self();
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
             $thisModel->user_id = isset($addData['user_id']) ? intval($addData['user_id']) : 0;
-            $thisModel->organization_id = isset($addData['organization_id']) ? intval($addData['organization_id']) : 0;
-            $thisModel->level_id = isset($addData['level_id']) ? intval($addData['level_id']) : 0;
-            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
+            $thisModel->organization_id = isset($addData['organization_id']) ? intval($addData['organization_id']) : 0;//名称
+            $thisModel->metting_id = isset($addData['metting_id']) ? intval($addData['metting_id']) : 0;//名称
+            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::WAIT_JOIN_STATUS;
+            $thisModel->start_time = isset($addData['start_time']) ? trim($addData['start_time']) : "";//冗余会议开始时间
+            $thisModel->end_time = isset($addData['end_time']) ? trim($addData['end_time']) : "";//冗余会议截止时间
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;
         } catch (BaseException $e) {
-            DmpLog::error('insert_user_organization_error', $e);
             return false;
         }
     }
-
     /**
      * 更新信息数据
      * @param int $id ID
@@ -169,49 +166,7 @@ class UserOrganizationModel extends BaseModel
             }
             return false;
         } catch (BaseException $e) {
-            DmpLog::error('update_user_organization_error', $e);
             return false;
         }
-    }
-    /**
-     * 批量更新循环周期
-     * @param array $condition
-     * $condition = ['advertise_id' => '','status' => '', 'weekdays'=>[1,2,3]] 查询条件
-     * $params = ['status' => '']
-     * @param $params
-     * @return bool
-     */
-    public function batchUpdate($condition = [], $params)
-    {
-        if (count($condition) == 0 || !is_array($condition) || count($params) == 0) {
-            return false;
-        }
-        $conditions = ' 1 = 1 ';
-        $bind = [];
-        foreach($condition as $k=>$v) {
-            $conditions .= " AND `$k` = :$k";
-            $bind["$k"] = $v;
-        }
-        $result = self::updateAll($params, $conditions, $bind);
-
-        return $result > 0 ? true : false;
-    }
-    /**
-     * 批量添加记录数据
-     * @param $user_id
-     * @param $files
-     * @return int
-     * @throws \yii\db\Exception
-     */
-    public function addAll($datas) {
-        $data = [];
-        $clumns = (isset($datas[0]) && !empty($datas[0])) ? array_keys($datas[0]) : [];
-        if(empty($clumns)) {
-            return false;
-        }
-        foreach ($datas as $k => $v) {
-            $data[] = $v;
-        }
-        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), $clumns, $data)->execute();
     }
 }

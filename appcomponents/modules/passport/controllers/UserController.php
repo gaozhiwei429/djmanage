@@ -9,18 +9,13 @@
  * 注意：本内容仅限于北京往全包科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\passport\controllers;
-use appcomponents\modules\common\CommonService;
-use appcomponents\modules\common\MailService;
 use appcomponents\modules\common\SmsService;
 use appcomponents\modules\passport\PassportService;
 use source\controllers\UserBaseController;
 use source\libs\Common;
-use source\libs\DmpLog;
 use source\manager\BaseService;
 use Yii;
-
-class UserController extends UserBaseController
-{
+class UserController extends UserBaseController {
     /**
      * 用户登录态基础类验证
      * @return array
@@ -29,6 +24,37 @@ class UserController extends UserBaseController
         $this->noLogin = false;
         $userToken = $this->userToken();
         return parent::beforeAction($action);
+    }
+    /**
+     * 获取用户列表信息
+     * @return array
+     */
+    public function actionGetList() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $page = intval(Yii::$app->request->post('p', 1));
+        $size = intval(Yii::$app->request->post('size', 10));
+        $newsService = new PassportService();
+        $params = [];
+        return $newsService->getListRmoveIndex($params, ['id'=>SORT_DESC], $page, $size,['*'], true, true);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetStatus() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = intval(Yii::$app->request->post('id', 0));
+        $status = intval(Yii::$app->request->post('status',  0));
+        $bannerService = new PassportService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['status'] = $status;
+        return $bannerService->updateInfoById($id, $dataInfo);
     }
     /**
      * 用户登陆接口
@@ -362,32 +388,66 @@ class UserController extends UserBaseController
         return BaseService::returnErrData([], 533300, "请求参数异常");
     }
     /**
-     * 获取设备号的登录状态
+     * 添加组织党员数据
      * @return array
      */
-    public function actionGetDeviceCodeLoginStatus() {
-        $device_code = trim(Yii::$app->request->post('device_code', ""));//设备号
-        $source = intval(Yii::$app->request->post('source', 4));
-        if(!empty($device_code) && !empty($source)) {
-            $passportService = new PassportService();
-            return $passportService->GetDeviceCodeLoginStatus($device_code, $source);
+    public function actionEdit() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
-        return BaseService::returnErrData([], 534500, "请求参数异常");
-    }
-
-    /**
-     * 获取入党纪念
-     */
-    public function actionJoinList() {
-        $p = intval(Yii::$app->request->post('p', 1));
-        $size = trim(Yii::$app->request->post('size', 10));
-        $passportService = new PassportService();
-//        $passportParams[] = ['=', 'create_time_year', date("Y")];
-        var_dump(date("d"),date("m"));die;
-        $passportParams[] = ['=', 'create_time_month', date("m")];
-        $passportParams[] = ['=', 'create_time_day', date("d")];
-        return $passportService->getUserInfoList($passportParams, ['id'=>SORT_ASC], $p, $size,
-            ['nickname','user_id','avatar_img','user_status','create_time_year','create_time_month','create_time_day','full_name'],
-            false);
+        $id = intval(Yii::$app->request->post('id', 0));
+        $apply_organization_date = trim(Yii::$app->request->post('apply_organization_date', ""));//申请入党时间
+        $avatar_img = trim(Yii::$app->request->post('avatar_img', ""));//头像
+        $nickname = trim(Yii::$app->request->post('nickname', ""));//头像
+        $password = trim(Yii::$app->request->post('password', ""));//密码
+        $confirm_password = trim(Yii::$app->request->post('confirm_password', ""));//密码
+        $education = intval(Yii::$app->request->post('education', 0));//学历
+        $join_organization_date = trim(Yii::$app->request->post('join_organization_date', ""));//入党时间
+        $nation = trim(Yii::$app->request->post('nation', ""));//民族
+        $native_place = trim(Yii::$app->request->post('native_place', ""));//归属地
+        $full_name = trim(Yii::$app->request->post('full_name', ""));//姓名
+        $sex = intval(Yii::$app->request->post('sex', 0));
+        $status = intval(Yii::$app->request->post('status', 0));
+        $user_status = intval(Yii::$app->request->post('user_status', 0));
+        $work_status = intval(Yii::$app->request->post('work_status', 0));
+        $mobile = trim(Yii::$app->request->post('mobile', ""));
+        $userInfoData = [];
+        if($id) {
+            $userInfoData['id'] = $id;
+        }
+        if($apply_organization_date) {
+            $userInfoData['apply_organization_date'] = $apply_organization_date;
+        }
+        if($join_organization_date) {
+            $userInfoData['join_organization_date'] = $join_organization_date;
+        }
+        if($avatar_img) {
+            $userInfoData['avatar_img'] = $avatar_img;
+        }
+        if($nation) {
+            $userInfoData['nation'] = $nation;
+        }
+        if($native_place) {
+            $userInfoData['native_place'] = $native_place;
+        }
+        if($full_name) {
+            $userInfoData['full_name'] = $full_name;
+        }
+        if($nickname) {
+            $userInfoData['nickname'] = $nickname;
+        }
+        if(empty($userInfoData)) {
+            return BaseService::returnErrData([], 58300, "提交数据有误！");
+        }
+        if($password != $confirm_password) {
+            return BaseService::returnErrData([], 58600, "密码输入有误！");
+        }
+        $userInfoData['education'] = $education;
+        $userInfoData['sex'] = $sex;
+        $userInfoData['status'] = $status;
+        $userInfoData['user_status'] = $user_status;
+        $userInfoData['work_status'] = $work_status;
+        $dangyuanService = new PassportService();
+        return $dangyuanService->editUserData($mobile, $password, $userInfoData);
     }
 }
