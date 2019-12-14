@@ -18,16 +18,16 @@ use yii\helpers\Url;
         <div class="login-inner">
             <h1 class="login-title">登录智慧党建</h1>
             <div class="login-item mgb20"><!-- 博 -->
-                <input type="text" class="clearError" id="ipt_account" placeholder="请输入手机号码" tabindex="1" value="15910987706">
+                <input type="text" class="clearError" id="ipt_account" placeholder="请输入手机号码">
                 <a href="javascript:;" class="clearIpt j-clearIpt"><i class="gicon-remove"></i></a>
             </div>
             <div class="login-item mgb20">
-                <input type="password" class="clearError" id="ipt_pwd" placeholder="请输入密码" tabindex="2">
+                <input type="password" class="clearError" id="ipt_pwd" placeholder="请输入密码">
                 <a href="javascript:;" class="clearIpt j-clearIpt"><i class="gicon-remove"></i></a>
             </div>
             <div class="clearfix mgb10">
                 <div class="login-item code fl">
-                    <input type="text" class="clearError" id="ipt_code" placeholder="验证码" data-autohide="1" tabindex="3">
+                    <input type="text" class="clearError" id="ipt_code" placeholder="验证码" data-autohide="1">
                     <a href="javascript:;" class="clearIpt j-clearIpt"><i class="gicon-remove"></i></a>
                 </div>
                 <div class="code-img fl mgl5">
