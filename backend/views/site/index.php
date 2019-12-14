@@ -13,7 +13,7 @@ $this->title = '北京往全保科技有限公司';
         <a href="/" class="topbar-logo pull-left">
             <?= Html::img('@web/static/images/common/logo1.png', [
                 'alt'=>'管理系统',
-                'style' => 'width:160px;height:50px; bottom:10%; left:40%;',
+                'style' => 'width:160px;height:35px; bottom:10%; left:40%;',
                 'id' => 'array',
                 'class' => 'resize',
             ]);?>

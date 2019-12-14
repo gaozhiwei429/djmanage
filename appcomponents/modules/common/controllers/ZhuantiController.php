@@ -59,7 +59,7 @@ class ZhuantiController extends ManageBaseController
             }
         }
 
-        return $newsService->getList($params, ['sort'=>SORT_DESC], $page, $size);
+        return $newsService->getList($params, ['id'=>SORT_DESC], $page, $size,['id','title','zhuanti_type_id','status','pic_url','sort']);
     }
 
     /**

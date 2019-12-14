@@ -191,11 +191,13 @@ use yii\helpers\Url;
 </script>
 
 <script type="text/html" id="Jstatus">
-    {{#  if(d.status ==0){ }}
-    结束开始
-    {{# }if(d.status ==1) { }}
+    {{#  if(new Date(d.overdue_time) < new Date()){ }}
+    结束考试
+    {{#  } else if(d.status ==0){ }}
+    结束考试
+    {{# }else if(d.status ==1) { }}
     开始考试
-    {{# }if(d.status ==2) { }}
+    {{# }else if(d.status ==2) { }}
     终止考试
     {{#  } }}
 </script>

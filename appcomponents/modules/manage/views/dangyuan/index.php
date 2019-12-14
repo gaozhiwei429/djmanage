@@ -27,7 +27,13 @@ use yii\helpers\Url;
                         <blockquote class="layui-elem-quote layui-text">
                             <?=$dep_name?$dep_name : "全部";?>（共<span id="peopleCount">0</span>人）        </blockquote>
                         <form id="search_form" class="layui-form layui-clear" action="">
+                            <?php
+                            if(isset($organization_id) && !empty($organization_id)) {
+                            ?>
 <a class="layui-btn layui-btn-sm" href="<?=Url::to(['manage/dangyuan/edit']);?>?organization_id=<?=isset($organization_id) ? $organization_id : "";?>">添加用户</a>
+                            <?php
+                            }
+                            ?>
                             <div class="" style="float: right;">
                                 <script>
                                     let renderArr = [];

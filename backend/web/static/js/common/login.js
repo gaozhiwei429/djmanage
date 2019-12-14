@@ -29,6 +29,12 @@ $(function(){
                 //    ),
                     window.location.href="/site/index";
             } else{
+                layer.msg(i.msg, {
+                    icon: 3,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function(){
+                    layer.closeAll();
+                });
                 switch(i.tab){
                     case"username":LoginShowError(o,i.msg),o.select().focus();break;case"password":LoginShowError(c,i.msg),c.select().focus();break;case"verify":LoginShowError(r,i.msg),r.select().focus();break;case"unknown":alert(i.msg)
                 }

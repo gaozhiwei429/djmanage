@@ -16,7 +16,7 @@ use yii\helpers\Url;
     <div class="login">
         <a href="javascript:;" class="logo"></a>
         <div class="login-inner">
-            <h1 class="login-title">登录微分销</h1>
+            <h1 class="login-title">登录智慧党建</h1>
             <div class="login-item mgb20"><!-- 博 -->
                 <input type="text" class="clearError" id="ipt_account" placeholder="请输入手机号码" tabindex="1" value="15910987706">
                 <a href="javascript:;" class="clearIpt j-clearIpt"><i class="gicon-remove"></i></a>
@@ -48,7 +48,7 @@ use yii\helpers\Url;
             </div> -->
 
         </div>
-        <div class="third-login-con">
+        <!--<div class="third-login-con">
             <div class="third-login-hd">第三方登录</div>
             <ul>
                 <li data-target="weixin">
@@ -71,9 +71,11 @@ use yii\helpers\Url;
                     </a>
                 </li>
             </ul>
-        </div>			<div class="login-register">
-            <a href="http://tp.weifenxiao.com/Public/register" class="fl">没有账号？立即注册</a>				<a href="http://tp.weifenxiao.com/Public/forget" class="fr">忘记密码？</a>
         </div>
+        <div class="login-register">
+            <a href="http://tp.weifenxiao.com/Public/register" class="fl">没有账号？立即注册</a>
+            <a href="http://tp.weifenxiao.com/Public/forget" class="fr">忘记密码？</a>
+        </div>-->
     </div>
     <!-- end login -->
     <div class="tooltips" data-origin="ipt_account" data-currentleft="0" style="top: 246.567px; left: 898.5px;">
@@ -91,7 +93,7 @@ use yii\helpers\Url;
         <span class="tooltips-content">请输入验证码</span><!-- 技 -->
     </div>
     <!-- end tooltips -->
-    <p class="content-title">@以“区块链技术”驱动社交新经济</p>
+    <p class="content-title">@以“大数据技术”驱动智慧党建</p>
     <canvas style="width: 1600px; height: 764px;" width="3200" height="1528"></canvas></div>
 
 
@@ -118,9 +120,3 @@ use yii\helpers\Url;
     });
 </script>
 <![endif]-->
-
-<script>
-    $(function(){
-    });
-</script>
-<!-- end session hint -->

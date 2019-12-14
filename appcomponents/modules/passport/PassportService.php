@@ -980,4 +980,39 @@ class PassportService extends BaseService
         }
         return BaseService::returnErrData([], 515000, "请求参数有误");
     }
+    /**
+     * 通过用户名获取用户id
+     * @param $usernameArr
+     * @param bool $usernameKey
+     * @return array
+     */
+    public function getUserIdsByUserName($usernameArr, $usernameKey=false) {
+        if(empty($usernameArr) || !is_array($usernameArr)) {
+            return BaseService::returnErrData([], 598500, "请求参数异常");
+        }
+        $params[] = ['in', 'username', $usernameArr];
+        $userMode = new UserModel();
+        $userData = [];
+        $userList = $userMode->getList($params, count($usernameArr), 0, ['id','username']);
+        if(!$usernameKey) {
+            if(!empty($userList)) {
+                foreach($userList as $info) {
+                    if(isset($info['id']) && isset($info['username'])) {
+                        $userData[$info['username']] = $info['id'];
+                    }
+                }
+                return BaseService::returnOkData($userData);
+            }
+            return BaseService::returnErrData([], 5100400, "没有用户数据请先注册");
+        }
+        if(!empty($userList)) {
+            foreach($userList as $info) {
+                if(isset($info['id']) && isset($info['username'])) {
+                    $userData[$info['username']] = $info['id'];
+                }
+            }
+            return BaseService::returnOkData($userData);
+        }
+        return BaseService::returnErrData([], 5101200, "没有用户数据请先注册");
+    }
 }

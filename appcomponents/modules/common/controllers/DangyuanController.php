@@ -11,6 +11,7 @@
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\DangyuanService;
 use appcomponents\modules\common\UserOrganizationService;
+use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
@@ -41,7 +42,7 @@ class DangyuanController extends ManageBaseController
      * 添加组织党员数据
      * @return array
      */
-    public function actionEdit() {
+    public function actionEdit20191213() {
         if (!isset($this->user_id) || !$this->user_id) {
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
@@ -117,5 +118,108 @@ class DangyuanController extends ManageBaseController
         }
         $dangyuanService = new DangyuanService();
         return $dangyuanService->editOrganizationDangyuan($mobile, $password, $userInfoData, $organizationIds, $levelIds);
+    }
+    /**
+     * 添加组织党员数据
+     * @return array
+     */
+    public function actionEdit() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $organization_id = intval(Yii::$app->request->post('organization_id', 0));
+        $userInfoData = [];
+        $post = Yii::$app->request->post();
+        $departmentPattern = '/department/i';     //errorType Array为开头 结尾字符串
+        $levelPattern = '/level/i';     //errorType Array为开头 结尾字符串
+        $mobilePattern = '/mobile/i';     //errorType Array为开头 结尾字符串
+        $organizationIds = [];
+        $levelIds = [];
+        $mobiles = [];
+        foreach($post as $postKey=>$postData) {
+            if(preg_match($departmentPattern, $postKey)) {
+                if($postData!=$organization_id) {
+                    return BaseService::returnErrData([], 514000, "党组织必须选择，或选择信息有误请检查");
+                }
+                $organizationIds[] = $postData;
+            }
+            if(preg_match($levelPattern, $postKey)) {
+                $levelIds[] = $postData;
+            }
+            if(preg_match($mobilePattern, $postKey)) {
+                $mobiles[] = $postData;
+            }
+        }
+        if(empty($mobiles) || empty($levelIds) || empty($organizationIds)) {
+            return BaseService::returnErrData([], 515600, "提交信息不能为空");
+        }
+        $mobiles = array_unique($mobiles);
+        $levelIds = array_unique($levelIds);
+        if(empty($organizationIds)) {
+            return BaseService::returnErrData([], 510600, "请给该账户至少分配一个党组织");
+        }
+        if(empty($levelIds)) {
+            return BaseService::returnErrData([], 510900, "请给该账户所属党组织分配职务");
+        }
+        if(count($organizationIds) != count($levelIds)) {
+            return BaseService::returnErrData([], 511200, "请核实党组织职务是否选择");
+        }
+        if(count($mobiles) != count($levelIds) || count($mobiles) != count($organizationIds) ) {
+            return BaseService::returnErrData([], 511200, "请为每一个输入的账号选择党组织并分配职务,账号不能重复");
+        }
+        $passportService = new PassportService();
+        $getUserIdsRet = $passportService->getUserIdsByUserName($mobiles, true);
+        if(!BaseService::checkRetIsOk($getUserIdsRet)) {
+            return $getUserIdsRet;
+        }
+        $getUserIds = BaseService::getRetData($getUserIdsRet);
+        $dangyuanData = [];
+        if(!empty($getUserIds) && is_array($getUserIds)) {
+            foreach($mobiles as $k=>$mobile) {
+                if(isset($getUserIds[$mobile]) && !empty($getUserIds[$mobile])) {
+                    $dangyuanData[] = [
+                        'user_id'=> intval($getUserIds[$mobile]) ? $getUserIds[$mobile] : 0,
+                        'organization_id'=> intval($organizationIds[$k]) ? $organizationIds[$k] : 0,
+                        'level_id'=> intval($levelIds[$k]) ? $levelIds[$k] : 0,
+                        'status'=> 1,
+                    ];
+                }
+            }
+        }
+        if(!empty($dangyuanData)) {
+            $userOrganizationService = new UserOrganizationService();
+            return $userOrganizationService->addDatas($dangyuanData);
+        }
+        return BaseService::returnErrData([], 519300, "添加党组织失败");
+    }
+    /**
+     * 检测一个账号是否可以添加党组织关系
+     * @return array|mixed
+     */
+    public function actionCheckIsAdd() {
+        $username = trim(Yii::$app->request->post('username', ""));
+        $organization_id = intval(Yii::$app->request->post('organization_id', ""));//申请入党时间
+        if(empty($username) || empty($organization_id)) {
+            return BaseService::returnErrData([], 513000, "请求参数异常");
+        }
+        $passportService = new PassportService();
+        $passportDataInfoRet = $passportService->getUserDataInfoByUserName($username);
+        if(BaseService::checkRetIsOk($passportDataInfoRet)) {
+            $passportDataInfo = BaseService::getRetData($passportDataInfoRet);
+            $userId = isset($passportDataInfo['id']) ? $passportDataInfo['id'] : 0;
+            if($userId) {
+                $userOrgationService = new UserOrganizationService();
+                $userOrgationParams[] = ['=', 'user_id', $userId];
+                $userOrgationParams[] = ['=', 'organization_id', $organization_id];
+                $userOrgationParams[] = ['!=', 'status', 0];
+                $userOrgationInfoRet = $userOrgationService->getInfo($userOrgationParams);
+                if(!BaseService::checkRetIsOk($userOrgationInfoRet)) {
+                    return BaseService::returnOkData([]);
+                }
+                return BaseService::returnErrData([], 514200, "当前账号已添加党组织关系");
+            }
+            return BaseService::returnErrData([], 514600, "当前数据不存在");
+        }
+        return $passportDataInfoRet;
     }
 }

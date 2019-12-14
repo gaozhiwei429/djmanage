@@ -44,7 +44,7 @@ html,body{height:100%}
                 <div id="dep-div" style="overflow-x: hidden;overflow-y: auto;">
                     <ul id="demoTree" class="dtree" style="padding-bottom: 40px" data-id="0"></ul>
                 </div>
-                <iframe style="width: 80%; border:none;overflow: hidden" id="userListIframe" src="<?=isset($hostInfo) ? $hostInfo : "";?><?=Url::to(['manage/dangyuan/index']);?>"></iframe>
+                <iframe style="width: 100%; border:none;overflow: hidden" id="userListIframe" src="<?=isset($hostInfo) ? $hostInfo : "";?><?=Url::to(['manage/dangyuan/index']);?>"></iframe>
             </div>
 
         </div>

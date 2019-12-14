@@ -43,7 +43,7 @@ class UserController extends BaseController {
         $source = intval(Yii::$app->request->post('source', 1));
         $verify = strtolower(trim(Yii::$app->request->post('verify', null)));
         if($verify != $code) {
-            return BaseService::returnErrData([], 500, "验证码输入有误:".$verify."=".$code);
+            return BaseService::returnErrData([], 500, "验证码输入有误,请重新输入");
         }
         if(!empty($username) && !empty($password)) {
             $manageService = new ManageService();

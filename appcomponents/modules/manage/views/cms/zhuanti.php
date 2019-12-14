@@ -96,7 +96,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
 //                        ,cellMinHeight: 500
                     ,cols: [[
                         {checkbox: true, fixed: true, width: 30}
-                        ,{field:'id', title: 'ID', width: 30}
+                        ,{field:'id', title: 'ID', width: 60}
                         ,{field:'title', title: '名称', minWidth: 120}
                         ,{field:'pic_url', title: '封面图片', minWidth: 180,toolbar:"#Jimg"}
                         ,{field:'status', title: '状态', width: 120, toolbar:"#Jstatus"}//,toolbar:"#Jstatus"

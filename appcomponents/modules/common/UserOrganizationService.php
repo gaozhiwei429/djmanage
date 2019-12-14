@@ -120,4 +120,20 @@ class UserOrganizationService extends BaseService
         }
         return BaseService::returnErrData([], 511500, "添加职务失败");
     }
+    /**
+     * 批量创建党组织关系数据
+     * @param $datas
+     * @return array
+     */
+    public function addDatas($datas) {
+        if(!empty($datas) && is_array($datas)) {
+            $userOrganizationModel = new UserOrganizationModel();
+            $addUserOrganization = $userOrganizationModel->addAll($datas);
+            if($addUserOrganization) {
+                return BaseService::returnOkData($addUserOrganization);
+            }
+            return BaseService::returnErrData([], 513000, "添加失败");
+        }
+        return BaseService::returnErrData([], 513500, "请求参数异常");
+    }
 }

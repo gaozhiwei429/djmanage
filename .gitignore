@@ -1,3 +1,5 @@
 /backend/config
 /source/libs/WxPay
 /backend/runtime
+/backend/web/assets
+/backend/web/static/plugs/echarts
