@@ -7,7 +7,7 @@ use yii\helpers\Url;
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link rel="shortcut icon" href="http://tp.weifenxiao.com/favicon.ico">
+<link rel="shortcut icon" href="/favicon.ico">
 <title>登录微分销</title>
 <?=Html::cssFile('@web/static/css/common/component-min.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
 <?=Html::cssFile('@web/static/css/common/jbox-min.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
