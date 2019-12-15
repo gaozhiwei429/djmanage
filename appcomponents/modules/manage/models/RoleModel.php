@@ -137,7 +137,7 @@ class RoleModel extends BaseModel
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
             $thisModel->desc = isset($addData['desc']) ? trim($addData['desc']) : "";
             $thisModel->is_deleted = isset($addData['is_deleted']) ? intval($addData['is_deleted']) : 0;
-            $thisModel->create_admin_user_id = isset($addData['create_admin_user_id']) ? intval($addData['create_admin_user_id']) : 0;
+            $thisModel->user_id = isset($addData['user_id']) ? intval($addData['user_id']) : 0;
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();

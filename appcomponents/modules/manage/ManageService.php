@@ -11,7 +11,7 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\manage;
-use appcomponents\modules\manage\models\AdminUserModel;
+use appcomponents\modules\manage\models\UserModel;
 use appcomponents\modules\manage\models\UserLoginTokenModel;
 use source\libs\Common;
 use source\libs\DmpLog;
@@ -61,7 +61,7 @@ class ManageService extends BaseService
      * @param int $type
      * @return array
      */
-    public function checkUserToken($userId, $token, $type=1) {
+    public function checkUserToken($userId, $token, $type=1, $source=1) {
         $whereParams = [];
         if(!$userId || !$token || !$type) {
             return BaseService::returnErrData([], 5001, "请求参数异常");
@@ -72,6 +72,7 @@ class ManageService extends BaseService
         if($type) {
             $whereParams[] = ['=', 'type', $type];
         }
+        $whereParams[] = ['=', 'source', $source];
 
         $userTokenModel = new UserLoginTokenModel();
         $userTokenInfo = $userTokenModel->getInfoByParams($whereParams);
@@ -100,14 +101,14 @@ class ManageService extends BaseService
      * @param $type
      * @return array
      */
-    public function verifyToken($userId, $token, $sign, $type) {
+    public function verifyToken($userId, $token, $sign, $type, $source=5) {
         $verifySignRet = $this->createSign($userId, $token);
         if(BaseService::checkRetIsOk($verifySignRet)) {
             $verifySign = BaseService::getRetData($verifySignRet);
             if($verifySign != $sign) {
                 return BaseService::returnErrData('', 5001, "请求参数无效");
             }
-            $ret = $this->checkUserToken($userId, $token, $type);
+            $ret = $this->checkUserToken($userId, $token, $type, $source);
             if(BaseService::checkRetIsOk($ret)) {
                 $userTokenInfo = BaseService::getRetData($ret);
                 if(!empty($userTokenInfo)) {
@@ -163,8 +164,8 @@ class ManageService extends BaseService
      * @param $username
      * @return mixed
      */
-    public function getAdminUserInfoByUserName($username) {
-        $userModel = new AdminUserModel();
+    public function getUserInfoByUserName($username) {
+        $userModel = new UserModel();
         $params['username'] = trim($username);
         $userData = $userModel->getInfoByParams($params);
         if(!empty($userData)) {
@@ -177,8 +178,8 @@ class ManageService extends BaseService
      * @param $username
      * @return mixed
      */
-    public function getAdminUserInfoByUserId($id) {
-        $userModel = new AdminUserModel();
+    public function getUserInfoByUserId($id) {
+        $userModel = new UserModel();
         $params['id'] = $id;
         $userData = $userModel->getInfoByParams($params);
         if(!empty($userData)) {
@@ -191,8 +192,8 @@ class ManageService extends BaseService
      * @param $username
      * @return array
      */
-    public function checkAdmimnUserExist($username) {
-        $userModel = new AdminUserModel();
+    public function checkUserExist($username) {
+        $userModel = new UserModel();
         $params['username'] = trim($username);
         $userData = $userModel->getInfoByParams($params);
         if(!empty($userData)) {
@@ -207,7 +208,7 @@ class ManageService extends BaseService
      * @return array
      */
     public function register($username, $password) {
-        $ret = $this->getAdminUserInfoByUserName($username);
+        $ret = $this->getUserInfoByUserName($username);
         if(BaseService::checkRetIsOk($ret)) {
             return BaseService::returnErrData([], 500, '当前账号已被占用');
         }
@@ -226,7 +227,7 @@ class ManageService extends BaseService
      */
     public function addAdminUser($userData) {
         try {
-            $userModel = new AdminUserModel();
+            $userModel = new UserModel();
             $user_id = $userModel->addInfo($userData);
             if($user_id) {
                 return BaseService::returnOkData($user_id);
@@ -246,7 +247,7 @@ class ManageService extends BaseService
     public function login($username, $password, $source=1) {
         $type = Yii::$app->params['user']['type'];
         $overduetime = Yii::$app->params['user']['overduetime'];
-        $ret = $this->getAdminUserInfoByUserName($username);
+        $ret = $this->getUserInfoByUserName($username);
         if(!BaseService::checkRetIsOk($ret)) {
             return $ret;
         }
@@ -286,12 +287,14 @@ class ManageService extends BaseService
         $ret = $userTokenModel->addInfo($data);
         $sign = BaseService::getRetData($this->createSign($user_id, $token));
         if($ret) {
-            $userAdminInfoRet = $this->getUserAdminInfoByUserId($user_id);
+            $userAdminInfoRet = $this->getUserInfoByUserId($user_id);
             $userAdminInfo = BaseService::getRetData($userAdminInfoRet);
             $loginSign = [
                 'userid' => $user_id,
                 'token' => $token,
                 'sign' => $sign,
+                'source' => intval($source),
+                'type' => $type ? $type : 0,
                 'phone' => isset($userAdminInfo['username']) ? $userAdminInfo['username'] : "",
                 'username' => isset($userAdminInfo['username']) ? $userAdminInfo['username'] : "",
             ];
@@ -371,20 +374,6 @@ class ManageService extends BaseService
         return 0;
     }
     /**
-     * 通过用户id获取用户基本信息
-     * @param $username
-     * @return mixed
-     */
-    public function getUserAdminInfoByUserId($id) {
-        $userModel = new AdminUserModel();
-        $params['id'] = $id;
-        $userData = $userModel->getInfoByParams($params);
-        if(!empty($userData)) {
-            return BaseService::returnOkData($userData);
-        }
-        return BaseService::returnErrData($userData, '5002', "该用户没有开通管理账号");
-    }
-    /**
      * 用户退出登陆
      * 用户登陆状态过期
      * @param $userId
@@ -395,7 +384,7 @@ class ManageService extends BaseService
         if(!$type) {
             $type = isset(Yii::$app->params['user']['type']) ? Yii::$app->params['user']['type'] : 0;
         }
-        $adminRet = $this->getAdminUserInfoByUserId($userId);
+        $adminRet = $this->getUserInfoByUserId($userId);
         if(BaseService::checkRetIsOk($adminRet)) {
             $userTokenModel = new UserLoginTokenModel();
             $userTokenParams[] = ['=', 'user_id', $userId];
@@ -423,7 +412,7 @@ class ManageService extends BaseService
     public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=true) {
         $Common = new Common();
         $offset = $Common->getOffset($limit, $p);
-        $userModel = new AdminUserModel();
+        $userModel = new UserModel();
         $userList = $userModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
         if(!empty($userList)) {
             return BaseService::returnOkData($userList);
@@ -436,7 +425,7 @@ class ManageService extends BaseService
      * @return array
      */
     public function getUserInfoByParams($params) {
-        $userModel = new AdminUserModel();
+        $userModel = new UserModel();
         $userData = $userModel->getInfoByParams($params);
         if(!empty($userData)) {
             return BaseService::returnOkData($userData);
@@ -453,7 +442,7 @@ class ManageService extends BaseService
         if(empty($params) || empty($updateData)) {
             return BaseService::returnErrData([], 544100, "请求参数异常");
         }
-        $userModel = new AdminUserModel();
+        $userModel = new UserModel();
         $updateInfoRet = $userModel->updateInfoByParams($params, $updateData);
         if($updateInfoRet) {
             return BaseService::returnOkData($updateInfoRet);
@@ -470,7 +459,7 @@ class ManageService extends BaseService
         if(intval($user_id)<=0 || empty($updateData) || !is_array($updateData)) {
             return BaseService::returnErrData([], 537600, "请求参数异常");
         }
-        $rest = $this->getAdminUserInfoByUserId($user_id);
+        $rest = $this->getUserInfoByUserId($user_id);
         if(BaseService::checkRetIsOk($rest)) {
             $userInfoParams['id'] = $user_id;
             $getUserInfoRet = $this->getUserInfoByParams($userInfoParams);
@@ -503,7 +492,7 @@ class ManageService extends BaseService
         if(!$id || empty($updateData)) {
             return BaseService::returnErrData([], 549900, "提交参数异常");
         }
-        $userModel = new AdminUserModel();
+        $userModel = new UserModel();
         $updateData = $userModel->updateInfo($id, $updateData);
         if($updateData) {
             return BaseService::returnOkData($updateData);
@@ -542,27 +531,6 @@ class ManageService extends BaseService
         if($username) {
             $userData['username'] = $username;
         }
-        if($email) {
-            $userData['email'] = $email;
-        }
-        if($nickname) {
-            $userData['nickname'] = $nickname;
-        }
-        if($mobile) {
-            $userData['mobile'] = $mobile;
-        }
-        if($sex) {
-            $userData['sex'] = $sex;
-        }
-        if($company) {
-            $userData['company'] = $company;
-        }
-        if($address) {
-            $userData['address'] = $address;
-        }
-        if($department_id) {
-            $userData['department_id'] = $department_id;
-        }
         if(empty($userData)) {
             return BaseService::returnErrData([], 554700, "提交用户数据不能为空");
         }
@@ -585,8 +553,8 @@ class ManageService extends BaseService
         $roleUpdate = true;
         if(!empty($role_ids)) {
             //创建或者编辑角色信息
-            $adminUserRoleService = new AdminUserRoleService();
-            $editUserRoleRet = $adminUserRoleService->editUserRole($id, $role_ids);
+            $userRoleService = new UserRoleService();
+            $editUserRoleRet = $userRoleService->editUserRole($id, $role_ids);
             if(!BaseService::checkRetIsOk($editUserRoleRet)){
                 $roleUpdate = false;
             }
@@ -606,7 +574,7 @@ class ManageService extends BaseService
      * @return array
      */
     public function checkUsername($user_id,$username) {
-        $userModel = new AdminUserModel();
+        $userModel = new UserModel();
         $params[] = ['!=', 'id', $user_id];
         $params[] = ['=', 'username', $username];
         $countNum = $userModel->getCount($params);

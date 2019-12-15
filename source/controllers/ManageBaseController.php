@@ -60,12 +60,13 @@ class ManageBaseController extends BaseController
         $user_id = $headers->get('userid', Yii::$app->request->post('userid', 0));
         $token = $headers->get('token', Yii::$app->request->post('token', null));
         $sign = $headers->get('sign', Yii::$app->request->post('sign', null));
+        $source = $headers->get('source', Yii::$app->request->post('source', 5));
         $type = $headers->get('type', Yii::$app->params['user']['type']);
         if(empty($user_id) || empty($token) || empty($sign) || empty($type)) {
             return BaseService::returnErrData([], 5001, "请求参数异常");
         }
         $manageService = new ManageService();
-        $verifyToken = $manageService->verifyToken($user_id, $token, $sign, $type);
+        $verifyToken = $manageService->verifyToken($user_id, $token, $sign, $type, $source);
         if(!BaseService::checkRetIsOk($verifyToken)) {
             return $verifyToken;
         }
@@ -83,7 +84,7 @@ class ManageBaseController extends BaseController
         }
         if($this->user_id) {
             $manageService = new ManageService();
-            $userInfoRet = $manageService->getAdminUserInfoByUserId($this->user_id);
+            $userInfoRet = $manageService->getUserInfoByUserId($this->user_id);
             $this->userInfo = BaseService::getRetData($userInfoRet);
         }
         $roleNodeList = $nodeService->applyAuthNode($this->user_id);

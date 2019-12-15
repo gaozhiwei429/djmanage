@@ -15,11 +15,6 @@ use yii\helpers\Url;
 
 class SiteController extends BaseController {
     public function beforeAction($action) {
-//        if(!isset($this->userInfo) || empty($this->userInfo)) {
-//            $url = Url::to(['user/login']);
-//            //跳转到登录页面
-//            header("Location: $url");
-//        }
         return parent::beforeAction($action);
     }
     /**

@@ -1,6 +1,5 @@
 <?php
 namespace appcomponents\modules\manage\controllers;
-use appcomponents\modules\common\DepartmentService;
 use appcomponents\modules\manage\ManageService;
 use appcomponents\modules\manage\RoleService;
 use source\controllers\ManageBaseController;
@@ -81,18 +80,7 @@ class ManageUserController  extends ManageBaseController
         $roleParams[] = [];
         $roleDataListRet = $roleService->getDatas($roleParams, [], 0, -1,['*']);
         $passportService = new ManageService();
-        $userInfoRet = $passportService->getAdminUserInfoByUserId($id);
-
-        $departmentService = new DepartmentService();
-        $departmentParams[] = ['=', 'status', 1];
-        $departmentDataListRet = $departmentService->getList($departmentParams, [], 1, -1, ['id', 'name']);
-        $departmentList = [];
-        if(BaseService::checkRetIsOk($departmentDataListRet)) {
-            $departmentDataList = BaseService::getRetData($departmentDataListRet);
-            if(isset($departmentDataList['dataList']) && !empty($departmentDataList['dataList'])) {
-                $departmentList = $departmentDataList['dataList'];
-            }
-        }
+        $userInfoRet = $passportService->getUserInfoByUserId($id);
 
         return $this->renderPartial('edit', [
                 'title' => $id ? '编辑管理员账户' : "添加管理员账户",
@@ -100,7 +88,6 @@ class ManageUserController  extends ManageBaseController
                 'roleIds' => $roleIds,
                 'roleDataList' => BaseService::getRetData($roleDataListRet),
                 'userInfo' => BaseService::getRetData($userInfoRet),
-                'departmentDataList' => $departmentList,
             ]
         );
     }

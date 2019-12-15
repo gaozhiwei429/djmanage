@@ -65,7 +65,7 @@ class UserController extends ManageBaseController
             return BaseService::returnErrData([], 56700, "两次输入的密码不一致");
         }
         $passportService = new ManageService();
-        $userInfoRet = $passportService->getAdminUserInfoByUserId($user_id);
+        $userInfoRet = $passportService->getUserInfoByUserId($user_id);
         if(BaseService::checkRetIsOk($userInfoRet)) {
             $userInfo = BaseService::getRetData($userInfoRet);
             $password = isset($userInfo['password']) ? $userInfo['password'] : "";

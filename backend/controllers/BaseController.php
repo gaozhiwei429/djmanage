@@ -48,19 +48,21 @@ class BaseController extends ManageBaseController
         }
         if($this->user_id) {
             $manageService = new ManageService();
-            $userInfoRet = $manageService->getAdminUserInfoByUserId($this->user_id);
+            $userInfoRet = $manageService->getUserInfoByUserId($this->user_id);
             $this->userInfo = BaseService::getRetData($userInfoRet);
         }
         $roleNodeList = $nodeService->applyAuthNode($this->user_id);
         if(empty($roleNodeList)) {
-            exit('<script language="javascript">top.location.href="../user/login"</script>');
+            header("Location: ../no-quanxian.html");die;
 //            header("Location: ../user/login");
         }
         if(is_array($roleNodeList) && !empty($roleNodeList)) {
             try{
                 $this->menuUrl = @array_column($roleNodeList, 'node');
             } catch (BaseException $e) {
-                exit('<script language="javascript">top.location.href="../user/login"</script>');
+                $session->set('loginData', []);
+                header("Location: ../no-quanxian.html");die;
+                exit('<script language="javascript">top.location.href="../site/no-quanxian"</script>');die;
 //                header("Location: ../user/login");
             }
         }

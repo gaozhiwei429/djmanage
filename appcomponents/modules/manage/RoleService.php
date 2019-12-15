@@ -57,20 +57,20 @@ class RoleService extends BaseService {
     }
     /**
      * 根据管理用户id获取角色id集合
-     * @param $manager_user_id
+     * @param $user_id
      * @return array
      */
-    public function getRoleIds($manager_user_id) {
+    public function getRoleIds($user_id) {
         $roleIds = [];
-        if ($manager_user_id) {
+        if ($user_id) {
             $managerService = new ManageService();
-            $managerInfoRet = $managerService->getAdminUserInfoByUserId($manager_user_id);
+            $managerInfoRet = $managerService->getUserInfoByUserId($user_id);
             $managerInfo = BaseService::getRetData($managerInfoRet);
             if(isset($managerInfo['status']) && $managerInfo['status']==0) {
                 return [];
             }
-            $adminUserRoleService = new AdminUserRoleService();
-            $adminUserRoleParams[] = ['=', 'admin_user_id', $manager_user_id];
+            $adminUserRoleService = new UserRoleService();
+            $adminUserRoleParams[] = ['=', 'user_id', $user_id];
             $adminUserRoleParams[] = ['=', 'status', 1];
             $adminUserRoleListRet = $adminUserRoleService->getDatas($adminUserRoleParams, [], 0, -1, ['role_id']);
             if(BaseService::checkRetIsOk($adminUserRoleListRet)) {

@@ -40,7 +40,7 @@ class UserController extends BaseController {
         $code = strtolower($session->get('code'));
         $username = trim(Yii::$app->request->post('username', null));
         $password = trim(Yii::$app->request->post('password', null));
-        $source = intval(Yii::$app->request->post('source', 1));
+        $source = intval(Yii::$app->request->post('source', 4));
         $verify = strtolower(trim(Yii::$app->request->post('verify', null)));
         if($verify != $code) {
             return BaseService::returnErrData([], 500, "验证码输入有误,请重新输入");

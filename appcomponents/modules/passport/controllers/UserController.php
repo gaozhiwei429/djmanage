@@ -11,18 +11,19 @@
 namespace appcomponents\modules\passport\controllers;
 use appcomponents\modules\common\SmsService;
 use appcomponents\modules\passport\PassportService;
-use source\controllers\UserBaseController;
+use source\controllers\ManageBaseController;
 use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
-class UserController extends UserBaseController {
+class UserController extends ManageBaseController {
     /**
      * 用户登录态基础类验证
      * @return array
      */
     public function beforeAction($action){
-        $this->noLogin = false;
-        $userToken = $this->userToken();
+        $this->noLogin=false;
+        $userToken = parent::userToken();
+        $getMenuUrl = parent::getMenuUrl();
         return parent::beforeAction($action);
     }
     /**
