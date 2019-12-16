@@ -111,7 +111,7 @@ use \yii\helpers\Html;
         <div class="layui-input-inline">
             <input type="text" id="iselectpeople_1" readonly unselectable="on" placeholder="请选择主持人" class="layui-input" value="<?=isset($dataInfo['president_people']) ? $dataInfo['president_people']:"";?>">
         </div>
-        <span class="info" onclick='getArticleById("1", "<?=isset($dataInfo['president_userid']) ? $dataInfo['president_userid']:"";?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选择主持人</a></span>
+        <span class="info" onclick='getJoinPeoples("1", "<?=isset($dataInfo['president_userid']) ? $dataInfo['president_userid']:"";?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选择主持人</a></span>
         <input type="hidden" id="iselectquestions_1" name="president_userid" value="<?=isset($dataInfo['president_userid']) ? $dataInfo['president_userid']:"";?>" />
     </div>
 
@@ -120,7 +120,7 @@ use \yii\helpers\Html;
         <div class="layui-input-inline">
             <input type="text" id="iselectpeople_2" readonly unselectable="on" placeholder="请选择主讲人" class="layui-input" value="<?=isset($dataInfo['speaker_people']) ? $dataInfo['speaker_people']:"";?>">
         </div>
-        <span class="info" onclick='getArticleById("2", "<?=isset($dataInfo['speaker_userid']) ? $dataInfo['speaker_userid']:"";?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选择主讲人</a></span>
+        <span class="info" onclick='getJoinPeoples("2", "<?=isset($dataInfo['speaker_userid']) ? $dataInfo['speaker_userid']:"";?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选择主讲人</a></span>
         <input type="hidden" id="iselectquestions_2" name="speaker_userid" value="<?=isset($dataInfo['speaker_userid']) ? $dataInfo['speaker_userid']:"";?>" />
     </div>
 
@@ -144,7 +144,7 @@ use \yii\helpers\Html;
                     <li><em><?=isset($dataInfo['join_people_list']) ? $dataInfo['join_people_list']:"";?></em></li>
                 </ul>
             </div>
-            <span class="info" onclick='getArticleById("3", "<?=isset($dataInfo['join_peoples']) ? $dataInfo['join_peoples']:"";?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选择党员</a></span>
+            <span class="info" onclick='getJoinPeoples("3", "<?=isset($dataInfo['join_peoples']) ? $dataInfo['join_peoples']:"";?>")' >&nbsp;<a class="selfmodal btn" href="javascript:;">选择党员</a></span>
             <input type="hidden" id="iselectquestions_3" name="join_peoples" value="<?=isset($dataInfo['join_peoples']) ? $dataInfo['join_peoples']:"";?>" />
             <input type="hidden" id="organizationIds" name="organizationIds" value="<?=isset($dataInfo['organization_ids']) ? $dataInfo['organization_ids']:"";?>" />
         </div>
@@ -257,7 +257,7 @@ layui.use(['form', 'table','laydate', 'layer'], function(){
  * @param articleId
  * @param questionNum
  */
-function getArticleById(type, id){
+function getJoinPeoples(type, joinPeoples){
     var userIds = $("#iselectquestions_"+type).val();
     if(type==3) {
         var organization_id = $('select[name="organization_id"]').val();
@@ -285,9 +285,11 @@ function getArticleById(type, id){
                 var peopleData = body.find("#Jpeoples").val();
                 var organizationIds = body.find("#JorganizationIds").val();
                 $("#iselectquestions_"+type).val(selectData);
-                $("#iselectpeople_"+type).val(peopleData);
-                var html = "<li><em>"+peopleData+"</em></li>";
-                $("#tags-list").html(html);
+                if(peopleData) {
+                    $("#iselectpeople_"+type).val(peopleData);
+                    var html = "<li><em>"+peopleData+"</em></li>";
+                    $("#tags-list").html(html);
+                }
                 layer.close(index);
                 return true;
             }
@@ -322,8 +324,9 @@ function getArticleById(type, id){
                 var peopleData = body.find("#Jpeoples").val();
                 var organizationIds = body.find("#JorganizationIds").val();
                 $("#iselectquestions_"+type).val(selectData);
-                $("#iselectpeople_"+type).val(peopleData);
-//                $.cookie('checkbox', null);
+                if(peopleData) {
+                    $("#iselectpeople_"+type).val(peopleData);
+                }
                 layer.close(index);
                 return true;
             }

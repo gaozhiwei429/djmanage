@@ -14,6 +14,7 @@ use appcomponents\modules\common\MettingService;
 use appcomponents\modules\common\MettingTypeService;
 use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class MettingController extends ManageBaseController
@@ -204,7 +205,7 @@ class MettingController extends ManageBaseController
             $dataInfo['address'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }
@@ -240,6 +241,7 @@ class MettingController extends ManageBaseController
         $dataInfo['sort'] = $sort;
         $dataInfo['organization_id'] = $organization_id;
         $dataInfo['join_peoples'] = $join_peoples;
+        $dataInfo['join_people_num'] = 0;
         return $mettingService->editInfo($dataInfo);
     }
 }

@@ -13,6 +13,7 @@ use appcomponents\modules\common\BannerService;
 use appcomponents\modules\common\DangyuanService;
 use appcomponents\modules\common\LevelService;
 use appcomponents\modules\common\OrganizationService;
+use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
 use source\libs\Common;
 use source\manager\BaseService;
@@ -112,12 +113,26 @@ class DangyuanController extends ManageBaseController
      */
     public function actionList() {
         $organization_id = intval(Yii::$app->request->get('organization_id', 0));
-        $userIds = trim(Yii::$app->request->get('userIds', "全部"));
+        $userIds = trim(Yii::$app->request->get('userIds', ""));
+        $full_name_list = "";
+        if($userIds) {
+            $passportSrvice = new PassportService();
+            $userInfoParams = [];
+            $userInfoParams[] = ['in', 'user_id', explode(',',$userIds)];
+            $passportListRet = $passportSrvice->getUserInfoList($userInfoParams, [], 1, -1, ['full_name','user_id']);
+            $passportListData = BaseService::getRetData($passportListRet);
+            if(isset($passportListData['dataList']) && !empty($passportListData['dataList'])) {
+                foreach($passportListData['dataList'] as $info) {
+                    $full_name_list.=$info['full_name'].",";
+                }
+            }
+        }
         return $this->renderPartial('list',
             [
                 'title' => "党员列表",
                 'organization_id' => $organization_id,
                 'userIds' => $userIds,
+                'full_name_list' => $full_name_list,
                 'menuUrl' => $this->menuUrl,
             ]
         );

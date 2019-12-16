@@ -40,6 +40,7 @@ use yii\helpers\Url;
             ,$ = layui.jquery
             ,layer = layui.layer;
         $.cookie('dangyuanIds', "<?=isset($userIds) ? $userIds : ""?>");
+        $.cookie('dangyuanNames', "<?=isset($full_name_list) ? $full_name_list : ""?>");
         var type = "<?=isset($type) ? $type : 0?>";
         var params = {};
         var page = GetUrlParam("p") ? GetUrlParam("p") : 1;
@@ -162,25 +163,30 @@ use yii\helpers\Url;
             if($.cookie('dangyuanIds') !="" && $.cookie('dangyuanIds') != undefined) {
                 emp = $.cookie('dangyuanIds').split(',');
             }
+            if($.cookie('dangyuanNames') !="" && $.cookie('dangyuanNames') != undefined) {
+                people = $.cookie('dangyuanNames').split(',');
+            }
             if(obj.checked==true) {
-                emp.push(obj.data.user_id);
                 organization_ids.push(obj.data.organization_id);
-                people.push("【"+obj.data.full_name+"】 ");
+                emp.push(obj.data.user_id);
                 $.cookie('dangyuanIds', emp.join(','));
+                people.push(obj.data.full_name);
+                $.cookie('dangyuanNames', people.join(','));
             } else {
-                emp.pop(obj.data.user_id);
                 organization_ids.pop(obj.data.organization_id);
-                people.pop("【"+obj.data.full_name+"】 ");
+                emp.pop(obj.data.user_id);
                 $.cookie('dangyuanIds', emp.join(','));
+                people.pop(obj.data.full_name);
+                $.cookie('dangyuanNames', people.join(','));
             }
             $("#JtableIds").val($.cookie('dangyuanIds'));
-            $("#Jpeoples").val(people.join(''));
+            $("#Jpeoples").val($.cookie('dangyuanNames'));
             $("#JorganizationIds").val(organization_ids.join(''));
+            console.log($("#Jpeoples").val());
             console.log($("#JtableIds").val());
         });
-
-        $("#Jpeoples").val(people.join(''));
         $("#JtableIds").val($.cookie('dangyuanIds'));
+        $("#Jpeoples").val($.cookie('dangyuanNames'));
         form.render(); //更新全部，防止input多选和单选框不显示问题
     })
 </script>

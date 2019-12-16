@@ -150,20 +150,26 @@ class ForumController extends ManageBaseController
             if(!empty($passportListData) && isset($passportListData['dataList'])) {
                 if(!empty($president_userids)) {
                     foreach($president_userids as $president_userid) {
-                        $newsInfo['president_people'].= isset($passportListData['dataList'][$president_userid]['full_name']) ? "【".$passportListData['dataList'][$president_userid]['full_name']."】" : "";
+                        $newsInfo['president_people'].=
+            (isset($passportListData['dataList'][$president_userid]['full_name']) ? $passportListData['dataList'][$president_userid]['full_name'] : "").", ";
                     }
                 }
                 if(!empty($speaker_userids)) {
                     foreach($speaker_userids as $president_userid) {
-                        $newsInfo['speaker_people'] .= isset($passportListData['dataList'][$president_userid]['full_name']) ? "【".$passportListData['dataList'][$president_userid]['full_name']."】" : "";
+                        $newsInfo['speaker_people'] .=
+                (isset($passportListData['dataList'][$president_userid]['full_name']) ? $passportListData['dataList'][$president_userid]['full_name'] : "").", ";
                     }
                 }
                 if(!empty($join_peoples)) {
                     foreach($join_peoples as $join_userid) {
-                        $newsInfo['join_people_list'] .= isset($passportListData['dataList'][$join_userid]['full_name']) ? "【".$passportListData['dataList'][$join_userid]['full_name']."】" : "";
+                        $newsInfo['join_people_list'] .=
+                (isset($passportListData['dataList'][$join_userid]['full_name']) ? $passportListData['dataList'][$join_userid]['full_name'] : "").", ";
                     }
                 }
             }
+            $newsInfo['president_people'] = trim($newsInfo['president_people'], ',');
+            $newsInfo['speaker_people'] = trim($newsInfo['speaker_people'], ',');
+            $newsInfo['join_people_list'] = trim($newsInfo['join_people_list'], ',');
         }
         return $this->renderPartial('metting-edit',
             [

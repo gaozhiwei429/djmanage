@@ -13,6 +13,7 @@ namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\ZhuantiService;
 use appcomponents\modules\common\ZhuantiTypeService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class ZhuantiController extends ManageBaseController
@@ -117,7 +118,7 @@ class ZhuantiController extends ManageBaseController
             $dataInfo['title'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }

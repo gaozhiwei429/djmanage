@@ -151,10 +151,10 @@ class QuestionModel extends BaseModel
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
             $thisModel->uuid = isset($addData['uuid']) ? trim($addData['uuid']) : null;
             $thisModel->title = isset($addData['title']) ? trim($addData['title']) : "";
-            $thisModel->exam_id = isset($addData['exam_id']) ? intval($addData['exam_id']) : 0;
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
             $thisModel->problem = isset($addData['problem']) ? trim($addData['problem']) : "";
             $thisModel->answer = isset($addData['answer']) ? trim($addData['answer']) : "";
+            $thisModel->analysis = isset($addData['analysis']) ? trim($addData['analysis']) : "";
             $thisModel->type = isset($addData['type']) ? intval($addData['type']) : 0;
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
 			$thisModel->save();

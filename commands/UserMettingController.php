@@ -10,8 +10,6 @@
  */
 namespace commands;
 
-use appcomponents\modules\common\DangHistoryService;
-use appcomponents\modules\common\DangTodayService;
 use appcomponents\modules\common\DangyuanService;
 use appcomponents\modules\common\MettingService;
 use source\libs\DmpUtil;
@@ -33,8 +31,14 @@ class UserMettingController extends Controller{
         $this->getMetting($startTime, $endTime, $dataArr);
         if(!empty($dataArr)) {
             if(!empty($dataArr)) {
+                $mettingService = new MettingService();
                 $dangyuanService = new DangyuanService();
                 foreach($dataArr as $data) {
+                    if(!isset($data['id']) || empty($data['id'])) {
+                        continue;
+                    }
+//                    $mettingParams = [];
+//                    $mettingParams[] = ['=', 'id', $data['id']];
                     $join_peoples = [];
                     $president_userids = [];
                     $speaker_userids = [];
@@ -63,8 +67,16 @@ class UserMettingController extends Controller{
                     }
 
                     $userIds = array_unique(array_merge($organization_userids, $speaker_userids, $join_peoples, $president_userids));
+                    $editInfo['id'] = $data['id'];
+                    $editInfo['join_people_num'] = count($userIds);
+                    $mettingService->editInfo($editInfo);
+                    $organization_id = isset($data['organization_id']) ? $data['organization_id'] : 0;
+                    $metting_id = isset($data['id']) ? $data['id'] : 0;
                     foreach($userIds as $userId) {
+                        //获取当前用户所属的党组织id
+
                         //查看会议记录是否存在，如果不存在那么
+
                     }
                 }
             }
@@ -86,6 +98,7 @@ class UserMettingController extends Controller{
         $params = [];
         $params[] = ['>=', 'update_time', $start];
         $params[] = ['<=', 'create_time', $end];
+        $params[] = ['!=', 'join_people_num', 0];
         $mettingListRet = $mettingService->getList($params, [], 1, -1, ['*']);
         if(BaseService::checkRetIsOk($mettingListRet)) {
             $mettingList = BaseService::getRetData($mettingListRet);

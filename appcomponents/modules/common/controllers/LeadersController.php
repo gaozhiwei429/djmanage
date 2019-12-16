@@ -12,6 +12,7 @@
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\LeadersService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class LeadersController extends ManageBaseController
@@ -112,12 +113,12 @@ class LeadersController extends ManageBaseController
             $dataInfo['avatar_img'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }
         if(!empty($introduction)) {
-            $dataInfo['introduction'] = $introduction;
+            $dataInfo['introduction'] = Common::ClearHtml($introduction,'<p>');
         } else {
             $dataInfo['introduction'] = "";
         }

@@ -1,7 +1,7 @@
 <?php
 /**
- * 考试问题相关的接口
- * @文件名称: QuestionController.php
+ * 用户考试问题相关的接口
+ * @文件名称: UserExamController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,12 +10,11 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common\controllers;
-use appcomponents\modules\common\QuestionService;
+use appcomponents\modules\common\UserExamService;
 use source\controllers\ManageBaseController;
-use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
-class QuestionController extends ManageBaseController
+class UserExamController extends ManageBaseController
 {
     public function beforeAction($action){
         $userToken = parent::userToken();
@@ -35,7 +34,7 @@ class QuestionController extends ManageBaseController
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
         $type = intval(Yii::$app->request->post('type', 0));
-        $bannerService = new QuestionService();
+        $bannerService = new UserExamService();
         $params = [];
         $params[] = ['=', 'status', 1];
         if($type) {
@@ -56,7 +55,7 @@ class QuestionController extends ManageBaseController
         if(empty($id)) {
             return BaseService::returnErrData([], 54000, "请求参数异常");
         }
-        $bannerService = new QuestionService();
+        $bannerService = new UserExamService();
         $params = [];
         $params[] = ['=', 'id', $id];
         return $bannerService->getInfo($params);
@@ -70,79 +69,27 @@ class QuestionController extends ManageBaseController
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
         $id = intval(Yii::$app->request->post('id', 0));
-        $title = trim(Yii::$app->request->post('title', ""));
-        $status = intval(Yii::$app->request->post('status', 0));
-        $sort = intval(Yii::$app->request->post('sort', 0));
-        $analysis = trim(Yii::$app->request->post('analysis', null));
-        $level = intval(Yii::$app->request->post('level', 0));
-        $type = trim(Yii::$app->request->post('type', 0));
-        $problem = trim(Yii::$app->request->post('problem', ""));
+        $exam_id = intval(Yii::$app->request->post('exam_id', 0));
+        $types = trim(Yii::$app->request->post('types', ""));
         $score = floatval(Yii::$app->request->post('score', 0));
         $passscore = floatval(Yii::$app->request->post('passscore', 0));
-        $bannerService = new QuestionService();
+        $bannerService = new UserExamService();
         $answer = "";
-        if(empty($title)) {
-            return BaseService::returnErrData([], 55900, "考题名称不能为空");
-        }
-        $dataInfo = [];
-        if(!empty($type)) {
-            $dataInfo['type'] = $type;
-            if($type == 2) {
-                for($i=0; $i<=8; $i++) {
-                    $answerData = Yii::$app->request->post("targs[questionanswer$type][$i]", null);
-                    if($answerData) {
-                        $answer[] = trim($answerData,'"');
-                    }
-                }
-            } else {
-                $answer = Yii::$app->request->post("targs[questionanswer$type]", null);
-                $answer = trim($answer,'"');
-            }
-        } else {
-            return BaseService::returnErrData([], 55900, "考题类型不能为空");
-        }
-        if(empty($answer)) {
-            return BaseService::returnErrData([], 55900, "考题答案不能为空");
-        }
-        //多选的情况下
-        if($type == 2) {
-            $dataInfo['answer'] = is_array($answer) ? json_encode($answer) : [];
-        } else {
-            $dataInfo['answer'] = Common::ClearHtml($answer,'<p>');
-        }
-        if(!empty($title)) {
-            $dataInfo['title'] = $title;
-        } else {
-            $dataInfo['title'] = "";
-        }
-        if(!empty($analysis)) {
-            $dataInfo['analysis'] = Common::ClearHtml($analysis,'<p>');
-        } else {
-            $dataInfo['analysis'] = "";
-        }
-        if(!empty($level)) {
-            $dataInfo['level'] = $level;
-        } else {
-            $dataInfo['level'] = 1;
-        }
-        if(!empty($problem)) {
-            $dataInfo['problem'] = Common::ClearHtml($problem,'<p>');
-        } else {
-            $dataInfo['problem'] = "";
-        }
         if(!empty($id)) {
             $dataInfo['id'] = $id;
         } else {
             $dataInfo['id'] = 0;
         }
+        if(!empty($exam_id)) {
+            $dataInfo['exam_id'] = $exam_id;
+        } else {
+            $dataInfo['exam_id'] = 0;
+        }
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
-        $dataInfo['status'] = $status;
-        $dataInfo['sort'] = $sort;
-//        $dataInfo['score'] = $score;
-//        $dataInfo['passscore'] = $passscore;
-//        var_dump($dataInfo);die;
+        $dataInfo['score'] = $score;
+        $dataInfo['passscore'] = $passscore;
         return $bannerService->editInfo($dataInfo);
     }
     /**
@@ -155,7 +102,7 @@ class QuestionController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $status = intval(Yii::$app->request->post('status',  0));
-        $bannerService = new QuestionService();
+        $bannerService = new UserExamService();
         if(empty($id)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }
@@ -174,7 +121,7 @@ class QuestionController extends ManageBaseController
         }
         $id = trim(Yii::$app->request->post('id', 0));
         $sort = intval(Yii::$app->request->post('sort',  0));
-        $bannerService = new QuestionService();
+        $bannerService = new UserExamService();
         if(empty($id)) {
             return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
         }

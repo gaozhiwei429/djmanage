@@ -283,6 +283,17 @@ layui.use(['form', 'table', 'laypage', 'upload','layedit'], function(){
         data.field.problem = layedit2.getContent(index2);
         data.field.analysis = layedit.getContent(index1);
         data.field.answer = layedit3.getContent(index3);
+//        data.field.problem = $('textarea[name="problem"]').html();
+//        data.field.analysis = $('textarea[name="analysis"]').html();
+//        if($('textarea[name="targs[questionanswer5]"]').html()) {
+//            data.field.answer = $('textarea[name="targs[questionanswer5]"]').html();
+//        }
+//        alert(data.field.problem);
+//        alert(data.field.analysis);
+//        alert(data.field.answer);
+//        layer.alert(JSON.stringify(data.field), {
+//            title: '最终的提交信息'
+//        });return false;
         $.ajax({
             type: "post",
             url: "<?= Url::to(['common/question/edit']); ?>",

@@ -15,6 +15,7 @@ use appcomponents\modules\common\CourseTypeService;
 use appcomponents\modules\common\LessionService;
 use appcomponents\modules\common\SectionsService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class CourseController extends ManageBaseController
@@ -164,7 +165,7 @@ class CourseController extends ManageBaseController
             $dataInfo['title'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }

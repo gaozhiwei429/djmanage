@@ -12,6 +12,7 @@
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\VoteService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class VoteController extends ManageBaseController
@@ -154,7 +155,7 @@ class VoteController extends ManageBaseController
             $dataInfo['address'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }

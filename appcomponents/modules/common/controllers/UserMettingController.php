@@ -14,6 +14,7 @@ use appcomponents\modules\common\MettingService;
 use appcomponents\modules\common\UserMettingService;
 use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class UserMettingController extends ManageBaseController
@@ -173,7 +174,7 @@ class UserMettingController extends ManageBaseController
             $dataInfo['address'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }

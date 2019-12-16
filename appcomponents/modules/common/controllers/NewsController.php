@@ -13,6 +13,7 @@ namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\NewsService;
 use appcomponents\modules\common\TypeService;
 use source\controllers\ManageBaseController;
+use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
 class NewsController extends ManageBaseController
@@ -114,7 +115,7 @@ class NewsController extends ManageBaseController
             $dataInfo['title'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = $content;
+            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
         } else {
             $dataInfo['content'] = "";
         }

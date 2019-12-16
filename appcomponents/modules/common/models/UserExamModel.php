@@ -1,7 +1,7 @@
 <?php
 /**
- * 职务管理
- * @文件名称: LevelModel.php
+ * 用户考试记录管理表
+ * @文件名称: UserExamModel.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-06-06
@@ -14,12 +14,12 @@ use source\manager\BaseException;
 use source\models\BaseModel;
 use Yii;
 
-class ExamModel extends BaseModel
+class UserExamModel extends BaseModel
 {
-    const ON_LINE_STATUS = 1;//已上线
-    const BEFORT_STATUS = 0;//已下线
+    const WAIT_APPROVAL_STATUS = 0;//待审批
+    const ALREADY_APPROVAL_STATUS = 1;//已审批
     public static function tableName() {
-        return '{{%exam}}';
+        return '{{%user_exam}}';
     }
     /**
      * 根据条件获取最后一条信息
@@ -27,8 +27,8 @@ class ExamModel extends BaseModel
      * @param int $type
      * @return mixed
      */
-    public function getInfoByValue($params){
-        return $this->getOne($params);
+    public function getInfoByValue($params,$field=['*']){
+        return $this->getOne($params,$field);
     }
     /**
      * 获取数据集
@@ -39,7 +39,7 @@ class ExamModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*'], $index=false) {
+    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*']) {
         $query = self::find()->select($fied);
         if(!empty($params)) {
             foreach($params as $k=>$v) {
@@ -57,27 +57,11 @@ class ExamModel extends BaseModel
         if (!empty($orderBy)) {
             $query -> orderBy($orderBy);
         }
-        $dataList = $query->asArray()->all();
-        if(!empty($dataList)) {
-            foreach($dataList as $k=>&$v) {
-                if(isset($v['types']) && !empty($v['types'])) {
-                    $v['types'] = json_decode($v['types']);
-                }
-            }
-        }
-        if($index) {
-            $dataArr = [];
-            foreach($dataList as $k=>$v) {
-                if(isset($v['id'])) {
-                    $dataArr[$v['id']] = $v;
-                }
-            }
-            $dataList = $dataArr;
-        }
-        return $dataList;
+        $projectList = $query->asArray()->all();
+        return $projectList;
     }
     /**
-     * 获取banner首页数据展示
+     * 获取数据展示
      * @param array $params
      * @param array $orderBy
      * @param int $offset
@@ -97,9 +81,9 @@ class ExamModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*'], $index=false) {
+    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*']) {
         try {
-            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied, $index);
+            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
             $data = [
                 'dataList' => $dataList,
                 'count' => 0,
@@ -111,7 +95,6 @@ class ExamModel extends BaseModel
             return $data;
 //            $query->createCommand()->getRawSql();
         } catch (BaseException $e) {
-            DmpLog::warning('getListData_exam_model_error', $e);
             return [];
         }
     }
@@ -135,7 +118,6 @@ class ExamModel extends BaseModel
 //                return $query->createCommand()->getRawSql();
             return  $query->count();
         } catch (BaseException $e) {
-            DmpLog::warning('getCount_exam_model_error', $e);
             return 0;
         }
     }
@@ -149,28 +131,25 @@ class ExamModel extends BaseModel
         try {
             $thisModel = new self();
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
-            $thisModel->uuid = isset($addData['uuid']) ? trim($addData['uuid']) : null;
-            $thisModel->title = isset($addData['title']) ? trim($addData['title']) : "";
-            $thisModel->organization_uuid = isset($addData['organization_uuid']) ? trim($addData['organization_uuid']) : null;
-            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
-            $thisModel->start_time = isset($addData['start_time']) ? trim($addData['start_time']) : "";
-            $thisModel->overdue_time = isset($addData['overdue_time']) ? trim($addData['overdue_time']) : "";
-            $thisModel->type = isset($addData['type']) ? intval($addData['type']) : 0;
-            $thisModel->examtime = isset($addData['examtime']) ? intval($addData['examtime']) : 0;
+            $thisModel->user_id = isset($addData['user_id']) ? intval($addData['user_id']) : 0;
+            $thisModel->exam_id = isset($addData['exam_id']) ? intval($addData['exam_id']) : 0;
+            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::WAIT_APPROVAL_STATUS;
             $thisModel->score = isset($addData['score']) ? floatval($addData['score']) : 0;
             $thisModel->passscore = isset($addData['passscore']) ? floatval($addData['passscore']) : 0;
+            $thisModel->result_score = isset($addData['result_score']) ? floatval($addData['result_score']) : 0;
             $thisModel->decide = isset($addData['decide']) ? intval($addData['decide']) : 0;
-            $thisModel->types = (isset($addData['types']) && is_array($addData['types'])) ?
-                json_encode($addData['types']): $addData['types'];
-			$thisModel->save();
+            $thisModel->types = isset($addData['types']) ? trim($addData['types']) : "";
+            $thisModel->content = isset($addData['content']) ? trim($addData['content']) : "";
+            $thisModel->type = isset($addData['type']) ? intval($addData['type']) : 0;
+            $thisModel->subjective_score = isset($addData['subjective_score']) ? floatval($addData['subjective_score']) : 0;
+            $thisModel->objective_score = isset($addData['objective_score']) ? floatval($addData['objective_score']) : 0;
+            $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;
         } catch (BaseException $e) {
-            DmpLog::error('insert_exam_model_error', $e);
             return false;
         }
     }
-
     /**
      * 更新信息数据
      * @param int $id ID
@@ -188,7 +167,6 @@ class ExamModel extends BaseModel
             }
             return false;
         } catch (BaseException $e) {
-            DmpLog::error('update_exam_model_error', $e);
             return false;
         }
     }

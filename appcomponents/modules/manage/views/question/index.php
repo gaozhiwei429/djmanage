@@ -82,7 +82,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
                     ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                     ,cols: [[
                         {checkbox: true, fixed: true, width: 30}
-                        ,{field:'id', title: 'ID', width: 30}
+                        ,{field:'id', title: 'ID', width: 60}
                         ,{field:'title', title: '问题标题', minWidth: 100}
                         ,{field:'status', title: '状态', width: 80, toolbar:"#Jstatus"}
                         ,{field:'type', title: '类型', width: 80, toolbar:"#Jtype"}
@@ -306,7 +306,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     {{#  } }}
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/exam/edit']);?>?id={{d.id }}">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/question/edit']);?>?id={{d.id }}">
         修改
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs">
