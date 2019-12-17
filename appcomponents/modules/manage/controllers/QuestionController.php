@@ -74,14 +74,16 @@ class QuestionController extends ManageBaseController
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
         $dataInfo = BaseService::getRetData($bannerInfoRet);
+        $answer = isset($dataInfo['answer']) ? $dataInfo['answer'] : "";
         if(isset($dataInfo['type']) && $dataInfo['type']==2) {
-            $dataInfo['type'] = json_encode($dataInfo['type'], true);
+            $answer = json_decode($dataInfo['answer'], true);
         }
         return $this->renderPartial('edit',
             [
                 'title' => "考题编辑",
                 'menuUrl' => $this->menuUrl,
                 'dataInfo' => $dataInfo,
+                'answer' => $answer,
             ]
         );
     }

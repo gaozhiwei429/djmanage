@@ -37,7 +37,7 @@ class ExamController extends ManageBaseController
         $bannerService = new ExamService();
         $params = [];
         return $bannerService->getList($params, ['id'=>SORT_DESC], $page, $size,
-            ['id','uuid','title','organization_uuid','create_time','start_time','overdue_time','examtime','score','passscore','types','decide','type']
+            ['id','uuid','title','organization_uuid','create_time','start_time','overdue_time','examtime','score','passscore','types','decide','type','status']
         );
     }
 

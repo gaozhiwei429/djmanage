@@ -54,12 +54,12 @@ use \yii\helpers\Html;
                         </label>
                         <div class="layui-input-inline">
                             <select name="type" lay-verify="required" lay-search="" id="selectType"  lay-filter="selectType">
-                                <option value="" <?=(isset($dataInfo['type']) && $dataInfo['type']==0) ? "selected":"";?>>类型选择</option>
-                                <option value="1" <?=(isset($dataInfo['type']) && $dataInfo['type']==1) ? "selected":"";?>>单项选择</option>
-                                <option value="2" <?=(isset($dataInfo['type']) && $dataInfo['type']==2) ? "selected":"";?>>多项选择</option>
-                                <option value="3" <?=(isset($dataInfo['type']) && $dataInfo['type']==3) ? "selected":"";?>>判断</option>
-                                <option value="4" <?=(isset($dataInfo['type']) && $dataInfo['type']==4) ? "selected":"";?>>解答</option>
-                                <option value="5" <?=(isset($dataInfo['type']) && $dataInfo['type']==5) ? "selected":"";?>>填空</option>
+    <option value="" <?=(isset($dataInfo['type']) && intval($dataInfo['type'])==0) ? 'selected':''?>>类型选择</option>
+    <option value="1" <?=(isset($dataInfo['type']) && intval($dataInfo['type'])==1) ? 'selected':''?>>单项选择</option>
+    <option value="2" <?=(isset($dataInfo['type']) && intval($dataInfo['type'])==2) ? 'selected':''?>>多项选择</option>
+    <option value="3" <?=(isset($dataInfo['type']) && intval($dataInfo['type'])==3) ? 'selected':''?>>判断</option>
+    <option value="4" <?=(isset($dataInfo['type']) && intval($dataInfo['type'])==4) ? 'selected':''?>>解答</option>
+    <option value="5" <?=(isset($dataInfo['type']) && intval($dataInfo['type'])==5) ? 'selected':''?>>填空</option>
                             </select>
                         </div>
                     </div>
@@ -69,9 +69,9 @@ use \yii\helpers\Html;
                         </label>
                         <div class="layui-input-inline">
                             <select class="combox" name="level" needle="needle" lay-verify="required" msg="您必须为要添加的试题设置一个难度">
-                                <option value="1" <?=isset($dataInfo['level']) && $dataInfo['level']==1 ? "selected":"";?>>易</option>
-                                <option value="2" <?=isset($dataInfo['level']) && $dataInfo['level']==2 ? "selected":"";?>>中</option>
-                                <option value="3" <?=isset($dataInfo['level']) && $dataInfo['level']==3 ? "selected":"";?>>难</option>
+                                <option value="1" <?=isset($dataInfo['level']) && intval($dataInfo['level'])==1 ? "selected":"";?>>易</option>
+                                <option value="2" <?=isset($dataInfo['level']) && intval($dataInfo['level'])==2 ? "selected":"";?>>中</option>
+                                <option value="3" <?=isset($dataInfo['level']) && intval($dataInfo['level'])==3 ? "selected":"";?>>难</option>
                             </select>
                         </div>
                     </div>
@@ -86,26 +86,24 @@ use \yii\helpers\Html;
                         <label class="layui-form-label">参考答案：</label>
                         <div id="answerbox_1" class="answerbox">
                             <div class="layui-input-block">
-                                <input type="radio" name="targs[questionanswer1]" value="A" <?=isset($dataInfo['answer']) &&$dataInfo['answer']=="A" ? "checked" : "";?>>A
-                                <input type="radio" name="targs[questionanswer1]" value="B" <?=isset($dataInfo['answer']) &&$dataInfo['answer']=="B" ? "checked" : "";?>>B
-                                <input type="radio" name="targs[questionanswer1]" value="C" <?=isset($dataInfo['answer']) &&$dataInfo['answer']=="C" ? "checked" : "";?>>C
-                                <input type="radio" name="targs[questionanswer1]" value="D" <?=isset($dataInfo['answer']) &&$dataInfo['answer']=="D" ? "checked" : "";?>>D
-                                <input type="radio" name="targs[questionanswer1]" value="E" <?=isset($dataInfo['answer']) &&$dataInfo['answer']=="E" ? "checked" : "";?>>E
+                                <input type="radio" name="targs[questionanswer1]" value="A" <?=isset($answer) && $answer=="A" ? "checked" : "";?>>A
+                                <input type="radio" name="targs[questionanswer1]" value="B" <?=isset($answer) && $answer=="B" ? "checked" : "";?>>B
+                                <input type="radio" name="targs[questionanswer1]" value="C" <?=isset($answer) && $answer=="C" ? "checked" : "";?>>C
+                                <input type="radio" name="targs[questionanswer1]" value="D" <?=isset($answer) && $answer=="D" ? "checked" : "";?>>D
                             </div>
                         </div>
                         <div id="answerbox_2" style="display:none;" class="answerbox">
                             <div class="layui-input-block">
-                                <input type="checkbox" name="targs[questionanswer2][1]" value="A" <?=isset($dataInfo['answer']) && is_array($dataInfo['answer']) && in_array("A", $dataInfo['answer']) ? "checked" : "";?>>A
-                                <input type="checkbox" name="targs[questionanswer2][2]" value="B" <?=isset($dataInfo['answer']) && is_array($dataInfo['answer']) && in_array("B", $dataInfo['answer']) ? "checked" : "";?>>B
-                                <input type="checkbox" name="targs[questionanswer2][3]" value="C" <?=isset($dataInfo['answer']) && is_array($dataInfo['answer']) && in_array("C", $dataInfo['answer']) ? "checked" : "";?>>C
-                                <input type="checkbox" name="targs[questionanswer2][4]" value="D" <?=isset($dataInfo['answer']) && is_array($dataInfo['answer']) && in_array("D", $dataInfo['answer']) ? "checked" : "";?>>D
-                                <input type="checkbox" name="targs[questionanswer2][5]" value="E" <?=isset($dataInfo['answer']) && is_array($dataInfo['answer']) && in_array("E", $dataInfo['answer']) ? "checked" : "";?>>E
+                                <input type="checkbox" name="targs[questionanswer2][1]" value="A" <?=isset($answer) && is_array($answer) && in_array("A", $answer) ? "checked" : "";?>>A
+                                <input type="checkbox" name="targs[questionanswer2][2]" value="B" <?=isset($answer) && is_array($answer) && in_array("B", $answer) ? "checked" : "";?>>B
+                                <input type="checkbox" name="targs[questionanswer2][3]" value="C" <?=isset($answer) && is_array($answer) && in_array("C", $answer) ? "checked" : "";?>>C
+                                <input type="checkbox" name="targs[questionanswer2][4]" value="D" <?=isset($answer) && is_array($answer) && in_array("D", $answer) ? "checked" : "";?>>D
                             </div>
                         </div>
                         <div id="answerbox_3" class="answerbox" style="display:none;">
                             <div class="layui-input-inline">
-                                <input type="radio" name="targs[questionanswer3]" value="A" <?=isset($dataInfo['answer']) && $dataInfo['answer']=="A" ? "checked" : "";?>>对
-                                <input type="radio" name="targs[questionanswer3]" value="B" <?=isset($dataInfo['answer']) && $dataInfo['answer']=="B" ? "checked" : "";?>>错
+                                <input type="radio" name="targs[questionanswer3]" value="A" <?=isset($answer) && $answer=="A" ? "checked" : "";?>>对
+                                <input type="radio" name="targs[questionanswer3]" value="B" <?=isset($answer) && $answer=="B" ? "checked" : "";?>>错
                             </div>
                         </div>
                         <div id="answerbox_4" class="answerbox" style="display:none;">
@@ -283,17 +281,6 @@ layui.use(['form', 'table', 'laypage', 'upload','layedit'], function(){
         data.field.problem = layedit2.getContent(index2);
         data.field.analysis = layedit.getContent(index1);
         data.field.answer = layedit3.getContent(index3);
-//        data.field.problem = $('textarea[name="problem"]').html();
-//        data.field.analysis = $('textarea[name="analysis"]').html();
-//        if($('textarea[name="targs[questionanswer5]"]').html()) {
-//            data.field.answer = $('textarea[name="targs[questionanswer5]"]').html();
-//        }
-//        alert(data.field.problem);
-//        alert(data.field.analysis);
-//        alert(data.field.answer);
-//        layer.alert(JSON.stringify(data.field), {
-//            title: '最终的提交信息'
-//        });return false;
         $.ajax({
             type: "post",
             url: "<?= Url::to(['common/question/edit']); ?>",
