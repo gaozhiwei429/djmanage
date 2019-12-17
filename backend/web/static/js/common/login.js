@@ -18,8 +18,8 @@ $(function(){
             $.jBox.showloading()
         },
         success:function(i){
+            var storage=window.localStorage;
             if(0==i.code) {
-                var storage=window.localStorage;
                 var userData = JSON.stringify(i.data)
                 storage.setItem("userData",userData);
                 //$.cookie("cache_account",t,{expires:30,path:"/"}),
@@ -29,6 +29,7 @@ $(function(){
                 //    ),
                     window.location.href="/site/index";
             } else{
+                storage.setItem("userData","");
                 layer.msg(i.msg, {
                     icon: 3,
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
