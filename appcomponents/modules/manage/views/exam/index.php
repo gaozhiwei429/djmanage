@@ -87,9 +87,10 @@ use yii\helpers\Url;
                             ,{field:'passscore', title: '及格分数', minWidth: 100}
                             ,{field:'decide', title: '评卷方式', minWidth: 100, toolbar:"#Jdecide"}
                             ,{field:'status', title: '状态', width: 80, toolbar:"#Jstatus"}//,toolbar:"#Jstatus"
+                            ,{field:'anwser_num', title: '答题人数', width: 100}
                             ,{field:'start_time', title: '考题开始时间',"type":"text",width:130, toolbar:"#JstartTime"}
                             ,{field:'overdue_time', title: '考题截止时间',"type":"text","width":130, toolbar:"#JoverdueTime"}
-                            ,{field:'right', title: '操作', minWidth: 120,toolbar:"#barDemo"}
+                            ,{field:'right', title: '操作', minWidth: 200,toolbar:"#barDemo"}
                         ]]
                         ,done: function(res, curr, count){
                             //自定义样式
@@ -226,10 +227,13 @@ use yii\helpers\Url;
 </script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/exam/edit']);?>?id={{d.id }}">
-        修改
-    </a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs">
-        删除
-    </a>
+<a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/exam/edit']);?>?id={{d.id }}">
+修改
+</a>
+<a class="layui-btn layui-btn-normal layui-btn-xs" data-open="<?=Url::to(['manage/exam/user-list']);?>?id={{d.id }}">
+考试记录
+</a>
+<a class="layui-btn layui-btn-danger layui-btn-xs">
+删除
+</a>
 </script>

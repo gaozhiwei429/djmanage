@@ -1,7 +1,7 @@
 <?php
 /**
- * 职务相关的操作
- * @文件名称: ExamController.php
+ * 试题批改相关的操作
+ * @文件名称: UserExamController.php
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-12-06
@@ -14,7 +14,7 @@ use appcomponents\modules\common\UserExamService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use \Yii;
-class ExamController extends ManageBaseController
+class UserExamController extends ManageBaseController
 {
     /**
      * 用户登录态基础类验证
@@ -29,31 +29,23 @@ class ExamController extends ManageBaseController
     public function actionIndex() {
         return $this->renderPartial('index',
             [
-                'title' => "题库管理",
-                'menuUrl' => $this->menuUrl,
-            ]
-        );
-    }
-    public function actionManage() {
-        return $this->renderPartial('manage',
-            [
-                'title' => "试题管理",
+                'title' => "用户答题记录管理",
                 'menuUrl' => $this->menuUrl,
             ]
         );
     }
     /**
-     * 题库详情
+     * 答题记录详情
      * @return string
      */
     public function actionInfo() {
         $id = intval(Yii::$app->request->get('id', 0));
-        $bannerService = new ExamService();
+        $bannerService = new UserExamService();
         $params = [];
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
         return $this->renderPartial('info', [
-                'title' => '题库详情',
+                'title' => '答题记录详情',
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
                 'info' => BaseService::getRetData($bannerInfoRet),
@@ -61,34 +53,38 @@ class ExamController extends ManageBaseController
         );
     }
     /**
-     * 题库编辑
+     * 答题记录编辑
      * @return string
      */
     public function actionEdit() {
         $id = intval(Yii::$app->request->get('id', 0));
-        $bannerService = new ExamService();
+        $bannerService = new UserExamService();
         $params = [];
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
-        $dataInfo = BaseService::getRetData($bannerInfoRet);
-        if(isset($dataInfo['types']) && !empty($dataInfo['types'])) {
-            $dataInfo['types'] = json_decode($dataInfo['types'], true);
-        }
         return $this->renderPartial('edit',
             [
-                'title' => "题库编辑",
+                'title' => "答题记录编辑",
                 'menuUrl' => $this->menuUrl,
-                'dataInfo' => $dataInfo,
+                'dataInfo' => BaseService::getRetData($bannerInfoRet),
             ]
         );
     }
-    public function actionUserList() {
+    /**
+     * 答题记录批改
+     * @return string
+     */
+    public function actionCorrection() {
         $id = intval(Yii::$app->request->get('id', 0));
-        return $this->renderPartial('user-list',
+        $bannerService = new UserExamService();
+        $params = [];
+        $params[] = ['=', 'id', $id];
+        $bannerInfoRet = $bannerService->getInfo($params);
+        return $this->renderPartial('correction',
             [
-                'title' => "考试记录",
-                'id' => $id,
+                'title' => "答题记录批改",
                 'menuUrl' => $this->menuUrl,
+                'dataInfo' => BaseService::getRetData($bannerInfoRet),
             ]
         );
     }

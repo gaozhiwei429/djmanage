@@ -33,14 +33,15 @@ class UserExamController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
-        $type = intval(Yii::$app->request->post('type', 0));
-        $bannerService = new UserExamService();
+        $exam_id = intval(Yii::$app->request->post('exam_id', 0));
+        $userExamService = new UserExamService();
         $params = [];
-        $params[] = ['=', 'status', 1];
-        if($type) {
-            $params[] = ['=', 'type', $type];
-        }
-        return $bannerService->getList($params, ['id'=>SORT_DESC], $page, $size);
+        $params[] = ['=', 'exam_id', $exam_id];
+        return $userExamService->getList($params, [], $page, $size,
+            [
+                'id','status','score','passscore','result_score','decide','exam_id','user_id','type','subjective_score','objective_score'
+            ]
+        );
     }
 
     /**
