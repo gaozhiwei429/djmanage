@@ -10,6 +10,7 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common\controllers;
+use appcomponents\modules\common\OrganizationService;
 use appcomponents\modules\common\VoteService;
 use source\controllers\ManageBaseController;
 use source\libs\Common;
@@ -144,11 +145,20 @@ class VoteController extends ManageBaseController
         } else {
             $dataInfo['type'] = 0;
         }
-        if(!empty($organization_id)) {
-            $dataInfo['organization_id'] = $organization_id;
+
+        if(empty($organization_id)) {
+            return BaseService::returnErrData([], 514100, "请选择党组织");
         } else {
-            $dataInfo['organization_id'] = 0;
+            $organizationService = new OrganizationService();
+            $organizationParams = [];
+            $organizationParams[] = ['=', 'id', $organization_id];
+            $organizationParams[] = ['!=', 'status', -1];
+            $userOrganizationInfoRet = $organizationService->getInfo($organizationParams);
+            if(!BaseService::checkRetIsOk($userOrganizationInfoRet)) {
+                return BaseService::returnErrData([], 514800, "该党组织不存在，或已下线");
+            }
         }
+        $dataInfo['organization_id'] = $organization_id;
         if(!empty($address)) {
             $dataInfo['address'] = $address;
         } else {
@@ -169,6 +179,7 @@ class VoteController extends ManageBaseController
         }
         $dataInfo['status'] = $status;
         $dataInfo['sort'] = $sort;
+        $dataInfo['user_id'] = $this->user_id;
         return $mettingService->editInfo($dataInfo);
     }
 }
