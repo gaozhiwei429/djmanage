@@ -132,7 +132,22 @@ layui.use(['form', 'table', 'laypage', 'layer', 'upload','laydate'], function(){
             ,size: 1024 * 10
             ,auto: false
             ,bindAction: '#uploadBtn'
+            ,choose: function(obj) {
+                obj.preview(function(index, file, result) {
+                    var img = new Image();
+                    img.onload = function() {
+                        if ((img.width/img.height) > 1.7) {
+                            layer.msg('图片尺寸【长/高】比例不能大于1.7');
+                        }
+                    };
+                    img.src = result;
+                });
+            },
+            before: function(obj) {
+                layer.load();
+            }
             ,done: function(res){
+                layer.closeAll('loading');
                 $("[name=avatar_img]").val(res.data.src);
             }
         });

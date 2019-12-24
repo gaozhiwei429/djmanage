@@ -30,6 +30,15 @@ use \yii\helpers\Html;
 
                 <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
                     <input type="hidden" name="id" class="layui-input" value="<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>">
+
+                    <div class="layui-form-item layui-upload">
+                        <label class="layui-form-label">活动封面图</label>
+                        <div class="layui-upload layui-input-block">
+                            <input type="hidden" name="pic_url" value="<?=isset($info['pic_url']) ? $info['pic_url']:"";?>" required lay-verify="required" />
+                            <button type="button" class="layui-btn layui-btn-primary" id="fileBtn"><i class="layui-icon">&#xe67c;</i>选择文件</button>
+                            <button type="button" class="layui-btn layui-btn-warm" id="uploadBtn">开始上传</button>
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="require-text">*</span>活动名称</label>
                         <div class="layui-input-inline">
@@ -107,10 +116,40 @@ use \yii\helpers\Html;
             ,laydate = layui.laydate
             ,jq = layui.jquery
             ,$ = layui.jquery;
+        var upload = layui.upload;
         var storage=window.localStorage;
         var userData = storage.getItem("userData");
         var headerParams = JSON.parse(userData);
 
+        //图片上传
+        upload.render({
+            elem: '#fileBtn'
+            ,url: '/common/upload/ali-file'
+            ,accept: 'image'
+            ,acceptMime: 'image/*'
+            ,exts: 'jpg|png|gif|bmp|jpeg'
+            ,size: 1024 * 10
+            ,auto: false
+            ,bindAction: '#uploadBtn'
+            ,choose: function(obj) {
+                obj.preview(function(index, file, result) {
+                    var img = new Image();
+                    img.onload = function() {
+                        if ((img.width/img.height) > 1.7) {
+                            layer.msg('图片尺寸【长/高】比例不能大于1.7');
+                        }
+                    };
+                    img.src = result;
+                });
+            },
+            before: function(obj) {
+                layer.load();
+            }
+            ,done: function(res){
+                layer.closeAll('loading');
+                $("[name=pic_url]").val(res.data.src);
+            }
+        });
         //常规用法
         laydate.render({
             elem: '#startandenddate'

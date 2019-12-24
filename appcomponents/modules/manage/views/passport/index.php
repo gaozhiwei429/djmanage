@@ -201,7 +201,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
 
 <script type="text/html" id="Jimg">
     {{#  if(d.avatar_img!=""){ }}
-    <img src="{{d.avatar_img}}" style="width: 60px;">
+    <img src="{{d.avatar_img}}" style="height:30px;width:30px;border-radius:50%;line-height:50px!important;">
     {{# }else{ }}
     暂无
     {{#  } }}

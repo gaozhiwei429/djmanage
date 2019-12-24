@@ -97,6 +97,7 @@ class ActivityController extends ManageBaseController
         }
         $id = intval(Yii::$app->request->post('id', 0));
         $title = trim(Yii::$app->request->post('title', ""));
+        $pic_url = trim(Yii::$app->request->post('pic_url', ""));
         $address = trim(Yii::$app->request->post('address', ""));
         $content = trim(Yii::$app->request->post('content', ""));
         $status = intval(Yii::$app->request->post('status', 0));
@@ -139,7 +140,11 @@ class ActivityController extends ManageBaseController
         } else {
             $dataInfo['title'] = "";
         }
-
+        if(!empty($pic_url)) {
+            $dataInfo['pic_url'] = $pic_url;
+        } else {
+            $dataInfo['pic_url'] = "";
+        }
         if(empty($organization_id)) {
             return BaseService::returnErrData([], 514100, "请选择党组织");
         } else {

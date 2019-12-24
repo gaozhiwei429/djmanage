@@ -134,6 +134,7 @@ class ActivityModel extends BaseModel
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
             $thisModel->user_id = isset($addData['user_id']) ? intval($addData['user_id']) : 0;
             $thisModel->title = isset($addData['title']) ? trim($addData['title']) : "";//名称
+            $thisModel->pic_url = isset($addData['pic_url']) ? trim($addData['pic_url']) : "";//名称
             $thisModel->content = isset($addData['content']) ? trim($addData['content']) : "";//名称
             $thisModel->address = isset($addData['address']) ? trim($addData['address']) : "";//会议地址
             $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ALREADY_APPROVAL_STATUS;
