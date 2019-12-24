@@ -1015,4 +1015,19 @@ class PassportService extends BaseService
         }
         return BaseService::returnErrData([], 5101200, "没有用户数据请先注册");
     }
+    /**
+     * 账户信息数据获取
+     * @param $addData
+     * @return array
+     */
+    public function getUserList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=false){
+        $Common = new Common();
+        $offset = $Common->getOffset($limit, $p);
+        $userModel = new UserModel();
+        $userList = $userModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
+        if(!empty($userList)) {
+            return BaseService::returnOkData($userList);
+        }
+        return BaseService::returnErrData([], 5103100, "没有用户数据请先注册");
+    }
 }

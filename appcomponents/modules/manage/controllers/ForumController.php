@@ -9,6 +9,7 @@
  * 注意：本内容仅限于北京往全包科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\manage\controllers;
+use appcomponents\modules\common\ActivityService;
 use appcomponents\modules\common\MettingService;
 use appcomponents\modules\common\MettingTypeService;
 use appcomponents\modules\common\NewsService;
@@ -266,7 +267,49 @@ class ForumController extends ManageBaseController
         }
         return $this->renderPartial('vote-edit',
             [
-                'title' => "民主投票管理",
+                'title' => "民主投票编辑",
+                'menuUrl' => $this->menuUrl,
+                'treeData' => $arr,
+                'dataInfo' => $dataInfo,
+            ]
+        );
+    }
+    /**
+     * 三会一课
+     * @return string
+     */
+    public function actionZthd() {
+        return $this->renderPartial('activity',
+            [
+                'title' => "主题活动管理",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
+    /**
+     * 主题活动编辑
+     * @return string
+     */
+    public function actionActivityEdit() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        //组织树形结构数据
+        $organizationService = new OrganizationService();
+        $params = [];
+        $params[] = ['!=', 'status', 0];
+        $ret = $organizationService->getTree($params, ['id'=>SORT_ASC], 1, -1, $fied=['*'], true);
+        $treeData = BaseService::getRetData($ret);
+        $arr = [];
+        $arr = Common::treeToArr($treeData, $arr);
+        $dataInfo = [];
+        if($id) {
+            $voteParams[] = ['=', 'id', $id];
+            $newsService = new ActivityService();
+            $newsInfoRet = $newsService->getInfo($voteParams);
+            $dataInfo = BaseService::getRetData($newsInfoRet);
+        }
+        return $this->renderPartial('activity-edit',
+            [
+                'title' => "主题活动编辑",
                 'menuUrl' => $this->menuUrl,
                 'treeData' => $arr,
                 'dataInfo' => $dataInfo,

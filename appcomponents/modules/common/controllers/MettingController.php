@@ -39,7 +39,7 @@ class MettingController extends ManageBaseController
 		if(!empty($type_id)) {
 			$params[] = ['=', 'metting_type_id', $type_id];
 		}
-        $mettingListRet = $newsService->getList($params, ['sort'=>SORT_DESC], $page, $size,
+        $mettingListRet = $newsService->getList($params, ['id'=>SORT_DESC], $page, $size,
             ['id','title','address','content','create_time','status','start_time','end_time','metting_type_id']
         );
         if(BaseService::checkRetIsOk($mettingListRet)) {

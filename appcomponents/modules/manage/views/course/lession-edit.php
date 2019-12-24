@@ -36,6 +36,14 @@ use \yii\helpers\Html;
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">
+                                <span class="require-text">*</span>学习时间</label>
+                            <div class="layui-input-inline">
+                                <input type="number" name="duration" lay-verify="required" name="examtime" placeholder="" class="layui-input" lay-verify="number" value="<?=isset($dataInfo['duration']) ? $dataInfo['duration']:0;?>">
+                            </div>
+                            <span class="layui-form-mid layui-word-aux">单位（分钟）</span>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
                                 <span class="require-text">*</span>是否上线
                             </label>
                             <div class="layui-input-inline">

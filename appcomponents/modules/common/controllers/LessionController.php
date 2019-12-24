@@ -69,12 +69,16 @@ class LessionController extends ManageBaseController
         $size = floatval(Yii::$app->request->post('size', 0));
         $sort = intval(Yii::$app->request->post('sort', 0));
         $status = intval(Yii::$app->request->post('status',  0));
+        $duration = intval(Yii::$app->request->post('duration',  0));
         $newsService = new LessionService();
         if(empty($title)) {
             return BaseService::returnErrData([], 55900, "请填写课件名称");
         }
         if(empty($file)) {
-            return BaseService::returnErrData([], 55900, "请上传课件文件");
+            return BaseService::returnErrData([], 57800, "请上传课件文件");
+        }
+        if(empty($duration)) {
+            return BaseService::returnErrData([], 58100, "请填写课件学习时长（单位：分钟）");
         }
         $dataInfo = [];
         if(!empty($title)) {
@@ -110,6 +114,7 @@ class LessionController extends ManageBaseController
             return BaseService::returnErrData([], 58000, "提交数据有误");
         }
         $dataInfo['status'] = $status;
+        $dataInfo['duration'] = $duration;
         return $newsService->editInfo($dataInfo);
     }
 

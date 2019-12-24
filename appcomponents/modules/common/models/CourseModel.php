@@ -39,7 +39,7 @@ class CourseModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*']) {
+    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*'], $index=false) {
         $query = self::find()->select($fied);
         if(!empty($params)) {
             foreach($params as $k=>$v) {
@@ -57,8 +57,17 @@ class CourseModel extends BaseModel
         if (!empty($orderBy)) {
             $query -> orderBy($orderBy);
         }
-        $projectList = $query->asArray()->all();
-        return $projectList;
+        $dataList = $query->asArray()->all();
+        if($index) {
+            $dataArr = [];
+            foreach($dataList as $k=>$v) {
+                if(isset($v['id'])) {
+                    $dataArr[$v['id']] = $v;
+                }
+            }
+            $dataList = $dataArr;
+        }
+        return $dataList;
     }
     /**
      * 获取banner首页数据展示
@@ -81,9 +90,9 @@ class CourseModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*']) {
+    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*'], $index=false) {
         try {
-            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
+            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied, $index);
             $data = [
                 'dataList' => $dataList,
                 'count' => 0,
@@ -140,6 +149,7 @@ class CourseModel extends BaseModel
             $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
             $thisModel->sections_count = isset($addData['sections_count']) ? intval($addData['sections_count']) : 0;
             $thisModel->lessions_count = isset($addData['lessions_count']) ? intval($addData['lessions_count']) : 0;
+            $thisModel->study_count = isset($addData['study_count']) ? intval($addData['study_count']) : 0;
             $thisModel->sections_ids = isset($addData['sections_ids'])&&!empty($addData['sections_ids'])
                 ? $addData['sections_ids'] : "";//章节id集合
             $thisModel->start_time = isset($addData['start_time']) ? trim($addData['start_time']) : "";//开始学习时间

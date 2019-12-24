@@ -12,6 +12,9 @@ namespace commands;
 
 use appcomponents\modules\common\DangyuanService;
 use appcomponents\modules\common\MettingService;
+use appcomponents\modules\common\UserMettingService;
+use appcomponents\modules\common\UserOrganizationService;
+use appcomponents\modules\passport\PassportService;
 use source\libs\DmpUtil;
 use source\manager\BaseService;
 use yii\console\Controller;
@@ -26,9 +29,14 @@ class UserMettingController extends Controller{
         $dmpUtil = new DmpUtil();
         $ret = "";
         $dataArr = [];
-        $startTime = date("Y-m-d H:i:s",strtotime('-5 day'));
-        $endTime = date("Y-m-d H:i:s",strtotime('+1 day'));
-        $this->getMetting($startTime, $endTime, $dataArr);
+        $startTime = time();
+        $startMettingTime = date('Y-m-01', strtotime(date("Y-m-d")));
+        $endMettingTime = date('Y-m-d', strtotime("$startMettingTime +1 month -1 day"));
+//        $startMettingTime = date("Y-m-d H:i:s",strtotime('-5 day'));
+//        $endMettingTime = date("Y-m-d H:i:s",strtotime('+1 day'));
+        $this->getMetting($startMettingTime, $endMettingTime, $dataArr);
+//        var_dump($dataArr);die;
+        $userMettingRet = "";
         if(!empty($dataArr)) {
             if(!empty($dataArr)) {
                 $mettingService = new MettingService();
@@ -37,8 +45,6 @@ class UserMettingController extends Controller{
                     if(!isset($data['id']) || empty($data['id'])) {
                         continue;
                     }
-//                    $mettingParams = [];
-//                    $mettingParams[] = ['=', 'id', $data['id']];
                     $join_peoples = [];
                     $president_userids = [];
                     $speaker_userids = [];
@@ -68,22 +74,53 @@ class UserMettingController extends Controller{
 
                     $userIds = array_unique(array_merge($organization_userids, $speaker_userids, $join_peoples, $president_userids));
                     $editInfo['id'] = $data['id'];
-                    $editInfo['join_people_num'] = count($userIds);
+                    $editInfo['pending_people_num'] = count($userIds);
                     $mettingService->editInfo($editInfo);
-                    $organization_id = isset($data['organization_id']) ? $data['organization_id'] : 0;
                     $metting_id = isset($data['id']) ? $data['id'] : 0;
+                    $addData = [];
+                    $userOrganizationService = new UserOrganizationService();
+                    $passportService = new PassportService();
+                    $userMettingService = new UserMettingService();
                     foreach($userIds as $userId) {
-                        //获取当前用户所属的党组织id
-
                         //查看会议记录是否存在，如果不存在那么
-
+                        $userMettingParams = [];
+                        $userMettingParams[] = ['=', 'user_id', $userId];
+                        $userMettingParams[] = ['=', 'metting_id', $metting_id];
+                        $userMettingInfoRet = $userMettingService->getInfo($userMettingParams);
+                        if(BaseService::checkRetIsOk($userMettingInfoRet)) {
+                           continue;
+                        }
+                        //获取当前用户所属的党组织id
+                        $userOrganizationParams = [];
+                        $userOrganizationParams[] = ['=', 'user_id', $userId];
+                        $userOrganizationParams[] = ['=', 'status', 1];
+                        $userOrganizationInfoRet = $userOrganizationService->getInfo($userOrganizationParams);
+                        $userOrganizationInfo = BaseService::getRetData($userOrganizationInfoRet);
+                        $userInfoParams = [];
+                        $userInfoParams[] = ['=', 'user_id', $userId];
+                        $passportInfoRet = $passportService->getUserInfoByParams($userInfoParams);
+                        $passportInfo = BaseService::getRetData($passportInfoRet);
+                        $addData[] = [
+                            'user_id' => $userId,
+                            'full_name' => isset($passportInfo['full_name']) ? $passportInfo['full_name'] : "",
+                            'avatar_img' => isset($passportInfo['avatar_img']) ? $passportInfo['avatar_img'] : "",
+                            'start_time' => isset($data['start_time']) ? $data['start_time'] : "",
+                            'end_time' => isset($data['end_time']) ? $data['end_time'] : "",
+                            'organization_id' => isset($data['organization_id']) ? $data['organization_id'] : 0,
+                            'metting_id' => $metting_id,
+                            'user_organization_id' => isset($userOrganizationInfo['organization_id']) ? $userOrganizationInfo['organization_id'] : 0,
+                            'user_level_id' => isset($userOrganizationInfo['level_id']) ? $userOrganizationInfo['level_id'] : 0,
+                        ];
+                    }
+                    if(!empty($addData)) {
+                        $userMettingRet = $userMettingService->addAll($addData);
                     }
                 }
             }
         }
 
         $endTime = time();
-        $dmpUtil->dump($ret);
+        $dmpUtil->dump($userMettingRet);
         $dmpUtil->dump('executtime:'.($endTime-$startTime)."s"."   startTime:".date('Y-m-d H:i:s', $startTime)."   endTime:".date('Y-m-d H:i:s', $endTime));
     }
     /**
@@ -98,7 +135,7 @@ class UserMettingController extends Controller{
         $params = [];
         $params[] = ['>=', 'update_time', $start];
         $params[] = ['<=', 'create_time', $end];
-        $params[] = ['!=', 'join_people_num', 0];
+        $params[] = ['=', 'join_people_num', 0];
         $mettingListRet = $mettingService->getList($params, [], 1, -1, ['*']);
         if(BaseService::checkRetIsOk($mettingListRet)) {
             $mettingList = BaseService::getRetData($mettingListRet);

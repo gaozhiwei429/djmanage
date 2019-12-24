@@ -112,10 +112,11 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     var selfUrl = window.location.href;
     var page = GetUrlParam("p") ? GetUrlParam("p") : 1;
     var size = GetUrlParam("size") ? GetUrlParam("size") : 10;
+    var metting_id = "<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>";
     params.p=page;
     params.size = size;
     params.count = 0;
-    params.type_id = 0;
+    params.metting_id = metting_id;
     form.on('submit(commit)', function(data){
         var paramsStr = "";
         $.each(data.field, function(i, item){
@@ -126,7 +127,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     });
     $.ajax({
         type: "post",
-        url:"<?=Url::to(['common/dangyuan/get-list']);?>?organization_id=<?=isset($dataInfo['organization_id']) ? $dataInfo['organization_id'] : 0;?>",
+        url:"<?=Url::to(['common/user-metting/get-list']);?>",
         contentType: "application/json;charset=utf-8",
         data :JSON.stringify(params),
         dataType: "json",
@@ -144,12 +145,8 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
                     ,data:result.data.dataList
                     ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                     ,cols: [[
-                        {checkbox: true, fixed: true}
-                        ,{field:'id', title: 'ID', width: 30}
-                        ,{field:'full_name', title: '用户姓名', minWidth: 100}
-                        ,{field:'level_title', title: '职务', minWidth: 100}
-                        ,{field:'organization_title', title: '党组织', minWidth: 200}
-                        ,{field:'username', title: '手机号', minWidth: 100}
+                        ,{field:'full_name', title: '姓名', minWidth: 100}
+                        ,{field:'avatar_img', title: '头像', minWidth: 100,toolbar:"#Jimg"}
                     ]]
                     ,done: function(res, curr, count){
                         //自定义样式
@@ -162,6 +159,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
                                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                                     selfUrl = changeURLArg(selfUrl,'p',obj.curr);
                                     selfUrl = changeURLArg(selfUrl,'size',size);
+                                    selfUrl = changeURLArg(selfUrl,'metting_id',metting_id);
                                     self.location = selfUrl;
                                 }
                             }
@@ -201,4 +199,12 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     });
     element.render();
 });
+</script>
+
+<script type="text/html" id="Jimg">
+    {{#  if(d.avatar_img!=""){ }}
+    <img src="{{d.avatar_img}}">
+    {{# }else{ }}
+    暂无
+    {{#  } }}
 </script>

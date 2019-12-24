@@ -29,6 +29,21 @@ class OrganizationService extends BaseService
     }
 
     /**
+     * C端资讯数据获取
+     * @param $addData
+     * @return array
+     */
+    public function getDataListByIndexId($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=false) {
+        $Common = new Common();
+        $offset = $Common->getOffset($limit, $p);
+        $organizationModel = new OrganizationModel();
+        $cityList = $organizationModel->getListDataById($params, $orderBy, $offset, $limit, $fied, $index);
+        if(!empty($cityList)) {
+            return BaseService::returnOkData($cityList);
+        }
+        return BaseService::returnErrData([], 500, "暂无数据");
+    }
+    /**
      * 组织数据获取
      * @param $addData
      * @return array

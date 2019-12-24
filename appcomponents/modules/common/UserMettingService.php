@@ -84,7 +84,20 @@ class UserMettingService extends BaseService
         }
         return BaseService::returnErrData([], 500, "操作异常");
     }
-    public function createJoinMetting($mettingId, $userIds, ) {
-
+    /**
+     * 会议参会人员入库
+     * @param $dataAll
+     * @return array
+     */
+    public function addAll($dataAll) {
+        if(empty($dataAll) || !isset($dataAll[0])) {
+            return BaseService::returnErrData([], 56900, "会议参会人员数据异常");
+        }
+        $newsModel = new UserMettingModel();
+        $addAll = $newsModel->addAll($dataAll);
+        if($addAll) {
+            return BaseService::returnOkData([]);
+        }
+        return BaseService::returnErrData([], 510000, "会议参会人员数据入库异常");
     }
 }

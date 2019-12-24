@@ -84,4 +84,20 @@ class UserVoteService extends BaseService
         }
         return BaseService::returnErrData([], 500, "操作异常");
     }
+    /**
+     * 会议参会人员入库
+     * @param $dataAll
+     * @return array
+     */
+    public function addAll($dataAll) {
+        if(empty($dataAll) || !isset($dataAll[0])) {
+            return BaseService::returnErrData([], 56900, "投票参加人员数据异常");
+        }
+        $newsModel = new UserVoteModel();
+        $addAll = $newsModel->addAll($dataAll);
+        if($addAll) {
+            return BaseService::returnOkData([]);
+        }
+        return BaseService::returnErrData([], 510000, "投票参加人员数据入库异常");
+    }
 }

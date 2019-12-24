@@ -1,7 +1,7 @@
 <?php
 /**
- * 课程相关的数据获取service
- * @文件名称: CourseService.php
+ * 用户学习记录
+ * @文件名称: UserStudyService
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,12 +10,12 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common;
-use appcomponents\modules\common\models\CourseModel;
+use appcomponents\modules\common\models\UserStudyModel;
 use source\libs\Common;
 use source\manager\BaseException;
 use source\manager\BaseService;
 use Yii;
-class CourseService extends BaseService
+class UserStudyService extends BaseService
 {
     /**
      * @inheritdoc
@@ -29,38 +29,38 @@ class CourseService extends BaseService
     }
 
     /**
-     * C端资讯数据获取
+     * 数据获取
      * @param $addData
      * @return array
      */
-    public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*'], $index=false) {
+    public function getList($params = [], $orderBy = [], $p = 1, $limit = 10, $fied=['*']) {
         $Common = new Common();
         $offset = $Common->getOffset($limit, $p);
-        $newsModel = new CourseModel();
-        $cityList = $newsModel->getListData($params, $orderBy, $offset, $limit, $fied, $index);
+        $newsModel = new UserStudyModel();
+        $cityList = $newsModel->getListData($params, $orderBy, $offset, $limit, $fied);
         if(!empty($cityList)) {
             return BaseService::returnOkData($cityList);
         }
         return BaseService::returnErrData([], 500, "暂无数据");
     }
     /**
-     * 获取资讯详情数据
+     * 详情数据
      * @param $params
      * @return array
      */
-    public function getInfo($params) {
+    public function getInfo($params,$field=['*']) {
         if(empty($params)) {
             return BaseService::returnErrData([], 55000, "请求参数异常");
         }
-        $newsModel = new CourseModel();
-        $newsInfo = $newsModel->getInfoByValue($params);
+        $newsModel = new UserStudyModel();
+        $newsInfo = $newsModel->getInfoByValue($params,$field);
         if(!empty($newsInfo)) {
             return BaseService::returnOkData($newsInfo);
         }
         return BaseService::returnErrData([], 500, "暂无数据");
     }
     /**
-     * 编辑资讯详情数据
+     * 论坛资讯详情数据
      * @param $params
      * @return array
      */
@@ -68,7 +68,7 @@ class CourseService extends BaseService
         if(empty($dataInfo)) {
             return BaseService::returnErrData([], 56900, "请求参数异常");
         }
-        $newsModel = new CourseModel();
+        $newsModel = new UserStudyModel();
         $id = isset($dataInfo['id']) ? $dataInfo['id'] : 0;
         $editRest = 0;
         if($id) {

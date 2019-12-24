@@ -1,7 +1,7 @@
 <?php
 /**
- * 用户参加会议相关相关的接口
- * @文件名称: UserMettingController.php
+ * 用户所选课程相关相关的接口
+ * @文件名称: UserCourseController
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Mobile: 15910987706
@@ -10,13 +10,14 @@
  * 注意：本内容仅限于北京往全保科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 namespace appcomponents\modules\common\controllers;
+use appcomponents\modules\common\UserCourseService;
 use appcomponents\modules\common\UserMettingService;
 use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
 use source\libs\Common;
 use source\manager\BaseService;
 use Yii;
-class UserMettingController extends ManageBaseController
+class UserCourseController extends ManageBaseController
 {
     public function beforeAction($action){
         return parent::beforeAction($action);
@@ -31,15 +32,12 @@ class UserMettingController extends ManageBaseController
         }
         $page = intval(Yii::$app->request->post('p', 1));
         $size = intval(Yii::$app->request->post('size', 10));
-        $metting_id = intval(Yii::$app->request->post('metting_id', 0));
-        $newsService = new UserMettingService();
+        $userCourseService = new UserCourseService();
         $params = [];
-        if(empty($metting_id)) {
-            return BaseService::returnErrData([], 53900, "请求参数异常");
+        $params[] = ['=', 'is_del', 0];
+        $ret = $userCourseService->getList($params, ['id'=>SORT_DESC], $page, $size,['*']);
+        if(BaseService::checkRetIsOk($ret)) {
+            $dataList = BaseService::getRetData($ret);
         }
-		if(!empty($metting_id)) {
-			$params[] = ['=', 'metting_id', $metting_id];
-		}
-        return $newsService->getList($params, ['id'=>SORT_DESC], $page, $size,['*']);
     }
 }
