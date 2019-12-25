@@ -50,7 +50,7 @@ class OrganizationApplyController extends ManageBaseController
         }
 
         $organizationApplyListRet = $organizationApplyService->getList($params, ['id'=>SORT_DESC], $page, $size,
-            ['old_organization_id','new_organization_id','user_id','submit_user_id','apply_user_id','send_user_id','type','area_type','status','user_id']
+            ['id','old_organization_id','new_organization_id','user_id','submit_user_id','apply_user_id','send_user_id','type','area_type','status','user_id']
         );
         if(BaseService::checkRetIsOk($organizationApplyListRet)) {
             $organizationApplyList = BaseService::getRetData($organizationApplyListRet);

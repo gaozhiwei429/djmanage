@@ -38,7 +38,6 @@ use yii\helpers\Url;
                     <a href="#">
                         <button data-open='<?=Url::to(['manage/level/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加职务</button>
                     </a>
-                    <!--                    <a class="layui-btn  layui-btn-sm" data-open="--><?//=Url::to(['manage/organization/edit']);?><!--">添加部门</a>-->
                     <div class="" style="float: right;">
                         <script>
                             let renderArr = [];

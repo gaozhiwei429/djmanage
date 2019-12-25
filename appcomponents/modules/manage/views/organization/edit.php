@@ -22,7 +22,7 @@ use \yii\helpers\Html;
                 <!-- layui-btn-sm -->
                 <button class="layui-btn layui-btn-sm" onclick="window.history.go(-1);">返回</button>
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                    <legend>添加部门</legend>
+                    <legend>创建党组织</legend>
                 </fieldset>
 
                 <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">

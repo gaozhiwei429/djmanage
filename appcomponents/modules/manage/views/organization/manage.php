@@ -33,9 +33,8 @@ use yii\helpers\Url;
                 <blockquote class="layui-elem-quote layui-text">点击排序的序号可编辑排序，数字越小排序越前</blockquote>
                 <form id="search_form" class="layui-form layui-clear " action="">
                     <a href="#">
-                        <button data-open='<?=Url::to(['manage/organization/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>添加部门</button>
+                        <button data-open='<?=Url::to(['manage/organization/edit']);?>' class='layui-btn layui-btn-sm layui-btn-primary'>创建党组织</button>
                     </a>
-<!--                    <a class="layui-btn  layui-btn-sm" data-open="--><?//=Url::to(['manage/organization/edit']);?><!--">添加部门</a>-->
                     <div class="" style="float: right;">
                         <script>
                             let renderArr = [];

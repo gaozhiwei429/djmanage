@@ -111,4 +111,17 @@ class OrganizationController extends ManageBaseController
             ]
         );
     }
+    /**
+     * 党组织转移申请记录
+     * @return string
+     */
+    public function actionApplyList()
+    {
+        return $this->renderPartial('apply-list',
+            [
+                'title' => "党组织转移申请记录",
+                'menuUrl' => $this->menuUrl,
+            ]
+        );
+    }
 }
