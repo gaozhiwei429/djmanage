@@ -81,13 +81,14 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
                     ,cols: [[
                         {checkbox: true, fixed: true}
                         ,{field:'id', title: 'ID', width: 60}
+                        ,{field:'pic_url', title: '封面图', toolbar:"#Jimg"}
                         ,{field:'title', title: '活动主题', minWidth: 120}
                         ,{field:'content', title: '投票内容', minWidth: 120}
                         ,{field:'address', title: '地址', minWidth: 120}
                         ,{field:'start_time', title: '开始时间', minWidth: 80}
                         ,{field:'end_time', title: '结束时间', minWidth: 80}
-                        ,{field:'join_people_num', title: '投票人数', minWidth: 80}
-                        ,{field:'waiver_people_num', title: '弃权人数', minWidth: 80}
+                        ,{field:'join_people_num', title: '参加人数', minWidth: 80}
+                        ,{field:'pending_people_num', title: '待定人数', minWidth: 80}
                         ,{field:'status', title: '状态',toolbar:"#Jstatus", width: 100}
                         ,{field:'create_time', title: '创建时间', minWidth: 140}
                         ,{field:'right', title: '操作', minWidth: 160,toolbar:"#barDemo"}
@@ -208,6 +209,13 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     {{#  } }}
 </script>
 
+<script type="text/html" id="Jimg">
+    {{#  if(d.pic_url!=""){ }}
+    <img src="{{d.pic_url}}" style="height:40px;width:40px;line-height:50px!important;">
+    {{# }else{ }}
+    暂无
+    {{#  } }}
+</script>
 <script type="text/html" id="barDemo">
 <a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/forum/activity-info']);?>?id={{d.id}}">查看</a>
     <?php

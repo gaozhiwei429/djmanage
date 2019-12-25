@@ -316,4 +316,42 @@ class ForumController extends ManageBaseController
             ]
         );
     }
+    /**
+     * 主题活动编辑
+     * @return string
+     */
+    public function actionActivityInfo() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        $newsService = new ActivityService();
+        $params[] = ['=', 'id', $id];
+        $infoRet = $newsService->getInfo($params);
+        $newsInfo = BaseService::getRetData($infoRet);
+        return $this->renderPartial('activity-info',
+            [
+                'title' => "主题活动编辑",
+                'menuUrl' => $this->menuUrl,
+                'id' => $id,
+                'dataInfo' => $newsInfo,
+            ]
+        );
+    }
+    /**
+     * 三会一课
+     * @return string
+     */
+    public function actionVoteInfo() {
+        $id = intval(Yii::$app->request->get('id', 0));
+        $voteService = new VoteService();
+        $params[] = ['=', 'id', $id];
+        $infoRet = $voteService->getInfo($params);
+        $newsInfo = BaseService::getRetData($infoRet);
+        return $this->renderPartial('vote-info',
+            [
+                'title' => "投票编辑",
+                'menuUrl' => $this->menuUrl,
+                'id' => $id,
+                'dataInfo' => $newsInfo,
+            ]
+        );
+    }
 }

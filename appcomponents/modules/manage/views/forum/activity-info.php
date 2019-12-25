@@ -19,28 +19,28 @@ use \yii\helpers\Html;
                 <!-- layui-btn-sm -->
                 <button class="layui-btn layui-btn-sm" onclick="window.history.go(-1);">返回</button>
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                    <legend>会议详情</legend>
+                    <legend>主题活动详情</legend>
                 </fieldset>
 
                 <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
                     <input type="hidden" name="id" class="layui-input" value="<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>">
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="require-text">*</span>会议主题</label>
+                        <label class="layui-form-label"><span class="require-text">*</span>主题活动主题</label>
                         <div class="layui-input-block">
                             <?=isset($dataInfo['title']) ? $dataInfo['title']:"";?>
                         </div>
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="require-text">*</span>地点</label>
+                        <label class="layui-form-label"><span class="require-text">*</span>主题活动地点</label>
                         <div class="layui-input-block">
                             <?=isset($dataInfo['address']) ? $dataInfo['address']:"";?>
                         </div>
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">会议要求</label>
+                        <label class="layui-form-label">主题活动内容</label>
                         <div class="layui-input-block">
                             <?=isset($dataInfo['content']) ? $dataInfo['content']:"";?>
                         </div>
@@ -53,39 +53,9 @@ use \yii\helpers\Html;
                             <?=(isset($dataInfo['start_time'])&&!empty($dataInfo['start_time'])) ? $dataInfo['start_time']." - ":"";?>至<?=(isset($dataInfo['end_time'])&&!empty($dataInfo['end_time'])) ? $dataInfo['end_time']:"";?>
                         </div>
                     </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="require-text">*</span>主持人</label>
-                        <div class="layui-input-block">
-                            <?php
-                            if(isset($dataInfo['president_people']) && $dataInfo['president_people']){
-                                foreach($dataInfo['president_people'] as $k=>$v) {
-                                    ?>
-                                    【<?=isset($v['full_name']) ? $v['full_name']:"";?>】
-                                <?php
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="require-text">*</span>主讲人</label>
-                        <div class="layui-input-block">
-                            <?php
-                            if(isset($dataInfo['speaker_people']) && $dataInfo['speaker_people']){
-                                foreach($dataInfo['speaker_people'] as $k=>$v) {
-                            ?>
-                             【<?=isset($v['full_name']) ? $v['full_name']:"";?>】
-                            <?php
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
                 </form>
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                    <legend>签到详情</legend>
+                    <legend>主题活动参加人员</legend>
                 </fieldset>
                     <!-- 表单搜索 开始 -->
                     <form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
@@ -112,11 +82,11 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     var selfUrl = window.location.href;
     var page = GetUrlParam("p") ? GetUrlParam("p") : 1;
     var size = GetUrlParam("size") ? GetUrlParam("size") : 10;
-    var metting_id = "<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>";
+    var activity_id = "<?=isset($dataInfo['id']) ? $dataInfo['id']:"";?>";
     params.p=page;
     params.size = size;
     params.count = 0;
-    params.metting_id = metting_id;
+    params.activity_id = activity_id;
     form.on('submit(commit)', function(data){
         var paramsStr = "";
         $.each(data.field, function(i, item){
@@ -127,7 +97,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     });
     $.ajax({
         type: "post",
-        url:"<?=Url::to(['common/user-metting/get-list']);?>",
+        url:"<?=Url::to(['common/user-activity/get-list']);?>",
         contentType: "application/json;charset=utf-8",
         data :JSON.stringify(params),
         dataType: "json",
@@ -161,7 +131,7 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
                                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                                     selfUrl = changeURLArg(selfUrl,'p',obj.curr);
                                     selfUrl = changeURLArg(selfUrl,'size',size);
-                                    selfUrl = changeURLArg(selfUrl,'metting_id',metting_id);
+                                    selfUrl = changeURLArg(selfUrl,'activity_id',activity_id);
                                     self.location = selfUrl;
                                 }
                             }
