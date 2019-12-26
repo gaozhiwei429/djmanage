@@ -79,7 +79,7 @@ use \yii\helpers\Html;
                         <label class="layui-form-label">备选项</label>
                         <div class="layui-input-block">
                             <textarea id="layeditProblem" name="problem"><?=isset($dataInfo['problem']) ? $dataInfo['problem']:"";?></textarea>
-                            <div class="layui-form-mid layui-word-aux">无选择项的请不要填写，如填空题、问答题等主观题。</div>
+                            <div class="layui-form-mid layui-word-aux">无选择项的请不要填写，如填空题、问答题等主观题。多个选项以回车作为区分</div>
                         </div>
                     </div>
                     <div class="layui-form-item">

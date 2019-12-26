@@ -78,6 +78,17 @@ class QuestionController extends ManageBaseController
         if(isset($dataInfo['type']) && $dataInfo['type']==2) {
             $answer = json_decode($dataInfo['answer'], true);
         }
+        if(isset($dataInfo['problem']) && !empty($dataInfo['problem'])) {
+            $problem =json_decode($dataInfo['problem'], true);
+            $dataInfo['problem'] = "";
+            if(is_array($problem)) {
+                foreach($problem as $k=>&$v) {
+                    $dataInfo['problem'] .= $v;
+                }
+            }
+        } else {
+            $dataInfo['problem'] = "";
+        }
         return $this->renderPartial('edit',
             [
                 'title' => "考题编辑",

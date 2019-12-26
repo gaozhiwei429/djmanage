@@ -126,7 +126,12 @@ class QuestionController extends ManageBaseController
             $dataInfo['level'] = 1;
         }
         if(!empty($problem)) {
-            $dataInfo['problem'] = Common::ClearHtml($problem,'<p>');
+            $problem = Common::ClearHtml($problem,'<p>');
+            $problem = array_filter(explode('</p>', $problem));
+            foreach($problem as $k=>&$v) {
+                $v = $v."</p>";
+            }
+            $dataInfo['problem'] = json_encode($problem);
         } else {
             $dataInfo['problem'] = "";
         }
