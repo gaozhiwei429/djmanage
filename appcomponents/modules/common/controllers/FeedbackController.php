@@ -38,10 +38,10 @@ class FeedbackController extends ManageBaseController
         $object_id = intval(Yii::$app->request->post('object_id', 0));
         $newsService = new FeedbackService();
         $params = [];
-        if(!$utilization_flag) {
+        if($utilization_flag) {
             $params[] = ['=', 'utilization_flag', $utilization_flag];
         }
-        if(!$object_id) {
+        if($object_id) {
             $params[] = ['=', 'object_id', $object_id];
         }
         return $newsService->getList($params, ['id'=>SORT_DESC], $page, $size,['*']);
@@ -66,5 +66,23 @@ class FeedbackController extends ManageBaseController
         }
         $feebackService = new FeedbackService();
         return $feebackService->addData($this->user_id, $content, $object_id, $utilization_flag, $pic_url);
+    }
+    /**
+     * 详情数据状态编辑
+     * @return array
+     */
+    public function actionSetStatus() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $id = intval(Yii::$app->request->post('id', 0));
+        $status = intval(Yii::$app->request->post('status',  0));
+        $feebackService = new FeedbackService();
+        if(empty($id)) {
+            return BaseService::returnErrData([], 58000, "请求参数异常，请填写完整");
+        }
+        $dataInfo['id'] = $id;
+        $dataInfo['status'] = $status;
+        return $feebackService->editInfo($dataInfo);
     }
 }

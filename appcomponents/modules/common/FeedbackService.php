@@ -99,4 +99,29 @@ class FeedbackService extends BaseService
         }
         return BaseService::returnErrData([], 56700, "评论失败");
     }
+    /**
+     * 论坛资讯详情数据
+     * @param $params
+     * @return array
+     */
+    public function editInfo($dataInfo) {
+        if(empty($dataInfo)) {
+            return BaseService::returnErrData([], 56900, "请求参数异常");
+        }
+        $feedbackModel = new FeedbackModel();
+        $id = isset($dataInfo['id']) ? $dataInfo['id'] : 0;
+        $editRest = 0;
+        if($id) {
+            if(isset($dataInfo['id'])) {
+                unset($dataInfo['id']);
+            }
+            $editRest = $feedbackModel->updateInfo($id, $dataInfo);
+        } else {
+            $editRest = $feedbackModel->addInfo($dataInfo);
+        }
+        if(!empty($editRest)) {
+            return BaseService::returnOkData($editRest);
+        }
+        return BaseService::returnErrData([], 500, "操作异常");
+    }
 }
