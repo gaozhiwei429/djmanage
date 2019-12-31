@@ -35,7 +35,7 @@ class DangyuanController extends ManageBaseController
         }
         $params[] = ['=','status',1];
         return $dangyuanService->getList($params, ['id'=>SORT_DESC], $p, $size,
-            ['id','user_id','organization_id','level_id'],
+            ['id','user_id','organization_id','level_id','paid_up'],
             ['user_id']);
     }
     /**
@@ -128,14 +128,17 @@ class DangyuanController extends ManageBaseController
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
         $organization_id = intval(Yii::$app->request->post('organization_id', 0));
+        $id = intval(Yii::$app->request->post('id', 0));
         $userInfoData = [];
         $post = Yii::$app->request->post();
         $departmentPattern = '/department/i';     //errorType Array为开头 结尾字符串
         $levelPattern = '/level/i';     //errorType Array为开头 结尾字符串
         $mobilePattern = '/mobile/i';     //errorType Array为开头 结尾字符串
+        $paidUpPattern = '/paid_up/i';     //errorType Array为开头 结尾字符串
         $organizationIds = [];
         $levelIds = [];
         $mobiles = [];
+        $paid_ups = [];
         foreach($post as $postKey=>$postData) {
             if(preg_match($departmentPattern, $postKey)) {
                 if($postData!=$organization_id) {
@@ -148,6 +151,12 @@ class DangyuanController extends ManageBaseController
             }
             if(preg_match($mobilePattern, $postKey)) {
                 $mobiles[] = $postData;
+            }
+            if(preg_match($paidUpPattern, $postKey)) {
+                if($postData>=999999) {
+                    return BaseService::returnErrData([], 515600, "党费金额设置有误！");
+                }
+                $paid_ups[] = $postData;
             }
         }
         if(empty($mobiles) || empty($levelIds) || empty($organizationIds)) {
@@ -182,13 +191,20 @@ class DangyuanController extends ManageBaseController
                         'organization_id'=> intval($organizationIds[$k]) ? $organizationIds[$k] : 0,
                         'level_id'=> intval($levelIds[$k]) ? $levelIds[$k] : 0,
                         'status'=> 1,
+                        'paid_up'=> floatval($paid_ups[$k]) ? $paid_ups[$k] : 0,
                     ];
                 }
             }
         }
         if(!empty($dangyuanData)) {
+            if(!$id) {
+                $userOrganizationService = new UserOrganizationService();
+                return $userOrganizationService->addDatas($dangyuanData);
+            }
+            $dangyuanInfo = isset($dangyuanData[0]) ? $dangyuanData[0] : [];
+            $dangyuanInfo['id'] = $id;
             $userOrganizationService = new UserOrganizationService();
-            return $userOrganizationService->addDatas($dangyuanData);
+            return $userOrganizationService->editInfo($dangyuanInfo);
         }
         return BaseService::returnErrData([], 519300, "添加党组织失败");
     }

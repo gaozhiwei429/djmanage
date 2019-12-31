@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+//var_dump($info);die;
 ?>
 <!DOCTYPE html>
 <html><head>
@@ -16,14 +17,12 @@ use yii\helpers\Url;
         height: 92px;
         margin: 0 10px 10px 0;
     }
-    .layui-form-label {
-        width: 100px;
-    }
-    .layui-input-block {
-        margin-left: 130px;
-    }
     .require-text {
         color:#DC524B;
+    }
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 120px;
     }
 </style>
 <!--[if lt IE 9]>
@@ -39,23 +38,66 @@ use yii\helpers\Url;
     <div class="admin-main layui-form layui-field-box">
         <button class="layui-btn layui-btn-sm" onclick="window.history.go(-1);">返回</button>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>添加用户</legend>
+            <legend>编辑党员用户</legend>
         </fieldset>
         <form autocomplete="off" class="layui-form" onsubmit="return false;" data-auto="true" action="#">
-    <input type="hidden" name="organization_id" value="<?=isset($organization_id) ? $organization_id : "";?>" class="layui-input">
+            <input type="hidden" name="organization_id" value="<?=isset($organization_id) ? $organization_id : "";?>" class="layui-input">
+            <input type="hidden" name="id" value="<?=isset($id) ? $id : "";?>" class="layui-input">
             <script>
                 let renderArr = [];
             </script>
 
             <div class="layui-form-item" id="addDepBtnItem">
-                <label class="layui-form-label">
-                    <span class="require-text">*</span>
-                    添加党组织
-                </label>
-                <div class="layui-input-inline" style="width: auto;">
-                    <a href="javascript:void(0);" title="增加党组织" id="addDepBtn" class="layui-btn layui-btn-primary">+</a>
+                <div class="layui-form-item dep-item">
+                    <label class="layui-form-label">账号手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mobile[][]" value="<?=isset($info['username']) ? $info['username'] : "";?>" class="layui-input" disabled="disabled">
+                    </div>
+                    <label class="layui-form-label">所在党组织</label>
+                    <div class="layui-input-inline" style="width: 200px;">
+                        <select name="department[][]">
+                            <option value="0">请选择党组织</option>
+
+                            <?php
+                            if(isset($treeData) && !empty($treeData)) {
+                                $flag = 0;
+                                foreach ($treeData as $treeInfo) {
+                                    if (isset($organization_id) && $treeInfo['id'] == $organization_id) {
+                                        $flag = 1;
+                                    } else if (isset($organization_id) && $organization_id == 0) {
+                                        $flag = 1;
+                                    } else {
+                                        $flag = 0;
+                                    }
+                            ?>
+                            <option value="<?=isset($treeInfo['id']) ? $treeInfo['id'] : 0;?>" <?=$flag==0 ? 'disabled="disabled"' : "";?>  <?=(isset($treeInfo['id']) && isset($info['organization_id']) && $treeInfo['id']==$info['organization_id']) ? 'selected="selected"' : "";?>><?=isset($treeInfo['flag']) ? $treeInfo['flag'] : "";?><?=isset($treeInfo['title']) ? $treeInfo['title'] : "";?></option>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <label class="layui-form-label" style="width: 30px;">职务</label>
+                    <div class="layui-input-inline">
+                        <select name="level[][]">
+            <?php
+            if(isset($levelData) && !empty($levelData)) {
+                foreach($levelData as $levelInfo) {
+            ?>
+                <option value="<?=isset($levelInfo['id']) ? $levelInfo['id'] : 0;?>" <?=(isset($levelInfo['id']) && isset($info['level_id']) && $levelInfo['id']==$info['level_id']) ? 'selected="selected"' : "";?>><?=isset($levelInfo['title']) ? $levelInfo['title'] : "";?></option>
+            <?php
+                }
+            }
+            ?>
+                        </select>
+                    </div>
+                    <label class="layui-form-label" style="width: 30px;">党费</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="paid_up[][]" class="layui-input" value="<?=isset($info['paid_up']) ? $info['paid_up'] : 0;?>">
+                    </div>
+                    <a href="javascript:void(0);" class="layui-btn del-dep-btn">-</a>
                 </div>
-                <div class="layui-form-mid layui-word-aux">最少添加一个党组织</div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
@@ -69,13 +111,10 @@ use yii\helpers\Url;
 <script type="text/javascript" src="/static/dangjian/js/delelement.js"></script>
 <!--页面JS脚本-->
 <script type="text/javascript">
-layui.use(['form', 'layedit', 'laydate', 'jquery', 'upload'], function () {
+layui.use(['form', 'jquery'], function () {
     var form = layui.form
         , layer = layui.layer
-        , layedit = layui.layedit
-        , laydate = layui.laydate
-        , jq = layui.jquery
-        , upload = layui.upload;
+        , jq = layui.jquery;
     var storage=window.localStorage;
     var userData = storage.getItem("userData");
     var headerParams = JSON.parse(userData);
@@ -126,102 +165,7 @@ layui.use(['form', 'layedit', 'laydate', 'jquery', 'upload'], function () {
         });
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     });
-    var organizationHtml = "";
-    <?php
-    if(isset($treeData) && !empty($treeData)) {
-    $flag = 0;
-    foreach($treeData as $treeInfo) {
-    if(isset($organization_id) && $treeInfo['id']==$organization_id) {
-    $flag = 1;
-    } else if(isset($organization_id) && $organization_id==0){
-    $flag = 1;
-    } else {
-    $flag = 0;
-    }
-    ?>
-    organizationHtml+='<option value="<?=isset($treeInfo['id']) ? $treeInfo['id'] : 0;?>" <?=$flag==0 ? 'disabled="disabled"' : "";?> ><?=isset($treeInfo['flag']) ? $treeInfo['flag'] : "";?><?=isset($treeInfo['title']) ? $treeInfo['title'] : "";?></option>';
-    <?php
-            }
-        }
-    ?>
-    var levelHtml = "";
-    <?php
-    if(isset($levelData) && !empty($levelData)) {
-    foreach($levelData as $levelInfo) {
-    ?>
-    levelHtml+='<option value="<?=isset($levelInfo['id']) ? $levelInfo['id'] : 0;?>"><?=isset($levelInfo['title']) ? $levelInfo['title'] : "";?></option>';
-    <?php
-            }
-        }
-    ?>
-    jq('#addDepBtn').click(function () {
-        var i = jq('.dep-item').length;
-        i++;
-        console.log(i)
-        var html = '<div class="layui-form-item dep-item">\n' +
-            '                <label class="layui-form-label">账号手机号' + i + '</label>\n' +
-            '                <div class="layui-input-inline">\n' +
-'<input type="text" name="mobile[]['+i+']" value="" class="layui-input" onblur=\'javaScript:checkoutUser(this.value,"<?=isset($organization_id) ? $organization_id : "";?>");\'>\n' +
-            '                </div>\n' +
-            '                <label class="layui-form-label">所在党组织' + i + '</label>\n' +
-            '                <div class="layui-input-inline" style="width: 300px;">\n' +
-            '                    <select name="department[]['+i+']">\n' +
-            '                        \n' +
-            '                        <option value="0">请选择党组织</option>\n' +
-            organizationHtml +
-            '                    </select>\n' +
-            '                </div>\n' +
-            '\n' +
-            '                <label class="layui-form-label" style="width: 30px;">职务</label>\n' +
-            '                <div class="layui-input-inline">\n' +
-            '                    <select name="level[]['+i+']">\n' +
-            levelHtml+
-            '                    </select>\n' +
-            '                </div>\n' +
-            '                <a href="javascript:void(0);" class="layui-btn del-dep-btn">-</a>\n' +
-            '            </div>'
-        jq('#addDepBtnItem').before(html);
-        form.render('select');
-    });
-
 });
-//输入框的值改变时触发
-function checkoutUser(date,organization_id) {
-    var form = layui.form;
-    var $ = layui.jquery;
-    var storage=window.localStorage;
-    var userData = storage.getItem("userData");
-    var headerParams = JSON.parse(userData);
-    var params = {};
-    params.username = date;
-    params.organization_id = organization_id;
-    let url = "<?=Url::to(['/common/dangyuan/check-is-add']);?>";
-    $.ajax({
-        type: "post",
-        url:url,
-        contentType: "application/json;charset=utf-8",
-        data :JSON.stringify(params),
-        dataType: "json",
-        beforeSend: function (XMLHttpRequest) {
-            for(var i in headerParams) {
-                XMLHttpRequest.setRequestHeader(i, headerParams[i]);
-            }
-        },
-        success:function(result){
-            if(result.code == 0) {
-                return true;
-            } else if(result.code == 5001) {
-                layer.alert('登录状态异常', {icon: 2}, function(index){
-                    top.location.href="../user/login";
-                });
-            } else {
-                return layer.msg(result.msg);
-            }
-        },
-        error: function () {
-            layer.alert('网络环境异常请检查', {icon: 2});
-        }
-    });
-}
 </script>
-</body></html>
+</body>
+</html>

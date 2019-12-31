@@ -1,7 +1,7 @@
 <?php
 /**
- * 运营平台用户与党组织关系管理表
- * @文件名称: UserOrganizationModel.php
+ * 献花管理表
+ * @文件名称: GiftIconModel
  * @author: jawei
  * @Email: gaozhiwei429@sina.com
  * @Date: 2017-06-06
@@ -14,12 +14,12 @@ use source\manager\BaseException;
 use source\models\BaseModel;
 use Yii;
 
-class UserOrganizationModel extends BaseModel
+class GiftIconModel extends BaseModel
 {
-    const ON_LINE_STATUS = 1;//已上线
-    const DELECT_STATUS = 0;//删除
+    const ONLINE_STATUS = 1;//已上线
+    const BEFORT_STATUS = 0;//禁用
     public static function tableName() {
-        return '{{%user_organization}}';
+        return '{{%gift_icon}}';
     }
     /**
      * 根据条件获取最后一条信息
@@ -27,8 +27,8 @@ class UserOrganizationModel extends BaseModel
      * @param int $type
      * @return mixed
      */
-    public function getInfoByValue($params){
-        return $this->getOne($params);
+    public function getInfoByValue($params,$field=['*']){
+        return $this->getOne($params,$field);
     }
     /**
      * 获取数据集
@@ -39,7 +39,7 @@ class UserOrganizationModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*'], $groupBy=[]) {
+    public static function getDatas($params = [], $orderBy = [], $offset = 0, $limit = 100, $fied=['*']) {
         $query = self::find()->select($fied);
         if(!empty($params)) {
             foreach($params as $k=>$v) {
@@ -49,9 +49,6 @@ class UserOrganizationModel extends BaseModel
                     $query -> andWhere([$k=>$v]);
                 }
             }
-        }
-        if (!empty($groupBy) && is_array($groupBy)) {
-            $query->groupBy($groupBy);
         }
         if ($limit !== -1) {
             $query -> offset($offset);
@@ -64,7 +61,7 @@ class UserOrganizationModel extends BaseModel
         return $projectList;
     }
     /**
-     * 获取banner首页数据展示
+     * 获取数据展示
      * @param array $params
      * @param array $orderBy
      * @param int $offset
@@ -84,21 +81,20 @@ class UserOrganizationModel extends BaseModel
      * @param array $fied
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*'], $groupBy=[]) {
+    public static function getListData($params = [], $orderBy = [], $offset = 0, $limit = 10, $fied=['*']) {
         try {
-            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied, $groupBy);
+            $dataList = self::getDatas($params, $orderBy, $offset, $limit, $fied);
             $data = [
                 'dataList' => $dataList,
                 'count' => 0,
             ];
             if(!empty($dataList)) {
-                $count = self::getCount($params, $groupBy);
+                $count = self::getCount($params);
                 $data['count'] = $count;
             }
             return $data;
 //            $query->createCommand()->getRawSql();
         } catch (BaseException $e) {
-            DmpLog::warning('getListData_user_organization_error', $e);
             return [];
         }
     }
@@ -107,9 +103,9 @@ class UserOrganizationModel extends BaseModel
      * @param $params
      * @return int
      */
-    public static function getCount($params, $groupBy=[]) {
+    public static function getCount($params, $fied=['*']) {
         try {
-            $query = self::find()->select(['id']);
+            $query = self::find()->select($fied);
             if(!empty($params)) {
                 foreach($params as $k=>$v) {
                     if(is_array($v)) {
@@ -119,13 +115,9 @@ class UserOrganizationModel extends BaseModel
                     }
                 }
             }
-            if (!empty($groupBy) && is_array($groupBy)) {
-                $query->groupBy($groupBy);
-            }
 //                return $query->createCommand()->getRawSql();
             return  $query->count();
         } catch (BaseException $e) {
-            DmpLog::warning('getCount_user_organization_error', $e);
             return 0;
         }
     }
@@ -140,19 +132,17 @@ class UserOrganizationModel extends BaseModel
             $thisModel = new self();
             $thisModel->id = isset($addData['id']) ? trim($addData['id']) : null;
             $thisModel->user_id = isset($addData['user_id']) ? intval($addData['user_id']) : 0;
-            $thisModel->organization_id = isset($addData['organization_id']) ? intval($addData['organization_id']) : 0;
-            $thisModel->level_id = isset($addData['level_id']) ? intval($addData['level_id']) : 0;
-            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ON_LINE_STATUS;
-            $thisModel->paid_up = isset($addData['paid_up']) ? floatval($addData['paid_up']) : 0;
+            $thisModel->pic_url = isset($addData['pic_url']) ? trim($addData['pic_url']) : "";//礼物URL
+            $thisModel->status = isset($addData['status']) ? intval($addData['status']) : self::ONLINE_STATUS;
+            $thisModel->type = isset($addData['type']) ? intval($addData['type']) : 0;
+            $thisModel->sort = isset($addData['sort']) ? intval($addData['sort']) : 0;
             $thisModel->save();
             return Yii::$app->db->getLastInsertID();
 //            return $isSave;
         } catch (BaseException $e) {
-            DmpLog::error('insert_user_organization_error', $e);
             return false;
         }
     }
-
     /**
      * 更新信息数据
      * @param int $id ID
@@ -170,49 +160,7 @@ class UserOrganizationModel extends BaseModel
             }
             return false;
         } catch (BaseException $e) {
-            DmpLog::error('update_user_organization_error', $e);
             return false;
         }
-    }
-    /**
-     * 批量更新循环周期
-     * @param array $condition
-     * $condition = ['advertise_id' => '','status' => '', 'weekdays'=>[1,2,3]] 查询条件
-     * $params = ['status' => '']
-     * @param $params
-     * @return bool
-     */
-    public function batchUpdate($condition = [], $params)
-    {
-        if (count($condition) == 0 || !is_array($condition) || count($params) == 0) {
-            return false;
-        }
-        $conditions = ' 1 = 1 ';
-        $bind = [];
-        foreach($condition as $k=>$v) {
-            $conditions .= " AND `$k` = :$k";
-            $bind["$k"] = $v;
-        }
-        $result = self::updateAll($params, $conditions, $bind);
-
-        return $result > 0 ? true : false;
-    }
-    /**
-     * 批量添加记录数据
-     * @param $user_id
-     * @param $files
-     * @return int
-     * @throws \yii\db\Exception
-     */
-    public function addAll($datas) {
-        $data = [];
-        $clumns = (isset($datas[0]) && !empty($datas[0])) ? array_keys($datas[0]) : [];
-        if(empty($clumns)) {
-            return false;
-        }
-        foreach ($datas as $k => $v) {
-            $data[] = $v;
-        }
-        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), $clumns, $data)->execute();
     }
 }

@@ -90,11 +90,15 @@ class DangyuanController extends ManageBaseController
 
         $id = intval(Yii::$app->request->get('id', 0));
         $organization_id = intval(Yii::$app->request->get('organization_id', 0));
-        $bannerService = new BannerService();
-        $params = [];
-        $params[] = ['=', 'id', $id];
-        $bannerInfoRet = $bannerService->getInfo($params);
-        return $this->renderPartial('edit',
+        $dangyuanService = new DangyuanService();
+        $dangyuanInfo = [];
+        if($id) {
+            $dangyuanParams = [];
+            $dangyuanParams[] = ['=', 'id', $id];
+            $dangyuanInfoRet = $dangyuanService->getInfo($dangyuanParams);
+            $dangyuanInfo = BaseService::getRetData($dangyuanInfoRet);
+        }
+        return $this->renderPartial($id ? 'edit' : 'add',
             [
                 'title' => "党员信息",
                 'menuUrl' => $this->menuUrl,
@@ -103,7 +107,7 @@ class DangyuanController extends ManageBaseController
                 'organization_id' => $organization_id,
                 'treeData' => $arr,
                 'levelData' => isset($levelDataList['dataList']) ? $levelDataList['dataList'] : [],
-                'info' => BaseService::getRetData($bannerInfoRet),
+                'info' => $dangyuanInfo,
             ]
         );
     }

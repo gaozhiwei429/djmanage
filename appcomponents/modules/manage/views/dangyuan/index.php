@@ -51,20 +51,6 @@ use yii\helpers\Url;
                             <table class="layui-hide" id="dataList" lay-filter="text"></table>
                             <div id="page"></div>
                         </div>
-
-                        <script type="text/html" id="barDemo">
-                            {{#  if( true ){ }}
-                            <a class="layui-btn layui-btn-warm layui-btn-xs" data-ext="?id={{= d.id }}" lay-event="/admin.php/point_log/index.html?user_id={{= d.id }}">积分详情</a>
-                            <a class="layui-btn layui-btn-normal layui-btn-xs" data-ext="?id={{= d.id }}" lay-event="/admin.php/user/edit.html?id={{= d.id }}">编辑</a>
-                            {{#  } }}
-                            {{#  if( true ){ }}
-                            <a class="layui-btn layui-btn-danger layui-btn-xs" data-delete-href="/admin.php/user/delete.html?id={{= d.id }}" lay-event="delete">删除</a>
-                            {{#  } }}
-                        </script>
-
-                        <script type="text/html" id="datetimeTpl">
-                            {{formatUnixtimestamp(d)}}
-                        </script>
                     </div>
 
                 </div>
@@ -72,7 +58,15 @@ use yii\helpers\Url;
         </div>
     </div>
 </div>
-<script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" href="<?=Url::to(['manage/dangyuan/edit']);?>?organization_id={{d.organization_id}}&id={{d.id}}">编辑</a>
+</script>
+
+<script type="text/html" id="datetimeTpl">
+    {{formatUnixtimestamp(d)}}
+</script>
+<script type="application/javascript">
     layui.use(['form', 'table', 'laypage', 'layer'], function(){
         var laypage = layui.laypage;
         var form = layui.form
@@ -127,6 +121,7 @@ use yii\helpers\Url;
                             ,{field:'level_title', title: '职务', minWidth: 100}
                             ,{field:'organization_title', title: '党组织', minWidth: 200}
                             ,{field:'username', title: '手机号', minWidth: 100}
+                            ,{field:'paid_up', title: '党费（元/月）', minWidth: 100}
                             ,{field:'right', title: '操作',toolbar:"#barDemo"}
                         ]]
                         ,done: function(res, curr, count){
