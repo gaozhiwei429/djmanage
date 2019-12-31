@@ -264,6 +264,17 @@ class ForumController extends ManageBaseController
             $newsService = new VoteService();
             $newsInfoRet = $newsService->getInfo($voteParams);
             $dataInfo = BaseService::getRetData($newsInfoRet);
+            if(isset($dataInfo['content']) && !empty($dataInfo['content'])) {
+                $problem =json_decode($dataInfo['content'], true);
+                $dataInfo['content'] = "";
+                if(is_array($problem)) {
+                    foreach($problem as $k=>&$v) {
+                        $dataInfo['content'] .= $v;
+                    }
+                }
+            } else {
+                $dataInfo['content'] = "";
+            }
         }
         return $this->renderPartial('vote-edit',
             [
@@ -344,13 +355,25 @@ class ForumController extends ManageBaseController
         $voteService = new VoteService();
         $params[] = ['=', 'id', $id];
         $infoRet = $voteService->getInfo($params);
-        $newsInfo = BaseService::getRetData($infoRet);
+        $dataInfo = BaseService::getRetData($infoRet);
+
+        if(isset($dataInfo['content']) && !empty($dataInfo['content'])) {
+            $problem =json_decode($dataInfo['content'], true);
+            $dataInfo['content'] = "";
+            if(is_array($problem)) {
+                foreach($problem as $k=>&$v) {
+                    $dataInfo['content'] .= $v;
+                }
+            }
+        } else {
+            $dataInfo['content'] = "";
+        }
         return $this->renderPartial('vote-info',
             [
                 'title' => "投票编辑",
                 'menuUrl' => $this->menuUrl,
                 'id' => $id,
-                'dataInfo' => $newsInfo,
+                'dataInfo' => $dataInfo,
             ]
         );
     }

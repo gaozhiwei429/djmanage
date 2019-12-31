@@ -165,9 +165,20 @@ class VoteController extends ManageBaseController
             $dataInfo['address'] = "";
         }
         if(!empty($content)) {
-            $dataInfo['content'] = Common::ClearHtml($content,'<p>');
+            $content = Common::ClearHtml($content,'<p>');
+            $contentArr = explode('</p>', $content);
+            if(!empty($contentArr)) {
+                foreach($contentArr as $k=>&$v) {
+                    if(empty($v)) {
+                        unset($contentArr[$k]);
+                    } else {
+                        $v = $v."</p>";
+                    }
+                }
+            }
+            $dataInfo['content'] = json_encode($contentArr);
         } else {
-            $dataInfo['content'] = "";
+            $dataInfo['content'] = json_encode([]);
         }
         if(!empty($id)) {
             $dataInfo['id'] = $id;
