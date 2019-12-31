@@ -1,0 +1,28 @@
+/* Version:1.0 date:2019/12/26 */
+
+/* CSS reset */
+body{font:14px/1.5 Microsoft YaHei,Tahoma,Helvetica,"宋体",san-serif;background:#fff url(../images/bg.jpg) no-repeat left top;background-size:100% auto}
+body.dj{font:14px/1.5 Microsoft YaHei,Tahoma,Helvetica,"宋体",san-serif;background:#fff url(../images/bgdj.jpg) no-repeat left top;background-size:100% auto}
+body,div,p,form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6{margin:0;padding:0;}
+img{border:0;}
+i{font-style:normal}
+ul,ol{list-style:none;}
+table {border-collapse:collapse;border-spacing:0;}
+a:link,a:visited{color:#666;text-decoration:none;outline: none;}
+a:hover {color: #000;}
+a:active {text-decoration: none;}
+.clearfloat{clear:both;height:0;font-size:1px;line-height:0;}
+.mgr{margin-right:10px;}
+.mg10{margin-bottom:10px;}
+
+/* dssdjt */
+ body{background:#cf001c url(../images/bg-img.jpg) no-repeat center top;}
+ 
+ .dssdjt{position:relative;width:1024px;text-align:center;margin:0 auto;}
+ .dssdjt-title{padding-top:15px;padding-left:25px;text-align:center;}
+
+ .dssdjt-star{position:absolute;height:80px;width:980px;top:60px;left:0;background:url(../images/star-img.png) no-repeat right top;z-index:1;}
+
+ .dssdjt-content{position:relative;margin:20px auto 20px auto;width:960px;background-color:#fcf2d1;box-shadow:4px 4px 10px #992529;overflow:hidden;zoom:1;}
+ .dssdjt-content .dssdjt-cont-show{margin:15px;padding:10px;background-color:#fff;border:2px solid #dbcb9a;text-align:left;min-height:300px;}
+ .dssdjt-cont-bg{position:absolute;left:-5px;right:0;top:0px;height:400px;background:url(../images/content-bg.png) no-repeat left top;z-index:-1}

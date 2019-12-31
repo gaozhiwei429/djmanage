@@ -11,6 +11,7 @@
  */
 namespace appcomponents\modules\common\controllers;
 use appcomponents\modules\common\DangHistoryService;
+use appcomponents\modules\common\DangTodayService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use Yii;
@@ -23,21 +24,43 @@ class DangHistoryController extends ManageBaseController
         }
         return parent::beforeAction($action);
     }
+
     /**
-     * 分页数据获取
+     * 获取党史的今日数据
+     * @return array
+     */
+    public function actionGetTodayHistory() {
+        if (!isset($this->user_id) || !$this->user_id) {
+            return BaseService::returnErrData([], 5001, "当前账号登陆异常");
+        }
+        $page = intval(Yii::$app->request->post('p', 1));
+        $size = intval(Yii::$app->request->post('size', 10));
+        $dangTodayService = new DangTodayService();
+        $params[] = ['!=', 'status', 0];
+        return $dangTodayService->getList($params, ['month_and_day'=>SORT_DESC,'id'=>SORT_ASC], $page, $size);
+    }
+    /**
+     * 获取某一天的党史的今日分页数据获取
      * @return array
      */
     public function actionGetList() {
         if (!isset($this->user_id) || !$this->user_id) {
             return BaseService::returnErrData([], 5001, "当前账号登陆异常");
         }
-        $page = intval(Yii::$app->request->post('p', 1));
-        $size = intval(Yii::$app->request->post('size', 10));
+        $dang_today_id = intval(Yii::$app->request->get('dang_today_id', 0));
+        if(empty($dang_today_id)) {
+            return BaseService::returnErrData([], 500, "请求参数异常");
+        }
         $bannerService = new DangHistoryService();
         $params = [];
-        return $bannerService->getList($params, ['sort'=>SORT_DESC,'id'=>SORT_ASC], $page, $size);
+        $month = intval(date("m"));
+        $day = intval(date("d"));
+        $params[] = ['!=', 'status', 0];
+        $params[] = ['=', 'month', $month];
+        $params[] = ['=', 'day', $day];
+        $params[] = ['=', 'dang_today_id', $dang_today_id];
+        return $bannerService->getList($params, ['sort'=>SORT_DESC,'id'=>SORT_ASC], 1, -1,['id','month','day','title','content']);
     }
-
     /**
      * 详情数据获取
      * @return array

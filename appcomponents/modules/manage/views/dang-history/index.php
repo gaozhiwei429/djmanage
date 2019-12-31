@@ -13,7 +13,7 @@ use yii\helpers\Url;
         <!-- 表单搜索 开始 -->
         <form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
             <input type="hidden" value="resort" name="action">
-            <table class="layui-hide" id="dataList" lay-filter="text"></table>
+            <table class="layui-hide" id="dataList"></table>
         </form>
         <div id="page"></div>
         <!-- 表单搜索 结束 -->
@@ -24,8 +24,6 @@ use yii\helpers\Url;
         var laypage = layui.laypage;
         var form = layui.form
             ,element = layui.element;
-        var jq = layui.jquery
-            ,$ = layui.jquery;
         var storage=window.localStorage;
         var table = layui.table;
         var userData = storage.getItem("userData");
@@ -38,6 +36,7 @@ use yii\helpers\Url;
         params.p=page;
         params.size = size;
         params.count = 0;
+        params.parent_type_id = 1;
         form.on('submit(commit)', function(data){
             var paramsStr = "";
             $.each(data.field, function(i, item){
@@ -48,7 +47,7 @@ use yii\helpers\Url;
         });
         $.ajax({
             type: "post",
-            url:"<?= Url::to(['common/feedback/get-list']); ?>",
+            url:"<?= Url::to(['common/dang-history/get-today-history']); ?>",
             contentType: "application/json;charset=utf-8",
             data :JSON.stringify(params),
             dataType: "json",
@@ -68,12 +67,10 @@ use yii\helpers\Url;
                         ,cols: [[
                             {checkbox: true, fixed: true}
                             ,{field:'id', title: 'ID', width: 60}
-                            ,{field:'user_organization_title', title: '评论者所属党组织', minWidth: 160}
-                            ,{field:'user_level_title', title: '评论者所属职务', minWidth: 160}
-                            ,{field:'user_full_name', title: '评论者', minWidth: 160,toolbar:"#JuserInfo"}
-                            ,{field:'pic_url', title: '图片', minWidth: 100, height: 100,toolbar:"#Jimg"}
-                            ,{field:'status', title: '状态', width: 120,toolbar:"#Jstatus"}
-                            ,{field:'content', title: '评论内容', width: 180}
+                            ,{field:'title', title: '党史标题', minWidth: 60}
+                            ,{field:'month_and_day', title: '党史所属年月', minWidth: 60}
+                            ,{field:'pic_url', title: '党史图片', minWidth: 280,toolbar:"#Jimg"}
+                            ,{field:'right', title: '操作', minWidth: 180,toolbar:"#barDemo"}
                         ]]
                         ,done: function(res, curr, count){
                             //自定义样式
@@ -90,7 +87,15 @@ use yii\helpers\Url;
                                     }
                                 }
                             });
-                            layer.closeAll();
+                            //如果是异步请求数据方式，res即为你接口返回的信息。
+                            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                            console.log(res);
+
+                            //得到当前页码
+                            console.log(curr);
+
+                            //得到数据总量
+                            console.log(count);
                         }
                     })
                 } else if(result.code == 5001) {
@@ -115,86 +120,26 @@ use yii\helpers\Url;
                 })
             }
         });
-        //监听状态的操作
-        form.on('switch(status)', function(obj){
-            var params = {};
-            var status = obj.elem.checked ? 2 : 0;
-            var id = obj.elem.value;
-            if(id) {
-                params.id=id;
-            }
-            params.status=status;
-            $.ajax({
-                type: "post",
-                url: "<?= Url::to(['common/feedback/set-status']); ?>",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify(params),
-                dataType: "json",
-                beforeSend: function (XMLHttpRequest) {
-                    for (var i in headerParams) {
-                        XMLHttpRequest.setRequestHeader(i, headerParams[i]);
-                    }
-                },
-                success: function (result) {
-                    if (result.code == 0) {
-                        layer.msg(result.msg, {
-                            time: 2000,
-                            shade: 0.6
-                        });
-                        return true;
-                    } else if(result.code == 5001){
-                        layer.msg(result.msg, {
-                            icon: 2,
-                            shade: 0.6,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        }, function(){
-                            top.location.href="../user/login"
-                        });
-                        return true;
-                    } else {
-                        layer.msg(result.msg, {
-                            time: 2000,
-                            shade: 0.6,
-                            icon: 2
-                        });
-                        return true;
-                    }
-                },
-                error: function () {
-                    layer.msg("系统异常", {
-                        time: 2000,
-                        shade: 0.6,
-                        icon: 2
-                    });
-                    return true;
-                }
-            })
-        });
         element.render();
     });
 </script>
 <script type="text/html" id="Jstatus">
     {{#  if(d.status ==0){ }}
-    <input type="checkbox" name="status" lay-skin="switch" lay-text="删除|审核" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}"/>
-    {{# }else if(d.status ==1) { }}
-    <input type="checkbox" name="status" lay-skin="switch" lay-text="删除|审核" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}"/>
-    {{# }else if(d.status ==2) { }}
-    <input type="checkbox" name="status" lay-skin="switch" lay-text="删除|审核" lay-filter="status" data-id="{{d.id}}" data-status="{{d.status}}" value="{{d.id}}" checked />
+    下线
+    {{# }if(d.status ==1) { }}
+    上线
+    {{#  }else{ }}
+    未知
     {{#  } }}
 </script>
 
-<script type="text/html" id="JuserInfo">
-    {{#  if(d.user_avatar_img!=""){ }}
-    {{d.user_full_name}}
-    <img src="{{d.user_avatar_img}}" style="height:30px;width:30px;border-radius:50%;line-height:50px!important;">
-    {{# }else{ }}
-    暂无
-    {{#  } }}
-</script>
 <script type="text/html" id="Jimg">
     {{#  if(d.pic_url!=""){ }}
     <img src="{{d.pic_url}}">
     {{# }else{ }}
     暂无
     {{#  } }}
+</script>
+<script type="text/html" id="barDemo">
+<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-mini" lay-event="edit" data-open="<?=Url::to(['manage/dang-history/info']);?>?id={{d.id}}">查看</a>
 </script>
