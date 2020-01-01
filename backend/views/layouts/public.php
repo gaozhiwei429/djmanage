@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-$this->title = "北京星驰恒动科技发展有限公司";
+$this->title = "智慧党建 北京往全保科技有限公司";
 ?>
 <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -12,7 +12,7 @@ $this->title = "北京星驰恒动科技发展有限公司";
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?> 管理后台</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="keywords" contents="往全保科技专注互联网技术解决方案" />
+        <meta name="keywords" contents="往全保科技专注互联网智慧党建技术解决方案" />
         <?=Html::cssFile('@web/static/plugs/awesome/css/font-awesome.min.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
         <?=Html::cssFile('@web/static/plugs/bootstrap/css/bootstrap.min.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
         <?=Html::cssFile('@web/static/plugs/layui/css/layui.css?v='.date("ymd"), ['rel' => "stylesheet"])?>
