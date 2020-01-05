@@ -80,11 +80,35 @@ class UserExamController extends ManageBaseController
         $params = [];
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
+        $userExamInfo = [];
+        $examInfo = [];
+        $exam_id = 0;
+        if(BaseService::checkRetIsOk($bannerInfoRet)) {
+            $userExamInfo = BaseService::getRetData($bannerInfoRet);
+            if(isset($userExamInfo['types'])) {
+                $userExamInfo['types'] = json_decode($userExamInfo['types'], true);
+            }
+            if(isset($userExamInfo['exam_id'])) {
+                $exam_id = $userExamInfo['exam_id'];
+            }
+        }
+        if($exam_id) {
+            $examService = new ExamService();
+            $examParams[] = ['=', 'id', $exam_id];
+            $examInfoRet = $examService->getInfo($examParams);
+            if(BaseService::checkRetIsOk($bannerInfoRet)) {
+                $examInfo = BaseService::getRetData($examInfoRet);
+                if(isset($examInfo['types'])) {
+                    $examInfo['types'] = json_decode($examInfo['types'], true);
+                }
+            }
+        }
         return $this->renderPartial('correction',
             [
                 'title' => "答题记录批改",
                 'menuUrl' => $this->menuUrl,
-                'dataInfo' => BaseService::getRetData($bannerInfoRet),
+                'dataInfo' => $userExamInfo,
+                'examInfo' => $examInfo,
             ]
         );
     }

@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+.quesId {
+    display: none
+}
+
+body {
+    /*padding-left: 15vh;*/
+}
+
+#timeBox {
+    width: 350px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin-top: 15vh;
+    margin-right: 10vh;
+    font: 24px 'Microsoft YaHei UI';
+}
+
+#time {
+    color: red;
+    font-weight: bold;
+}

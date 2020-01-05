@@ -46,7 +46,6 @@ class OrganizationApplyController extends ManageBaseController
         } else if($send_user_id) {
             $params[] = ['=', 'send_user_id', $send_user_id];
         } else {
-            $params[] = ['=', 'submit_user_id', $this->user_id];
         }
 
         $organizationApplyListRet = $organizationApplyService->getList($params, ['id'=>SORT_DESC], $page, $size,
