@@ -6,12 +6,12 @@ var timeFlag = 0;
 var time;
 var mistiming = 0;
 function setTime() {
-    $.post('resultSubmit.php', function (data) {
-        var result = JSON.parse(data);
-        var startTime = result.startTime;
-        var endTime = result.endTime;
-        getServiceTime(startTime, endTime);
-    });
+    //$.post('resultSubmit.php', function (data) {
+    //    var result = JSON.parse(data);
+    //    var startTime = result.startTime;
+    //    var endTime = result.endTime;
+    //    getServiceTime(startTime, endTime);
+    //});
     function getServiceTime(startTime, endTime) {
         var submitTime = new Date(endTime); //截止时间
         var nowTime = new Date(startTime);

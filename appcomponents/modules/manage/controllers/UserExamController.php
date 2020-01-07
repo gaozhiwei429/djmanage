@@ -11,6 +11,7 @@
 namespace appcomponents\modules\manage\controllers;
 use appcomponents\modules\common\ExamService;
 use appcomponents\modules\common\UserExamService;
+use appcomponents\modules\passport\PassportService;
 use source\controllers\ManageBaseController;
 use source\manager\BaseService;
 use \Yii;
@@ -81,8 +82,10 @@ class UserExamController extends ManageBaseController
         $params[] = ['=', 'id', $id];
         $bannerInfoRet = $bannerService->getInfo($params);
         $userExamInfo = [];
+        $passportInfo = [];
         $examInfo = [];
         $exam_id = 0;
+        $user_id = 0;
         if(BaseService::checkRetIsOk($bannerInfoRet)) {
             $userExamInfo = BaseService::getRetData($bannerInfoRet);
             if(isset($userExamInfo['types'])) {
@@ -90,6 +93,9 @@ class UserExamController extends ManageBaseController
             }
             if(isset($userExamInfo['exam_id'])) {
                 $exam_id = $userExamInfo['exam_id'];
+            }
+            if(isset($userExamInfo['user_id'])) {
+                $user_id = $userExamInfo['user_id'];
             }
         }
         if($exam_id) {
@@ -103,12 +109,19 @@ class UserExamController extends ManageBaseController
                 }
             }
         }
+        if($user_id) {
+            $passportParams[] = ['=', 'user_id', $user_id];
+            $passportService = new PassportService();
+            $passportInfoRet = $passportService->getUserInfoByParams($passportParams);
+            $passportInfo = BaseService::getRetData($passportInfoRet);
+        }
         return $this->renderPartial('correction',
             [
                 'title' => "答题记录批改",
                 'menuUrl' => $this->menuUrl,
                 'dataInfo' => $userExamInfo,
                 'examInfo' => $examInfo,
+                'passportInfo' => $passportInfo,
             ]
         );
     }

@@ -149,10 +149,10 @@ layui.use(['form', 'table', 'laypage', 'layer'], function(){
     {{#  } }}
 </script>
 <script type="text/html" id="JstartTime">
-    {{#  if(d.start_time ==null){ }}
+    {{#  if(d.exam_time ==null){ }}
     长期
     {{# }if(d.start_time !=null) { }}
-    {{d.start_time }}
+    {{d.exam_time}}
     {{#  } }}
 </script>
 <script type="text/html" id="Jtype">
